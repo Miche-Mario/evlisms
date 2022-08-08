@@ -1,0 +1,66 @@
+// Create a user
+POST http://localhost:5000/users
+Content-Type:  application/json
+
+{
+    "name": "Menou Gael",
+    "username": "EVLIMARIO",
+    "password": "123",
+    "role": "admin"
+}
+
+###
+// get All Users
+GET http://localhost:5000/users
+
+###
+// get Single user
+
+GET http://localhost:5000/users/cbe6159e-d45e-406b-8a36-2a9e6c744ec0
+
+###
+// Update Users
+PATCH http://localhost:5000/users/0f2f42d3-269e-453a-b023-40d434cc0f24
+Content-Type:  application/json
+
+{
+    "name": "Menou SOLANGNONN",
+    "username": "EVLISOLANGNON",
+    "password": "1234",
+    "role": "user"
+}
+
+###
+// delete Single user
+DELETE http://localhost:5000/users/1e43102c-62d6-4591-a0db-060e5525d4c0
+
+###
+// Login user
+POST http://localhost:5000/login
+Content-Type:  application/json
+
+{
+    "username": "EVLIMARIO",
+    "password": "123"
+}
+
+### 
+// Session open
+GET http://localhost:5000/me
+
+### 
+// LogOut
+DELETE  http://localhost:5000/logout
+
+###
+// get All Students
+GET http://localhost:5000/students
+
+// Create a user
+POST http://localhost:5000/users
+Content-Type:  application/json
+
+{
+    "surnameg": "Menou Gael",
+    "forenameg": "EVLIMARIO",
+}
