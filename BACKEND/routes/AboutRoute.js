@@ -10,10 +10,10 @@ import {
 const router = express.Router();
 
 router.get('/abouts', getAbouts);
-router.get('/abouts/:id', getAboutById);
-router.post('/abouts', createAbout);
-router.patch('/abouts/:id', updateAbout);
-router.delete('/abouts/:id', deleteAbout);
+router.get('/about/:id', getAboutById);
+router.post('/about', createAbout);
+router.patch('/about/:id', updateAbout);
+router.delete('/about/:id', deleteAbout);
 
 
 

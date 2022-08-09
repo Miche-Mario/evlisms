@@ -346,21 +346,12 @@ const Students = db.define('students', {
         allowNull: true,
         validate:{
             notEmpty: false,
-            len: [3, 100]
-        }
-    },
-    role:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
         }
     }
 },{
     freezeTableName: true
 })
-*
+
 About.hasOne(Students);
 Students.belongsTo(About, {foreignKey: 'about_aboutid'})
 export default Students  

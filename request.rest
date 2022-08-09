@@ -56,11 +56,99 @@ DELETE  http://localhost:5000/logout
 // get All Students
 GET http://localhost:5000/students
 
-// Create a user
-POST http://localhost:5000/users
-Content-Type:  application/json
+###
 
+// Create a Student
+POST http://localhost:5000/students
+Content-Type:  application/json
 {
     "surnameg": "Menou Gael",
     "forenameg": "EVLIMARIO",
+    "about_aboutid": 1
 }
+
+###
+//Get All About
+
+GET http://localhost:5000/abouts
+
+
+###
+//Create About
+
+POST http://localhost:5000/about
+Content-Type:  application/json
+
+{
+    "aboutname": "Instagram"
+}
+
+
+###
+//Get All General Courses
+ 
+GET http://localhost:5000/general
+
+
+###
+//Create General Course
+
+POST http://localhost:5000/general
+Content-Type:  application/json
+
+{
+    "generaltypes": "Regular"
+}
+
+###
+//Get All GeneralPrice
+
+GET http://localhost:5000/generalprice
+
+
+###
+//Create General Weekly Price
+
+POST http://localhost:5000/generalprice
+Content-Type:  application/json
+
+{
+    "general_generalid": 1,
+    "week": 1,
+    "price": 20000
+}
+
+###
+//Get All General Course
+
+GET http://localhost:5000/testpreparation
+
+
+###
+//Create Test Preparation Course
+
+POST http://localhost:5000/testpreparation
+Content-Type:  application/json
+
+{
+    "testpreparationtypes": "TOEIC"
+}
+
+###
+//Get All Test Preparation Weekly Price
+
+GET http://localhost:5000/testpreparationprice
+
+
+###
+//Create Test Preparation Weekly Price
+
+POST http://localhost:5000/testpreparationprice
+Content-Type:  application/json
+
+{
+    "testpreparation_testpreparationid": 1,
+    "week": 1,
+    "price": 20000
+}
+

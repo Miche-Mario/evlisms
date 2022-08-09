@@ -4,11 +4,15 @@ import { Sequelize } from "sequelize";
 import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
+import About from "../models/AboutModels.js";
 
 export const getStudents = async (req,res) => {
     try {
         const response = await Students.findAll({
-            attributes: ['uuid', 'passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg']
+            attributes: ['uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
+            include: [{
+                model: About
+            }]
         });
         res.status(200).json(response);
     } catch (error) {
@@ -47,7 +51,7 @@ export const getStudentByName =async (req,res) => {
     }
 }
 export const createStudent = async(req,res) => {
-    const {surnameg, forenamesg, genderg, dateofbirthg, placeofbirthg, citizenshipg,occupationg, emailg, telhomeg, telghanag, maritalg, passportidg, noteg, aboutidg, surnamee, forenamese, gendere, relationshipe,occupatione, emaile, tel1e, tel2e, addresse, surnamep, forenamesp, genderp, relationshipp, occupationp, emailp, tel1p, tel2p, addressp, nameo, addresso, tel1o, emailo, contacto, tel2o, about_aboutid, role } = req.body;
+    const {surnameg, forenamesg, genderg, dateofbirthg, placeofbirthg, citizenshipg,occupationg, emailg, telhomeg, telghanag, maritalg, passportidg, noteg, aboutidg, surnamee, forenamese, gendere, relationshipe,occupatione, emaile, tel1e, tel2e, addresse, surnamep, forenamesp, genderp, relationshipp, occupationp, emailp, tel1p, tel2p, addressp, nameo, addresso, tel1o, emailo, contacto, tel2o, about_aboutid } = req.body;
     
     try {
         await Students.create({
@@ -91,8 +95,7 @@ export const createStudent = async(req,res) => {
             emailo: emailo,
             contacto: contacto,
             tel2o: tel2o,
-            about_aboutid: about_aboutid,
-            role: role
+            about_aboutid: about_aboutid
 
         });
         res.status(200).json({msg: "Student well created"})
