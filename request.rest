@@ -119,7 +119,7 @@ Content-Type:  application/json
 }
 
 ###
-//Get All General Course
+//Get All Test Preparation Course
 
 GET http://localhost:5000/testpreparation
 
@@ -131,7 +131,7 @@ POST http://localhost:5000/testpreparation
 Content-Type:  application/json
 
 {
-    "testpreparationtypes": "TOEIC"
+    "testpreparationtypes": "IELTS"
 }
 
 ###

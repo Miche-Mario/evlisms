@@ -1,9 +1,10 @@
 import { Sequelize } from "sequelize";
 import db from '../config/Database.js';
 
+
 const  {DataTypes} = Sequelize;
 
-const General = db.define('general', {
+const Course = db.define('course', {
     uuid:{
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
@@ -12,15 +13,16 @@ const General = db.define('general', {
             notEmpty: true
         }
     },
-    generaltypes:{
+    coursename:{
         type: DataTypes.STRING,
         allowNull: false,
         validate:{
             notEmpty: true,
-            len: [3, 100]
-        }
+                }
     }
 },{
     freezeTableName: true
 })
-export default General
+
+
+export default Course

@@ -1,9 +1,10 @@
 import { Sequelize } from "sequelize";
 import db from '../config/Database.js';
 
+
 const  {DataTypes} = Sequelize;
 
-const TestPreparation = db.define('testpreparation', {
+const SubCourse = db.define('subcourse', {
     uuid:{
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
@@ -12,15 +13,16 @@ const TestPreparation = db.define('testpreparation', {
             notEmpty: true
         }
     },
-    testpreparationtypes:{
+    subcoursename:{
         type: DataTypes.STRING,
         allowNull: false,
         validate:{
             notEmpty: true,
-            len: [3, 100]
-        }
+                }
     }
 },{
     freezeTableName: true
 })
-export default TestPreparation
+
+
+export default Course
