@@ -9,8 +9,13 @@ import AboutsRoute from "./routes/AboutRoute.js"
 import StudentsRoute from "./routes/StudentsRoute.js"
 import CourseRoute from "./routes/CourseRoute.js"
 import SubCourseRoute from "./routes/SubCourseRoute.js"
-
+import PurchaseRoute from "./routes/PurchaseRoute.js";
 import AuthRoute from "./routes/AuthRoute.js"
+import ExamRoute from "./routes/ExamRoute.js"
+import TimeRoute from "./routes/TimeRoute.js"
+
+import AccomodationRoute from "./routes/AccomodationRoute.js"
+
 
 
 dotenv.config();
@@ -43,6 +48,10 @@ app.use(AboutsRoute);
 app.use(AuthRoute);
 app.use(CourseRoute);
 app.use(SubCourseRoute);
+app.use(PurchaseRoute);
+app.use(ExamRoute);
+app.use(AccomodationRoute);
+app.use(TimeRoute);
 
 
 // Static Images Folder

@@ -61,9 +61,12 @@ GET http://localhost:5000/students
 // Create a Student
 POST http://localhost:5000/students
 Content-Type:  application/json
+Accept-Encoding: gzip, deflate, br
+connection: keep-alive
+
 {
     "surnameg": "Menou Gael",
-    "forenameg": "EVLIMARIO",
+    "forenamesg": "EVLIMARIO",
     "about_aboutid": 1
 }
 
@@ -97,7 +100,7 @@ POST http://localhost:5000/course
 Content-Type:  application/json
 
 {
-    "coursename": "Test Preparation"
+    "coursename": "General English"
 }
 
 ###
@@ -113,40 +116,76 @@ POST http://localhost:5000/subcourse
 Content-Type:  application/json
 
 {
-    "subcoursename": "Intensive",
+    "subcoursename": "Regular"
 }
 
 ###
-//Get All Test Preparation Course
+//Get All Purchase
 
-GET http://localhost:5000/testpreparation
+GET http://localhost:5000/purchase
 
 
 ###
-//Create Test Preparation Course
+//Create a SubCourse
 
-POST http://localhost:5000/testpreparation
+POST http://localhost:5000/purchase
 Content-Type:  application/json
 
 {
-    "testpreparationtypes": "IELTS"
+    "purchasename": "Book",
+    "purchaseprice": 12000
 }
 
-###
-//Get All Test Preparation Weekly Price
-
-GET http://localhost:5000/testpreparationprice
-
 
 ###
-//Create Test Preparation Weekly Price
+//Get All Exams
 
-POST http://localhost:5000/testpreparationprice
+GET http://localhost:5000/exam
+
+
+###
+//Create a Exam
+
+POST http://localhost:5000/exam
 Content-Type:  application/json
 
 {
-    "testpreparation_testpreparationid": 1,
-    "week": 1,
-    "price": 20000
+    "examname": "APTIS",
+    "examprice": 30000
 }
+
+###
+//Get All Accomodation
+
+GET http://localhost:5000/accomodation
+
+
+###
+//Create an Accomodation
+
+POST http://localhost:5000/accomodation
+Content-Type:  application/json
+
+{
+    "accomodationname": "Blue Hostel (Single)",
+    "accomodationprice": 70000
+}
+
+###
+//Get All Times
+
+GET http://localhost:5000/time
+
+
+###
+//Create an Accomodation
+
+POST http://localhost:5000/time
+Content-Type:  application/json
+
+{
+    "time": 10
+}
+
+
 

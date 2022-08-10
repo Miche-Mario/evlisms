@@ -125,14 +125,6 @@ const Students = db.define('students', {
             len: [3, 100]
         }
     },
-    aboutidg:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
-    },
     passportphotographg:{
         type: DataTypes.JSON,
         allowNull: true,
@@ -341,17 +333,12 @@ const Students = db.define('students', {
             len: [3, 100]
         }
     },
-    about_aboutid:{
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-        }
-    }
+    
 },{
     freezeTableName: true
 })
 
-About.hasOne(Students);
-Students.belongsTo(About, {foreignKey: 'about_aboutid'})
+Students.belongsTo(About, {foreignKey: 'about_aboutid'});
+
 export default Students  
+
