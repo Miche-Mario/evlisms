@@ -85,37 +85,35 @@ Content-Type:  application/json
 
 
 ###
-//Get All General Courses
+//Get All Course
  
-GET http://localhost:5000/general
+GET http://localhost:5000/course
 
 
 ###
-//Create General Course
+//Create a Course
 
-POST http://localhost:5000/general
+POST http://localhost:5000/course
 Content-Type:  application/json
 
 {
-    "generaltypes": "Regular"
+    "coursename": "Test Preparation"
 }
 
 ###
-//Get All GeneralPrice
+//Get All Subcourse
 
-GET http://localhost:5000/generalprice
+GET http://localhost:5000/subcourse
 
 
 ###
-//Create General Weekly Price
+//Create a SubCourse
 
-POST http://localhost:5000/generalprice
+POST http://localhost:5000/subcourse
 Content-Type:  application/json
 
 {
-    "general_generalid": 1,
-    "week": 1,
-    "price": 20000
+    "subcoursename": "Intensive",
 }
 
 ###

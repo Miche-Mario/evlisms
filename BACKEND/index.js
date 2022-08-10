@@ -7,10 +7,8 @@ import SequelizeStore from "connect-session-sequelize"
 import UsersRoute from "./routes/UsersRoute.js"
 import AboutsRoute from "./routes/AboutRoute.js"
 import StudentsRoute from "./routes/StudentsRoute.js"
-import GeneralRoute from "./routes/GeneralRoute.js"
-import GeneralPriceRoute from "./routes/GeneralPrice.js"
-import TestPreparation from "./routes/TestPreparationRoute.js";
-import TestPreparationPrice from "./routes/TestPraparationPriceRoute.js";
+import CourseRoute from "./routes/CourseRoute.js"
+import SubCourseRoute from "./routes/SubCourseRoute.js"
 
 import AuthRoute from "./routes/AuthRoute.js"
 
@@ -43,10 +41,9 @@ app.use(UsersRoute);
 app.use(StudentsRoute);
 app.use(AboutsRoute);
 app.use(AuthRoute);
-app.use(GeneralRoute);
-app.use(GeneralPriceRoute);
-app.use(TestPreparation);
-app.use(TestPreparationPrice);
+app.use(CourseRoute);
+app.use(SubCourseRoute);
+
 
 // Static Images Folder
 app.use('/Images', express.static('./Images'))

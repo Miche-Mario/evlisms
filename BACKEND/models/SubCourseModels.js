@@ -25,4 +25,4 @@ const SubCourse = db.define('subcourse', {
 })
 
 
-export default Course
+export default SubCourse

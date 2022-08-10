@@ -1,4 +1,4 @@
-import SubCourse from "../models/SubCourseMoels.js"
+import SubCourse from "../models/SubCourseModels.js"
 import { Sequelize } from "sequelize";
 import {Op} from 'sequelize'
 import multer from "multer";
@@ -7,7 +7,7 @@ import path from "path"
 export const getSubCourse = async (req,res) => {
     try {
         const response = await SubCourse.findAll({
-            attributes: ['id','uuid', 'coursename']
+            attributes: ['id','uuid', 'subcoursename']
         });
         res.status(200).json(response);
     } catch (error) {
