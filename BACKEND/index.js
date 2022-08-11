@@ -15,6 +15,7 @@ import ExamRoute from "./routes/ExamRoute.js"
 import TimeRoute from "./routes/TimeRoute.js"
 
 import AccomodationRoute from "./routes/AccomodationRoute.js"
+import CoursesRoute from "./routes/CoursesRoute.js"
 
 
 
@@ -47,6 +48,7 @@ app.use(StudentsRoute);
 app.use(AboutsRoute);
 app.use(AuthRoute);
 app.use(CourseRoute);
+app.use(CoursesRoute);
 app.use(SubCourseRoute);
 app.use(PurchaseRoute);
 app.use(ExamRoute);

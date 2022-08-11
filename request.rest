@@ -60,9 +60,10 @@ GET http://localhost:5000/students
 
 // Create a Student
 POST http://localhost:5000/students
-Content-Type:  application/json
+Content-Type:  multipart/form-data; boundary=<calculated when request is sent>
 Accept-Encoding: gzip, deflate, br
 connection: keep-alive
+Cookie: connect.sid=s%3AT1n2rF0eCyGYsjiq6O9srVlCjG5PRHSl.J2%2BLNMqkZn0WNrP%2FUHOubTTaD7rSG1W9rm7nvG%2Bw%2FWg
 
 {
     "surnameg": "Menou Gael",
@@ -100,7 +101,7 @@ POST http://localhost:5000/course
 Content-Type:  application/json
 
 {
-    "coursename": "General English"
+    "coursename": "Test Preparation"
 }
 
 ###
@@ -116,7 +117,33 @@ POST http://localhost:5000/subcourse
 Content-Type:  application/json
 
 {
-    "subcoursename": "Regular"
+    "subcoursename": "TOEIC"
+}
+
+
+###
+//Get All Courses
+
+GET http://localhost:5000/courses
+
+###
+//Get SubCourses By Courses Id
+
+GET http://localhost:5000/subcourses/d886c94e-64e3-4f8c-83dc-24f299bc6ae7
+
+
+
+###
+//Create an Accomodation
+
+POST http://localhost:5000/courses
+Content-Type:  application/json
+
+{
+    "course_courseid": "1",
+    "subcourse_subcourseid": "1",
+    "active": false,
+    "courseId": 1
 }
 
 ###
@@ -186,6 +213,9 @@ Content-Type:  application/json
 {
     "time": 10
 }
+
+
+
 
 
 

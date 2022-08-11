@@ -1,14 +1,12 @@
-import Courses from "./CoursesModels.js";
-import Course from "./CourseMoels.js";
-
 import { Sequelize } from "sequelize";
 import db from '../config/Database.js';
-
+import Course from "./CourseMoels.js";
+import SubCourse from "./SubCourseModels.js";
 
 
 const  {DataTypes} = Sequelize;
 
-const SubCourse = db.define('subcourse', {
+const Courses = db.define('courses', {
     uuid:{
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
@@ -17,12 +15,12 @@ const SubCourse = db.define('subcourse', {
             notEmpty: true
         }
     },
-    subcoursename:{
-        type: DataTypes.STRING,
+    active: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
-        validate:{
-            notEmpty: true,
-                }
+        validate: {
+            notEmpty: true
+        }
     }
 },{
     freezeTableName: true
@@ -30,4 +28,7 @@ const SubCourse = db.define('subcourse', {
 
 
 
-export default SubCourse
+
+
+
+export default Courses
