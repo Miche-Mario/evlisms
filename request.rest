@@ -141,7 +141,7 @@ Content-Type:  application/json
 
 {
     "course_courseid": "1",
-    "subcourse_subcourseid": "2",
+    "subcourse_subcourseid": "1",
     "active": false
 }
 
@@ -158,7 +158,7 @@ POST http://localhost:5000/time
 Content-Type:  application/json
 
 {
-    "time": 3
+    "time": 1
 }
 
 ###
@@ -174,9 +174,9 @@ POST http://localhost:5000/pricesprice
 Content-Type:  application/json
 
 {
-    "course_courseid": "1",
-    "subcourse_subcourseid": "1",
-    "times_timesd": "1"
+    "course_courseid": 1,
+    "subcourse_subcourseid": 1,
+    "times_timesid": 1
 }
 ###
 //Create Prices
@@ -186,7 +186,7 @@ Content-Type:  application/json
 
 {
     "courses_coursesid": "1",
-    "times_timesid": "3",
+    "times_timesid": "1",
     "price": 1000
 }
 

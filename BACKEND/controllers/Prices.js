@@ -25,7 +25,12 @@ export const getPricesById =async (req,res) => {
     const {times_timesid, course_courseid, subcourse_subcourseid} = req.body;
 
     try {
-        const response1 = Courses.findOne({ 
+        const response = await Courses.findOne({ 
+            
+
+
+
+
             attributes: ['id'],
             where: {
                 course_courseid: course_courseid,
@@ -33,15 +38,7 @@ export const getPricesById =async (req,res) => {
             }, 
         
         });
-
-        const response = await Prices.findOne({ 
-            attributes: ['price'],
-            where: {
-                times_timesid: times_timesid,
-                courses_coursesid: response1
-            }, 
         
-        });
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({msg: error.message});
