@@ -25,7 +25,7 @@ export const createExam = async(req,res) => {
             examname: examname,
             examprice: examprice
         });
-        res.status(201).json({msg: "Purchase Well Created"});
+        res.status(201).json({msg: "Exams Well Created"});
     } catch (error) {
         res.status(400).json({msg: error.message})
     }

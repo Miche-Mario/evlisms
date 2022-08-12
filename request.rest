@@ -117,7 +117,7 @@ POST http://localhost:5000/subcourse
 Content-Type:  application/json
 
 {
-    "subcoursename": "TOEIC"
+    "subcoursename": "TOELF"
 }
 
 
@@ -129,22 +129,67 @@ GET http://localhost:5000/courses
 ###
 //Get SubCourses By Courses Id
 
-GET http://localhost:5000/subcourses/d886c94e-64e3-4f8c-83dc-24f299bc6ae7
+GET http://localhost:5000/subcourses/4ed4c4b1-542a-4539-96be-c88a8414dae1
 
 
 
 ###
-//Create an Accomodation
+//Create Courses
 
 POST http://localhost:5000/courses
 Content-Type:  application/json
 
 {
     "course_courseid": "1",
-    "subcourse_subcourseid": "1",
-    "active": false,
-    "courseId": 1
+    "subcourse_subcourseid": "2",
+    "active": false
 }
+
+
+###
+//Get All Times
+
+GET http://localhost:5000/time
+
+
+###
+//Create Time
+POST http://localhost:5000/time
+Content-Type:  application/json
+
+{
+    "time": 3
+}
+
+###
+//Get All Prices
+
+GET http://localhost:5000/prices
+
+###
+
+###
+//Get Prices By Id
+POST http://localhost:5000/pricesprice
+Content-Type:  application/json
+
+{
+    "course_courseid": "1",
+    "subcourse_subcourseid": "1",
+    "times_timesd": "1"
+}
+###
+//Create Prices
+
+POST http://localhost:5000/prices
+Content-Type:  application/json
+
+{
+    "courses_coursesid": "1",
+    "times_timesid": "3",
+    "price": 1000
+}
+
 
 ###
 //Get All Purchase
@@ -196,22 +241,6 @@ Content-Type:  application/json
 {
     "accomodationname": "Blue Hostel (Single)",
     "accomodationprice": 70000
-}
-
-###
-//Get All Times
-
-GET http://localhost:5000/time
-
-
-###
-//Create an Accomodation
-
-POST http://localhost:5000/time
-Content-Type:  application/json
-
-{
-    "time": 10
 }
 
 

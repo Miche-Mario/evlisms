@@ -9,7 +9,7 @@ import SubCourse from "../models/SubCourseModels.js";
 export const getCourses = async (req,res) => {
     try {
         const response = await Courses.findAll({
-            attributes: ['uuid', 'active', 'course_courseid', 'subcourse_subcourseid'],
+            attributes: ['id','uuid', 'active', 'course_courseid', 'subcourse_subcourseid'],
             include: [{
                 model: Course}
             ]
@@ -45,12 +45,12 @@ export const getSubCourses =async (req,res) => {
 }
 
 export const createCourses = async(req,res) => {
-    const {active, courseId, subcourseId} = req.body;
+    const {active, course_courseid, subcourse_subcourseid} = req.body;
     try {
         await Courses.create({
             active: active,
-            courseId: courseId,
-            subcourseId: subcourseId
+            course_courseid: course_courseid,
+            subcourse_subcourseid: subcourse_subcourseid
         });
         res.status(201).json({msg: "Courses Well Created"});
     } catch (error) {

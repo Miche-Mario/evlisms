@@ -13,6 +13,8 @@ import PurchaseRoute from "./routes/PurchaseRoute.js";
 import AuthRoute from "./routes/AuthRoute.js"
 import ExamRoute from "./routes/ExamRoute.js"
 import TimeRoute from "./routes/TimeRoute.js"
+import PricesRoute from "./routes/PricesRoute.js"
+
 
 import AccomodationRoute from "./routes/AccomodationRoute.js"
 import CoursesRoute from "./routes/CoursesRoute.js"
@@ -54,6 +56,7 @@ app.use(PurchaseRoute);
 app.use(ExamRoute);
 app.use(AccomodationRoute);
 app.use(TimeRoute);
+app.use(PricesRoute);
 
 
 // Static Images Folder
