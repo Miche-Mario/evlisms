@@ -9,8 +9,29 @@ import { StepperContext } from '../contexts/stepperContext'
 import CoursePurchasesExam from '../components/Students/Steps/CoursesPurchasesExam'
 
 
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { getMe } from '../features/auth/authSlice'
+
 
 const AddStudents = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch])
+
+  useEffect(() => {
+    if(isError) {
+      navigate("/")
+    }
+  }, [isError, navigate
+  ])
+
+
   const [currentStep, setCurrentStep] = useState(1);
   const [studentData, setStudentData] = useState('');
   const [finalData, setFinalData] = useState([]);

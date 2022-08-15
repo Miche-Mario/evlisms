@@ -1,7 +1,14 @@
 import { NavLink } from 'react-router-dom'
 import React from 'react'
 
+import { useSelector } from 'react-redux'
+
 const ProgramButton = () => {
+
+  
+  const { user} = useSelector(
+    (state) => state.auth
+  );
   return (
     <div className="group inline-block text-light-dark text-10">
       <button
@@ -41,7 +48,7 @@ const ProgramButton = () => {
         </NavLink>
         
        
-        <li className="rounded-sm relative px-3 py-1 hover:bg-gray pl-6 cursor-pointer">
+        { user && user.role === "admin" && <> <li className="rounded-sm relative px-3 py-1 hover:bg-gray pl-6 cursor-pointer">
           <button
             className="w-full text-left flex items-center outline-none focus:outline-none"
           >
@@ -78,9 +85,8 @@ const ProgramButton = () => {
             <a>
               <li className="rounded-sm px-3  py-1  pl-6 cursor-pointer">Items for sale</li>
             </a>        
-            </NavLink>   
-                 <hr className='ml-2 mr-2 mb-2 mt-2'/>
-        <li className="rounded-sm px-3 py-1 hover:bg-gray pl-6 cursor-pointer ">Exit</li>
+            </NavLink>  </> }
+                
       </ul>
 
       

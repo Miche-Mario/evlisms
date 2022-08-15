@@ -1,11 +1,17 @@
-import React from "react"
+import React, {useEffect} from "react"
 import ProgramButton from "./ProgramButton"
 import ReportsButton from "./ReportsButton"
 import ToolsButton from "./ToolsButton"
 import MaintenanceButton from "./Maintenance"
 import HelpButton from "./HelpButton"
 
+import { useSelector } from 'react-redux'
+
 export default function Navbar() {
+
+  const { user} = useSelector(
+    (state) => state.auth
+  );
   return (
 
     <nav className="flex bg-gray h-10 w-full mt-0  border-b-2 pb-2 pt-2 border-dark-purple">
@@ -18,11 +24,15 @@ export default function Navbar() {
           
         <div>
             <ProgramButton/>
-            <ReportsButton/>
-            <ToolsButton/>
-            <MaintenanceButton/>
+            { user && user.role === "admin" && 
+              <> 
+                <ReportsButton/> 
+                <ToolsButton/>
+                <MaintenanceButton/> 
+              </>
+            }
             <HelpButton/>
-            <div className="inline-block text-black lg:ml-10 text-xl font-light">Alex</div>
+            <div className="inline-block text-black lg:ml-10 text-xl font-light">{user && user.name}</div>
             <div className="inline-block w-3 h-3 ml-1 lg:mr-3 rounded-full bg-green-400"> </div>
         </div>
       </div>

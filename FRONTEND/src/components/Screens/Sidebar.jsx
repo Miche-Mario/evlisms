@@ -6,7 +6,11 @@ import { BiBookBookmark } from 'react-icons/bi'
 import { AiOutlineIdcard, AiOutlineLogout } from 'react-icons/ai'
 import { BsArrowLeftShort } from "react-icons/bs"
 import { ImCalculator } from 'react-icons/im'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { LogOut, reset} from '../../features/auth/authSlice'
+
 
 
 
@@ -16,16 +20,30 @@ import { NavLink } from 'react-router-dom'
 
 const Sidebar = () => {
 
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { user} = useSelector(
+      (state) => state.auth
+    );
+
+    const logout = () => {
+        dispatch(LogOut());
+        dispatch(reset());
+        navigate("/");
+    }
+
+
     const [open, setOpen] = useState(true)
     const Menus = [
         {title: "Home", icon: <MdOutlineDashboard/>, link: "/" },
         {title: "Sutudent", icon: <IoSchoolOutline/> ,  link: "/students"},
         {title: "Courses",icon: <BiBookBookmark/>,  link: "/courses"},
         {title: "Prospects", icon: <AiOutlineIdcard/>,  link: "/prospects"},
-        {title: "Expenses", icon: <ImCalculator/>, link: "/expenses"},
-        {title: "Logout", icon: <AiOutlineLogout/>,link: "/expenses", spacing: true}
 
     ]
+
+    
     return (
         <div className={`bg-dark-purple h-screen p-5 pt-8 ${open ? "w-62" : "w-20"} duration-300 h-screen relative`}>
                 <BsArrowLeftShort 
@@ -64,6 +82,27 @@ const Sidebar = () => {
                             </NavLink>
                             </>
                         ))}
+
+                        { user && user.role === "admin" && <NavLink to="/expenses">
+                                <a>
+                                    <li
+                                        className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-light-white rounded-md`}
+                                    >
+                                        <span className='text-2xl block float-left'><ImCalculator/></span>
+                                        <span className={`text-base font-medium flex-1`}>Expenses</span>
+                                    </li>
+                                </a>
+                        </NavLink>}
+                    <li className={`text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-light-white rounded-md mt-28`}>
+                        <button
+                            onClick={logout}
+                        >
+                        <span className='text-2xl block float-left'><AiOutlineLogout/></span>
+                        <span className={`text-base font-medium ml-4 flex-1 ${!open && "hidden"}`}>Logout</span>
+                        </button>
+                        
+
+                    </li>
                 </ul>
                
         </div>

@@ -33,15 +33,17 @@ dotenv.config();
 
 const app = express();
 
+
 const sessionStore = SequelizeStore(session.Store);
 
 const store = new sessionStore({
     db: db
 });
 
-(async()=> {
+/* (async()=> {
     await db.sync();
-})()
+})() */
+app.use(cors({origin:true,credentials: true}));
 
 app.use(express.json());
 app.use(session({
@@ -77,10 +79,6 @@ app.use(StudentsExams);
 // Static Images Folder
 app.use('/Images', express.static('./Images'))
 
-app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:3000'
-}));
 
 store.sync();
 app.listen(process.env.APP_PORT, () => {

@@ -69,7 +69,6 @@ Cookie: connect.sid=s%3AT1n2rF0eCyGYsjiq6O9srVlCjG5PRHSl.J2%2BLNMqkZn0WNrP%2FUHO
     "surnameg": "Menou Gael",
     "forenamesg": "EVLIMARIO",
     "about_aboutid": 1,
-    "passportphotographg":"C:\Users\Dell\Desktop\Perso\moi"
 }
 
 ###

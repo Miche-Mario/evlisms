@@ -5,6 +5,12 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
 
+
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { getMe } from '../features/auth/authSlice'
+
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -19,6 +25,23 @@ const style = {
   height: 'auto'
 };
 const Expenses = () => {
+
+
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch])
+
+  useEffect(() => {
+    if(isError) {
+      navigate("/")
+    }
+  }, [isError, navigate
+  ])
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
