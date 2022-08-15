@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 import db from '../config/Database.js';
 
 
+
 const  {DataTypes} = Sequelize;
 
 const Purchase = db.define('purchases', {
@@ -30,6 +31,12 @@ const Purchase = db.define('purchases', {
 },{
     freezeTableName: true
 })
+
+
+
+
+
+
 
 
 export default Purchase

@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { TiArrowMaximiseOutline } from 'react-icons/ti'
 
 const initialState = {
     user: null,

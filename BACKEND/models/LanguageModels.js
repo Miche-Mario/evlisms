@@ -1,12 +1,10 @@
-
 import { Sequelize } from "sequelize";
 import db from '../config/Database.js';
 
 
-
 const  {DataTypes} = Sequelize;
 
-const SubCourse = db.define('subcourse', {
+const Language = db.define('language', {
     uuid:{
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
@@ -15,7 +13,7 @@ const SubCourse = db.define('subcourse', {
             notEmpty: true
         }
     },
-    subcoursename:{
+    languagename:{
         type: DataTypes.STRING,
         allowNull: false,
         validate:{
@@ -23,9 +21,7 @@ const SubCourse = db.define('subcourse', {
                 }
     }
 },{
-    freezeTableName: true
+    freezeTableName: true,
 })
 
-
-
-export default SubCourse
+export default Language

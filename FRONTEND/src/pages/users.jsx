@@ -4,7 +4,6 @@ import Layout from '../components/Screens/Layout'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
-import Image from 'next/image'
 import Icon from '../assets/images.png'
 
 
@@ -21,7 +20,7 @@ const style = {
   m: 0,
   height: 'auto'
 };
-const users = () => {
+const Users = () => {
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -44,14 +43,14 @@ const users = () => {
             <div className='flex flex-row m-3 justify-around items-center'>
               <div className=''>
                 <label for="first_name" class="block mb-6 text-base font-medium text-gray-900 p-1">ID</label>
-                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Name</label>  
-                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Employeee name</label>               
-                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Group</label>               
+                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Name</label>
+                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Employeee name</label>
+                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Group</label>
 
-              
+
               </div>
               <div >
-              <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="name" />
+                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="name" />
 
                 <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="00" />
 
@@ -62,7 +61,7 @@ const users = () => {
                   <option value="CA">Basic users</option>
                   <option value="CA">Super admin</option>
 
-                </select> 
+                </select>
               </div>
             </div>
             <div className='flex flex-row justify-around  mt-3 mb-3'>
@@ -78,33 +77,21 @@ const users = () => {
 
 
       </Modal>
-
-
-
-
       <div className='m-3'>
         <fieldset className='border  rounded border-dark-purple'>
-          <legend className='p-1 ml-3 text-xl text-blue-700'>ITEMS FOR SALE</legend>
-        
-        
-            <div className='flex items-end'>
-          
-       
-            <Image
-                        src={Icon}
-                        alt="Logo"
-                        width={169}
-                        height={140}
-                        
-                        className=  {` duration-200 ${open && " rotate-[360deg]"}`}
-                    />
-           
+          <legend className='p-1 ml-3 text-xl text-blue-700'>Users</legend>
+          <div className='flex items-end'>
+            <img
+              src={Icon}
+              alt="Logo"
+              width={169}
+              height={140}
+              className={` duration-200 ${open && " rotate-[360deg]"}`}
+            />
             <button onClick={handleOpen} className='mb-3 bg-blue-600 rounded ml-6 text-gray-100 font-medium w-48 h-10 p-3 flex items-center justify-center' type="submit" name='Add'>
               Add
             </button>
-           
           </div>
-
           <fieldset className='m-3 mb-0 h-52 border border-dark-purple'>
             <table className="w-full   ">
               <thead>
@@ -132,12 +119,9 @@ const users = () => {
                       <span className="font-medium">Basic user</span>
                     </div>
                   </td>
-                 
                   <td className=" py-3 px-3 text-center">
                     <div className="flex item-center justify-center">
-                      
                       <div onClick={handleOpen} className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                         </svg>
@@ -149,48 +133,16 @@ const users = () => {
                       </div>
                     </div>
                   </td>
-
-
                 </tr>
-                
-
-
-
               </tbody>
             </table>
           </fieldset>
           <div className='m-6 flex justify-end'>
-
-  
-         
           </div>
         </fieldset>
       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     
     </Layout>
   )
 }
 
-export default users
+export default Users

@@ -7,6 +7,9 @@ import GuardianStudInfo from "../components/Students/Steps/GuardianStudInfo"
 import Complete from "../components/Students/Steps/Complete"
 import { StepperContext } from '../contexts/stepperContext'
 import CoursePurchasesExam from '../components/Students/Steps/CoursesPurchasesExam'
+
+
+
 const AddStudents = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [studentData, setStudentData] = useState('');

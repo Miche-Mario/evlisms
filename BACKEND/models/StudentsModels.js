@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 import db from '../config/Database.js';
 import About from "./AboutModels.js";
 
+
 const  {DataTypes} = Sequelize;
 
 const Students = db.define('students', {
@@ -339,6 +340,8 @@ const Students = db.define('students', {
 })
 
 Students.belongsTo(About, {foreignKey: 'about_aboutid'});
+
+
 
 export default Students  
 

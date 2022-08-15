@@ -5,14 +5,17 @@ import multer from "multer";
 import path from "path"
 import Course from "../models/CourseMoels.js";
 import SubCourse from "../models/SubCourseModels.js";
+import Language from "../models/LanguageModels.js";
 
 export const getCourses = async (req,res) => {
     try {
         const response = await Courses.findAll({
-            attributes: ['id','uuid', 'active', 'course_courseid', 'subcourse_subcourseid'],
+            attributes: ['id','uuid','language_languageid','pricetype_pricetypeid', 'active', 'course_courseid', 'subcourse_subcourseid'],
             include: [{
-                model: Course}
-            ]
+                model: Course,
+                model: Language
+                
+            }]
         });
         res.status(200).json(response);
     } catch (error) {
@@ -45,12 +48,13 @@ export const getSubCourses =async (req,res) => {
 }
 
 export const createCourses = async(req,res) => {
-    const {active, course_courseid, subcourse_subcourseid} = req.body;
+    const {active, pricetype_pricetypeid, course_courseid, subcourse_subcourseid} = req.body;
     try {
         await Courses.create({
             active: active,
             course_courseid: course_courseid,
-            subcourse_subcourseid: subcourse_subcourseid
+            subcourse_subcourseid: subcourse_subcourseid,
+            pricetype_pricetypeid: pricetype_pricetypeid
         });
         res.status(201).json({msg: "Courses Well Created"});
     } catch (error) {

@@ -1,19 +1,14 @@
-import Prices from "../models/PricesModels.js"
+import StudentsExams from "../models/StudentsExamsModels.js"
 import { Model, Sequelize } from "sequelize";
 import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
-import Courses from "../models/CoursesModels.js";
-import Times from "../models/TimeModels.js";
 
 
-export const getPrices = async (req,res) => {
+export const getStudentsExams = async (req,res) => {
     try {
-        const response = await Prices.findAll({
-            attributes: ['id','price','times_timesid'],
-            include: [{
-                model: Courses}
-            ]
+        const response = await StudentsExams.findAll({
+            attributes: ['id','total', 'students_stuid', 'exams_examsid'],
         });
         res.status(200).json(response);
     } catch (error) {
@@ -21,7 +16,7 @@ export const getPrices = async (req,res) => {
     }
 }
 
-export const getCoursesPrice =async (req,res) => {
+/* export const getCoursesPrice =async (req,res) => {
     const {times_timesid, course_courseid, subcourse_subcourseid} = req.body;
     let responsee;
         if(subcourse_subcourseid == null) {
@@ -60,23 +55,23 @@ export const getCoursesPrice =async (req,res) => {
             res.status(500).json({msg: error.message});
         }
 }
-
-export const createPrices = async(req,res) => {
-    const {price, times_timesid, courses_coursesid} = req.body;
+ */
+export const createStudentsExams = async(req,res) => {
+    const {total, students_stuid, exams_examsid} = req.body;
     try {
-        await Prices.create({
-            price: price,
-            times_timesid: times_timesid,
-            courses_coursesid: courses_coursesid
+        await StudentsExams.create({
+            total: total,
+            students_stuid: students_stuid,
+            exams_examsid: exams_examsid
         });
-        res.status(201).json({msg: "Price Well Created"});
+        res.status(201).json({msg: "Student Exam Well Created"});
     } catch (error) {
         res.status(400).json({msg: error.message})
     }
 }
-export const updatePrices = (req,res) => {
+export const updateStudentsExmas = (req,res) => {
     
 }
-export const deletePrices = (req,res) => {
+export const deleteStudentsExmas = (req,res) => {
     
 }

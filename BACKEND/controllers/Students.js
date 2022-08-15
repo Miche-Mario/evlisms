@@ -9,7 +9,7 @@ import About from "../models/AboutModels.js";
 export const getStudents = async (req,res) => {
     try {
         const response = await Students.findAll({
-            attributes: ['uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
+            attributes: ['id','uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
             include: [{
                 model: About
             }]

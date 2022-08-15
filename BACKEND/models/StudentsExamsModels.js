@@ -1,12 +1,19 @@
-
 import { Sequelize } from "sequelize";
 import db from '../config/Database.js';
 
 
 
+
+
 const  {DataTypes} = Sequelize;
 
-const SubCourse = db.define('subcourse', {
+const StudentsExams = db.define('studentsexmas', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+      },
     uuid:{
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
@@ -15,12 +22,12 @@ const SubCourse = db.define('subcourse', {
             notEmpty: true
         }
     },
-    subcoursename:{
-        type: DataTypes.STRING,
+    total: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        validate:{
-            notEmpty: true,
-                }
+        validate: {
+            notEmpty: false
+        }
     }
 },{
     freezeTableName: true
@@ -28,4 +35,8 @@ const SubCourse = db.define('subcourse', {
 
 
 
-export default SubCourse
+
+
+
+
+export default StudentsExams

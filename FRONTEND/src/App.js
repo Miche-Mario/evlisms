@@ -4,9 +4,14 @@ import Login from "./pages/Login"
 import Students from './pages/students';
 import AddStudents from './pages/AddStudents'
 import Courses from './pages/Courses';
-import Prospects from './pages/Prospects';
+import Prospects from './pages/Prospects'; 
 import Expenses from './pages/Expenses';
-import Dashboard from './pages/Dashboard'
+import Dashboard from './pages/Dashboard';
+import Users from './pages/Users';
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
+
 function App() {
   return (
    <div>
@@ -19,6 +24,7 @@ function App() {
             <Route path='/prospects' element={<Prospects/>}/>
             <Route path='/expenses' element={<Expenses/>}/>
             <Route path='/dashboard' element={<Dashboard/>}/>
+            <Route path='/users' element={<Users/>}/>
 
 
         </Routes>

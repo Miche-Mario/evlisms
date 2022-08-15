@@ -68,7 +68,8 @@ Cookie: connect.sid=s%3AT1n2rF0eCyGYsjiq6O9srVlCjG5PRHSl.J2%2BLNMqkZn0WNrP%2FUHO
 {
     "surnameg": "Menou Gael",
     "forenamesg": "EVLIMARIO",
-    "about_aboutid": 1
+    "about_aboutid": 1,
+    "passportphotographg":"C:\Users\Dell\Desktop\Perso\moi"
 }
 
 ###
@@ -101,7 +102,7 @@ POST http://localhost:5000/course
 Content-Type:  application/json
 
 {
-    "coursename": "Test Preparation"
+    "coursename": "Executive English"
 }
 
 ###
@@ -118,6 +119,53 @@ Content-Type:  application/json
 
 {
     "subcoursename": "TOELF"
+}
+
+
+###
+//Get All Languages
+
+GET http://localhost:5000/language
+
+
+###
+//Create Language
+POST http://localhost:5000/language
+Content-Type:  application/json
+
+{
+    "languagename": "English"
+}
+
+###
+//Get All PriceType
+
+GET http://localhost:5000/pricetype
+
+
+###
+//Create PriceTYpe
+POST http://localhost:5000/pricetype
+Content-Type:  application/json
+
+{
+    "pricetypename": "Full"
+}
+
+
+###
+//Get All ClassType
+
+GET http://localhost:5000/classtype
+
+
+###
+//Create Class Type
+POST http://localhost:5000/classtype
+Content-Type:  application/json
+
+{
+    "classtypename": "Group"
 }
 
 
@@ -141,8 +189,11 @@ Content-Type:  application/json
 
 {
     "course_courseid": "1",
-    "subcourse_subcourseid": "1",
-    "active": false
+    "subcourse_subcourseid": null,
+    "active": false,
+    "language_languageid": 1,
+    "pricetype_pricetypeid": "1",
+    "classtype_classtypeid": 1
 }
 
 
@@ -161,6 +212,7 @@ Content-Type:  application/json
     "time": 1
 }
 
+
 ###
 //Get All Prices
 
@@ -170,12 +222,12 @@ GET http://localhost:5000/prices
 
 ###
 //Get Prices By Id
-POST http://localhost:5000/pricesprice
+POST http://localhost:5000/coursesprice
 Content-Type:  application/json
 
 {
     "course_courseid": 1,
-    "subcourse_subcourseid": 1,
+    "subcourse_subcourseid": null,
     "times_timesid": 1
 }
 ###
@@ -185,9 +237,31 @@ POST http://localhost:5000/prices
 Content-Type:  application/json
 
 {
-    "courses_coursesid": "1",
+    "courses_coursesid": "2",
     "times_timesid": "1",
     "price": 1000
+}
+
+
+###
+//Get All StudentsCourses
+
+GET http://localhost:5000/studentscourses
+
+
+###
+//Create StudentsCourses
+POST http://localhost:5000/studentscourses
+Content-Type:  application/json
+
+{
+    "courses_coursesid": 1,
+    "students_studentsid": 1,
+    "startdate": "2022-01-17",
+    "enddate": "2022-01-17",
+    "enrollementdate": "2022-01-17",
+    "total": 12000,
+    "duration": 3
 }
 
 
@@ -242,6 +316,64 @@ Content-Type:  application/json
     "accomodationname": "Blue Hostel (Single)",
     "accomodationprice": 70000
 }
+
+###
+//Get All Students Accomodation
+
+GET http://localhost:5000/studentsaccomodations
+
+
+###
+//Create an Stuedents Accomodation
+
+POST http://localhost:5000/studentsaccomodations
+Content-Type:  application/json
+
+{
+    "students_stuid": "1",
+    "accos_accosid": 1,
+    "total": 12000
+}
+
+
+###
+//Get All Students Purchases
+
+GET http://localhost:5000/studentspurchases
+
+
+###
+//Create an Stuedents Purchases
+
+POST http://localhost:5000/studentspurchases
+Content-Type:  application/json
+
+{
+    "students_stuid": "1",
+    "purchases_purid": 1,
+    "total": 12000
+}
+
+
+
+###
+//Get All Students Exams
+
+GET http://localhost:5000/studentsexams
+
+
+###
+//Create an Stuedents Exams
+
+POST http://localhost:5000/studentsexams
+Content-Type:  application/json
+
+{
+    "students_stuid": "1",
+    "exams_examsid": 1,
+    "total": 12000
+}
+
 
 
 

@@ -31,4 +31,7 @@ Course.hasMany(Courses,{foreignKey: 'course_courseid' });
 Courses.belongsTo(Course,{foreignKey: 'course_courseid' });
 SubCourse.hasMany(Courses, {foreignKey: 'subcourse_subcourseid' });
 Courses.belongsTo(SubCourse, {foreignKey: 'subcourse_subcourseid' });
+
+
+
 export default Course

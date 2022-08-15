@@ -1,14 +1,12 @@
 import { Sequelize } from "sequelize";
 import db from '../config/Database.js';
-import ClassType from "./ClassTypeModels.js";
-import Language from "./LanguageModels.js";
-import PriceType from "./PriceTypeModels.js";
+
 
 
 
 const  {DataTypes} = Sequelize;
 
-const Courses = db.define('courses', {
+const StudentsCourses = db.define('studentscourses', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -23,22 +21,36 @@ const Courses = db.define('courses', {
             notEmpty: true
         }
     },
-    active: {
-        type: DataTypes.BOOLEAN,
+    total: {
+        type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
             notEmpty: true
         }
     },
-    fullprice:{
+    duration:{
         type: DataTypes.INTEGER,
         allowNull: true,
         validate: {
             notEmpty: false
         }
     },
-    duration:{
-        type: DataTypes.INTEGER,
+    startdate:{
+        type: DataTypes.DATE,
+        allowNull: true,
+        validate: {
+            notEmpty: false
+        }
+    },
+    enddate:{
+        type: DataTypes.DATE,
+        allowNull: true,
+        validate: {
+            notEmpty: false
+        }
+    },
+    enrollementdate:{
+        type: DataTypes.DATE,
         allowNull: true,
         validate: {
             notEmpty: false
@@ -49,13 +61,6 @@ const Courses = db.define('courses', {
 })
 
 
-Courses.belongsTo(Language, {foreignKey: 'language_languageid'});
-
-Courses.belongsTo(PriceType, {foreignKey: 'pricetype_pricetypeid'});
-
-Courses.belongsTo(ClassType, {foreignKey: 'classtype_classtypeid'});
 
 
-
-
-export default Courses
+export default StudentsCourses
