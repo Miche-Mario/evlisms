@@ -1,4 +1,4 @@
-import { Checkbox } from '@mui/material'
+import { Button, Checkbox } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import Layout from '../components/Screens/Layout'
 import Box from '@mui/material/Box';
@@ -9,6 +9,8 @@ import Icon from '../assets/images.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import { getMe } from '../features/auth/authSlice'
+import {BiEdit} from 'react-icons/bi'
+import {MdDeleteSweep} from 'react-icons/md'
 
 import axios from "axios";
 
@@ -22,11 +24,11 @@ const style = {
   width: 500,
   transform: 'translate(-50%, -50%)',
   bgcolor: 'background.paper',
-  border: '2px solid darkblue',
+
   boxShadow: 24,
   p: 0,
   m: 0,
-  height: 'auto'
+  
 };
 const Users = () => {
 
@@ -53,15 +55,45 @@ const Users = () => {
   const [users, setUsers] = useState([]);
 
   const getUsers = async () => {
-    const response = await axios.get(`${process.env.REACT_BASE_URL}/users`);
-    console.log(response.data)
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/users`);
     setUsers(response.data)
   }
 
+  const deleteUser = async(userId) => {
+    await axios.delete(`${process.env.REACT_APP_BASE_URL}/users/${userId}`);
+    getUsers();
+  }
+
+
   useEffect(() => {
     getUsers();
-
+    saveUser();
   }, [])
+
+
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+  const [msg, setMsg] = useState("");
+
+  const saveUser = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/users`, {
+        name: name,
+        password: password,
+        username: username,
+        role: role
+      });
+      navigate(0);
+    } catch (error) {
+      if(error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
+  }
+
 
  
 
@@ -73,6 +105,17 @@ const Users = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const [open1, setOpen1] = useState(false);
+  const [va, setVa] = useState("");
+
+  const handleOpen1 = (uuid) => {
+    setOpen1(true);
+    setVa(uuid)
+  };
+  const handleClose1 = () => {
+    setOpen1(false);
+  };
   return (
     <Layout >
       <Modal
@@ -83,36 +126,52 @@ const Users = () => {
       >
         <Box sx={style} >
           <p class="text-white text-xl p-3  bg-dark-purple w-full">USER DETAILS</p>
-          <form>
+          <form onSubmit={saveUser}>
             <div className='flex flex-row m-3 justify-around items-center'>
               <div className=''>
-                <label for="first_name" class="block mb-6 text-base font-medium text-gray-900 p-1">ID</label>
-                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Name</label>
-                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Employeee name</label>
-                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Group</label>
+                <label for="first_name" class="block mb-6 text-base font-medium text-gray-900 p-1">Name</label>
+                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Username</label>
+                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Password</label>
+                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">User Group</label>
 
 
               </div>
               <div >
-                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="name" />
+                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 "
+                 placeholder="name" 
+                 value={name}
+                 onChange={(e) => setName(e.target.value) }
+                 />
 
-                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="00" />
+                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
+                placeholder="username" 
+                value={username}
+                 onChange={(e) => setUsername(e.target.value) }
+                />
 
-                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="00" />
-                <select id="countries" class="bg-gray-50 mb-4  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
+                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
+                placeholder="********"
+                value={password}
+                onChange={(e) => setPassword(e.target.value) } 
+                />
+                <select id="countries" class="bg-gray-50 mb-4  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value) }
+                >
                   <option></option>
-                  <option value="US">Admins</option>
-                  <option value="CA">Basic users</option>
-                  <option value="CA">Super admin</option>
-
+                  <option value="admin">Admin</option>
+                  <option value="user">Basic user</option>
                 </select>
               </div>
             </div>
+            <p className='text-sm text-center text-red'>{msg}</p>
             <div className='flex flex-row justify-around  mt-3 mb-3'>
-              <button className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
-                Ok
+            
+
+              <button className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit">
+                Save
               </button>
-              <button onClick={handleClose} className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
+              <button onClick={handleClose} className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center'>
                 Cancel
               </button>
             </div>
@@ -121,8 +180,28 @@ const Users = () => {
 
 
       </Modal>
+
+
+      <Modal
+                          open={open1}
+                          onClose={handleClose1}
+                        >
+                          <Box sx={style}>
+                          <div className='flex flex-row mt-3 mb-3'>
+                            <p>Would you really delete the user: </p>
+                           <button className='bg-blue-600 rounded text-gray-100 ml-5 font-medium w-20 h-10 flex items-center justify-center' 
+                            onClick={() =>deleteUser(va)}
+                           >
+                              Delete
+                            </button>
+                            <button onClick={handleClose1} className='bg-blue-600 rounded ml-5 text-gray-100 font-medium w-20 h-10 flex items-center justify-center'>
+                              Cancel
+                            </button>
+                          </div>
+                          </Box>
+                        </Modal>
       <div className='m-3'>
-        <fieldset className='border  rounded border-dark-purple'>
+        <fieldset className=''>
           <legend className='p-1 ml-3 text-xl text-blue-700'>Users</legend>
           <div className='flex items-end'>
             <img
@@ -136,52 +215,61 @@ const Users = () => {
               Add
             </button>
           </div>
-          <fieldset className='m-3 mb-0 h-52 border border-dark-purple'>
+          <div className='m-3 mb-0 border border-dark-purple'>
             <table className="w-full   ">
               <thead>
                 <tr className="bg-gray-200  text-gray-600 uppercase text-sm leading-normal">
-                <th className=" py-3 px-3 text-center">No</th>
-                  <th className=" py-3 px-3 text-center">Username</th>
-                  <th className=" py-3 px-3 text-center">Employee name</th>
-                  <th className=" py-3 px-3 text-center">User group</th>
-                  <th className=" py-3 px-3 text-center">Action</th>
+                <th className="border border-dark-purple py-3 px-3 text-center">No</th>
+                  <th className="border border-dark-purple py-3 px-3 text-center">Username</th>
+                  <th className="border border-dark-purple py-3 px-3 text-center">Employee name</th>
+                  <th className=" border border-dark-purple py-3 px-3 text-center">User group</th>
+                  <th className="border border-dark-purple py-3 px-3 text-center">Action</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600  text-sm font-light">
                 {
-                  users.map((users, index) => (
-                    <tr key={users.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
-                  <td className="p-0">
+                  users.map((use, index) => (
+                    <tr key={use.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
+                  <td className="p-0 border border-dark-purple">
                     <div className="flex items-center justify-center">
                       <span className="font-medium uppercase">{index + 1}</span>
                     </div>
                   </td>
-                  <td className="p-0">
+                  <td className="p-0 border border-dark-purple">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">{users.username}</span>
+                      <span className="font-medium uppercase">{use.username}</span>
                     </div>
                   </td>
-                  <td className=" py-3 px-3 text-center">
+                  <td className="border border-dark-purple py-3 px-3 text-center">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium">{users.name}</span>
+                      <span className="font-medium">{use.name}</span>
                     </div>
                   </td>
-                  <td className=" py-3 px-3 text-center">
+                  <td className="border border-dark-purple py-3 px-3 text-center">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium">{users.role}</span>
+                      <span className="font-medium">{use.role}</span>
                     </div>
                   </td>
-                  <td className=" py-3 px-3 text-center">
+                  <td className="border border-dark-purple py-3 px-3 text-center">
                     <div className="flex item-center justify-center">
-                      <div onClick={handleOpen} className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
+                      <div>
+                        <Link
+                          to={`/users/edit/${use.uuid}`}
+                        >
+                        <button className='flex items-center p-1 bg-green-600 text-white text-[1rem]'>
+                            <BiEdit/>Edit
+                          </button>
+                        </Link>
+                        
                       </div>
-                      <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
+                      <div className='ml-3'>
+                        
+                        <button 
+                          className='flex items-center p-1 bg-red text-white text-[1rem]'
+                          onClick={() => handleOpen1(use.uuid)}
+                        >
+                          <MdDeleteSweep size={20}/>Delete
+                        </button>
                       </div>
                     </div>
                   </td>
@@ -190,7 +278,7 @@ const Users = () => {
                 }
               </tbody>
             </table>
-          </fieldset>
+          </div>
           <div className='m-6 flex justify-end'>
           </div>
         </fieldset>

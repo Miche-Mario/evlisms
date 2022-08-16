@@ -40,9 +40,9 @@ const store = new sessionStore({
     db: db
 });
 
-/* (async()=> {
+(async()=> {
     await db.sync();
-})() */
+})()
 app.use(cors({origin:true,credentials: true}));
 
 app.use(express.json());

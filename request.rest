@@ -3,9 +3,9 @@ POST http://localhost:5000/users
 Content-Type:  application/json
 
 {
-    "name": "Menou Gael",
-    "username": "EVLIMARIO",
-    "password": "123",
+    "name": "Zola Isnard",
+    "username": "EVLIISNARD",
+    "password": "1234",
     "role": "admin"
 }
 
@@ -26,7 +26,7 @@ Content-Type:  application/json
 {
     "name": "Menou SOLANGNONN",
     "username": "EVLISOLANGNON",
-    "password": "1234",
+    "password": "123",
     "role": "user"
 }
 
