@@ -24,7 +24,7 @@ const EditUser = ({props}) => {
     }
   }, [isError, navigate
   ])
-  const [user, setUser] = useState({})
+
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -84,7 +84,6 @@ const EditUser = ({props}) => {
                     <div className='mt-5'>
                       <label className='text-xl font-bold'>Username</label>
                       <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " 
-                        placeholder="Username" 
                         value={username}
                         onChange={(e) => setUsername(e.target.value)} 
                         required

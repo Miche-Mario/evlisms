@@ -15,8 +15,18 @@ export const getLanguage = async (req,res) => {
     }
 }
 
-export const getLanguageById = (req,res) => {
-    
+export const getLanguageById = async(req,res) => {
+    try {
+        const response = await Language.findOne({
+            attributes: ['uuid', 'languagename'],
+            where: {
+                uuid: req.params.id
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
 }
 export const createLanguage = async(req,res) => {
     const {languagename} = req.body;
@@ -29,9 +39,44 @@ export const createLanguage = async(req,res) => {
         res.status(400).json({msg: error.message})
     }
 }
-export const updateLanguage = (req,res) => {
+export const updateLanguage = async(req,res) => {
+    const language = await Language.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!language) return res.status(404).json({msg: "Language doesn't not exist" });
+    const {languagename} = req.body;
     
+    try {
+        await Language.update({
+            languagename: languagename,
+        }, {
+            where: {
+                id: language.id
+            }
+        });
+        res.status(200).json({msg: "Language  updated"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
 }
-export const deleteLanguage = (req,res) => {
-    
+export const deleteLanguage = async(req,res) => {
+    const language = await Language.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!language) return res.status(404).json({msg: "Language doesn't not exist" });
+    try {
+        await Language.destroy({
+            where: {
+                id: language.id
+            }
+        });
+        res.status(201).json({msg: "Language Deleted"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+
 }

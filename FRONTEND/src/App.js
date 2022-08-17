@@ -12,6 +12,8 @@ import Users from './pages/Users';
 import axios from "axios";
 import EditUser from './pages/EditUser';
 import Language from './pages/Language'
+import EditLanguage from './pages/EditLanguage'
+import PaymentMethods from "./pages/PaymentMethods"
 
 axios.defaults.withCredentials = true;
 
@@ -30,6 +32,9 @@ function App() {
             <Route path='/users' element={<Users/>}/>
             <Route path='/language' element={<Language/>}/>
             <Route path='/users/edit/:id' element={<EditUser/>}/>
+            <Route path='/language/edit/:id' element={<EditLanguage/>}/>
+            <Route path='/paymentmethods' element={<PaymentMethods/>}/>
+
         </Routes>
       </BrowserRouter>
    </div>

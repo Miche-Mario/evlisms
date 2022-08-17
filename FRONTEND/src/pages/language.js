@@ -10,6 +10,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { getMe } from '../features/auth/authSlice'
 import { BiEdit } from 'react-icons/bi'
 import { MdDeleteSweep } from 'react-icons/md'
+import axios from "axios"
 
 const style = {
   position: 'absolute',
@@ -46,6 +47,43 @@ const Language = () => {
 
 
 
+
+
+  const [languages, setLanguages] = useState([]);
+
+  const getLanguages = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/language`);
+    setLanguages(response.data)
+  }
+
+  const deleteLanguage = async (userId) => {
+    await axios.delete(`${process.env.REACT_APP_BASE_URL}/language/${userId}`);
+    getLanguages();
+    navigate(0);
+  }
+
+
+  const [languagename, setLanguagename] = useState("");
+  const [msg, setMsg] = useState("");
+  const saveLanguage = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/language`, {
+        languagename: languagename,
+      });
+      navigate(0);
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
+  }
+
+  useEffect(() => {
+    getLanguages();
+    saveLanguage();
+  }, [])
+
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -53,23 +91,6 @@ const Language = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const [languages, setLanguages] = useState([]);
-
-  const getLanguages = async () => {
-    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/languages`);
-    setLanguages(response.data)
-  }
-
-  const deleteLanguage = async (userId) => {
-    await axios.delete(`${process.env.REACT_APP_BASE_URL}/languages/${userId}`);
-    getLanguages();
-    navigate(0);
-  }
-
-
-
-
 
   const [open1, setOpen1] = useState(false);
   const [va, setVa] = useState("");
@@ -91,22 +112,27 @@ const Language = () => {
       >
         <Box sx={style} >
           <p class="text-white text-xl p-3  bg-dark-purple w-full">LANGUAGE DETAILS</p>
-          <form>
+          <form onSubmit={saveLanguage}>
             <div className='flex flex-row m-3 justify-around items-center'>
               <div className=''>
-                <label for="first_name" class="block mb-6 text-base font-medium text-gray-900 p-1">Name</label>
+                <label for="languagename" class="block mb-6 text-base font-medium text-gray-900 p-1">Name</label>
               
               </div>
               <div >
-              <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="name" />
+              <input type="text" id="languagename" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
+                placeholder="name" 
+                value={languagename}
+                onChange={(e) => setLanguagename(e.target.value)}  
+              />
 
               </div>
             </div>
+            <p className='text-sm text-center text-red'>{msg}</p>
             <div className='flex flex-row justify-around  mt-3 mb-3'>
-              <button className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
-                Ok
+              <button className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit">
+                Save
               </button>
-              <button onClick={handleClose} className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
+              <button onClick={handleClose} className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center'>
                 Cancel
               </button>
             </div>
@@ -116,7 +142,28 @@ const Language = () => {
 
       </Modal>
 
+      
+      <Modal
+        open={open1}
+        onClose={handleClose1}
+      >
+        <Box sx={style}>
+          <div className='items-center p-3 '>
+            <div className='text-center text-xl font-medium'>Would you really delete ?</div>
+            <div className='flex items-center justify-center mt-3 mb-3'>
+              <button className='bg-blue-600 rounded text-gray-100 ml-5 font-medium w-20 h-10 flex items-center justify-center'
+                onClick={() => deleteLanguage(va)}
+              >
+                Delete
+              </button>
+              <button onClick={handleClose1} className='bg-blue-600 rounded ml-5 text-gray-100 font-medium w-20 h-10 flex items-center justify-center'>
+                Cancel
+              </button>
+            </div>
+          </div>
 
+        </Box>
+      </Modal>
 
 
       <div className='m-3'>
@@ -137,23 +184,23 @@ const Language = () => {
                 </tr>
               </thead>
               <tbody className="text-gray-600  text-sm font-light">
-                <tr className=" border-gray-400  hover:bg-gray-100 border-b-2">
+                {languages.map((language, index) => ( 
+                <tr key={language.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
                   <td className="p-0  border border-dark-purple">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">2</span>
+                      <span className="font-medium uppercase">{index + 1}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">Français</span>
+                      <span className="font-medium uppercase">{language.languagename}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex item-center justify-center">
                           <div>
                             <Link
-                            to=""
-                              // to={`/users/edit/${use.uuid}`}
+                               to={`/language/edit/${language.uuid}`}
                             >
                               <button className='flex items-center p-1 bg-green-600 text-white text-[1rem]'>
                                 <BiEdit />Edit
@@ -165,14 +212,14 @@ const Language = () => {
 
                             <button
                               className='flex items-center p-1 bg-red text-white text-[1rem]'
-                              // onClick={() => handleOpen1(use.uuid)}
+                                onClick={() => handleOpen1(language.uuid)}
                             >
                               <MdDeleteSweep size={20} />Delete
                             </button>
                           </div>
                         </div>
                   </td>
-                </tr>
+                </tr>))}
               </tbody>
             </table>
           </div>

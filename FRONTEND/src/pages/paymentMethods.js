@@ -18,7 +18,7 @@ const style = {
   m: 0,
   height: 'auto'
 };
-const paymentMethods = () => {
+const PaymentMethods = () => {
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -195,4 +195,4 @@ const paymentMethods = () => {
   )
 }
 
-export default paymentMethods
+export default PaymentMethods
