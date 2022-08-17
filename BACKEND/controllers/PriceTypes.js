@@ -15,8 +15,18 @@ export const getPriceType = async (req,res) => {
     }
 }
 
-export const getPriceTypeById = (req,res) => {
-    
+export const getPriceTypeById = async(req,res) => {
+    try {
+        const response = await PriceType.findOne({
+            attributes: ['uuid', 'pricetypename'],
+            where: {
+                uuid: req.params.id
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
 }
 export const createPriceType = async(req,res) => {
     const {pricetypename} = req.body;
@@ -29,9 +39,44 @@ export const createPriceType = async(req,res) => {
         res.status(400).json({msg: error.message})
     }
 }
-export const updatePriceTypes = (req,res) => {
+export const updatePriceType = async(req,res) => {
+    const pricetype = await PriceType.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!pricetype) return res.status(404).json({msg: "Price Type doesn't not exist" });
+    const {pricetypename} = req.body;
     
+    try {
+        await PriceType.update({
+            pricetypename: pricetypename,
+        }, {
+            where: {
+                id: pricetype.id
+            }
+        });
+        res.status(200).json({msg: "Price Type  updated"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
 }
-export const deletePriceTypes = (req,res) => {
-    
+export const deletePriceType = async(req,res) => {
+    const pricetype = await PriceType.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!pricetype) return res.status(404).json({msg: "Price Type doesn't not exist" });
+    try {
+        await PriceType.destroy({
+            where: {
+                id: pricetype.id
+            }
+        });
+        res.status(201).json({msg: "Price Type Deleted"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+
 }

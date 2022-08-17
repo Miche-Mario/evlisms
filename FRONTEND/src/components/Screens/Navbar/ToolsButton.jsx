@@ -71,7 +71,11 @@ const ToolsButton = () => {
               <li className="rounded-sm px-3  py-1  pl-6 cursor-pointer">Payment Methods</li>
             </a>        
         </NavLink> 
-        <li className="rounded-sm px-3 py-1 hover:bg-gray pl-6 cursor-pointer ">Grades</li>
+        <NavLink to="/classtype">
+            <a>
+              <li className="rounded-sm px-3  py-1  pl-6 cursor-pointer">Class Type</li>
+            </a>        
+        </NavLink> 
         <li className="rounded-sm px-3 py-1 hover:bg-gray pl-6 cursor-pointer ">Expenses categories</li>
         <hr className='ml-2 mr-2 mb-2 mt-2'/>
         <li className="rounded-sm px-3 py-1 hover:bg-gray pl-6 cursor-pointer ">Options</li>

@@ -21,7 +21,7 @@ import PricesRoute from "./routes/PricesRoute.js";
 import LanguagesRoute from "./routes/LanguagesRoute.js"
 import StudentsAccomodations from "./routes/StudentsAccomodationsRoute.js";
 import StudentsExams from "./routes/StudentsExmasRoute.js"
-
+import PaymentMethodRoute from "./routes/PaymentMethodsRoute.js"
 
 
 import AccomodationRoute from "./routes/AccomodationRoute.js"
@@ -74,6 +74,7 @@ app.use(StudentsCoursesRoute);
 app.use(StudentsPurchasesRoute);
 app.use(StudentsAccomodations);
 app.use(StudentsExams);
+app.use(PaymentMethodRoute);
 
 
 // Static Images Folder

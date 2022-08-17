@@ -12,9 +12,14 @@ import Users from './pages/Users';
 import axios from "axios";
 import EditUser from './pages/EditUser';
 import Language from './pages/Language'
+import ClassType from './pages/Classtype'
 import EditLanguage from './pages/EditLanguage'
 import PaymentMethods from "./pages/PaymentMethods"
-
+import EditPaymentMethods from "./pages/EditPaymentMethod"
+import EditClassType from "./pages/EditClasstype.js"
+import PriceType from './pages/Pricetype';
+import EditPriceType from './pages/EditPriceType';
+import AddCourses from './components/Courses/AddCourses';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -31,9 +36,15 @@ function App() {
             <Route path='/dashboard' element={<Dashboard/>}/>
             <Route path='/users' element={<Users/>}/>
             <Route path='/language' element={<Language/>}/>
+            <Route path='/classtype' element={<ClassType/>}/>
+            <Route path='/pricetype' element={<PriceType/>}/>
             <Route path='/users/edit/:id' element={<EditUser/>}/>
+            <Route path='/classtype/edit/:id' element={<EditClassType/>}/>
+            <Route path='/pricetype/edit/:id' element={<EditPriceType/>}/>
             <Route path='/language/edit/:id' element={<EditLanguage/>}/>
+            <Route path='/paymentmethods/edit/:id' element={<EditPaymentMethods/>}/>
             <Route path='/paymentmethods' element={<PaymentMethods/>}/>
+            <Route path="/addcourse" element={<AddCourses/>}/>
 
         </Routes>
       </BrowserRouter>

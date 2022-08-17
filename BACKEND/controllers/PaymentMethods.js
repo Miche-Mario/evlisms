@@ -67,7 +67,7 @@ export const deletePaymentMethods = async(req,res) => {
             uuid: req.params.id
         }
     });
-    if(!language) return res.status(404).json({msg: "PaymentMethods doesn't not exist" });
+    if(!method) return res.status(404).json({msg: "PaymentMethods doesn't not exist" });
     try {
         await PaymentMethods.destroy({
             where: {

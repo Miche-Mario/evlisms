@@ -119,16 +119,15 @@ const Courses = () => {
             </select>
             <div className='ml-[3em] w-auto'>
 
-
-              <button onClick={handleOpen} className='bg-blue-600 rounded text-gray-100 font-medium p-2 flex items-center justify-center' type="submit" name='Add'>
+            <NavLink
+              to="/addcourse"
+            >
+            
+              <button className='bg-blue-600 rounded text-gray-100 font-medium p-2 flex items-center justify-center' type="submit" name='Add'>
                 Add<BiBookBookmark className='text-2xl ml-2' />
               </button>
+              </NavLink>
 
-            </div>
-            <div onClick={handleOpen1} className='ml-[1em] w-auto'>
-              <button className='bg-blue-600 rounded text-gray-100 font-medium p-2 h-auto flex items-center justify-center' type="submit" name='Add'>
-                Groups and students
-              </button>
             </div>
 
           </div>

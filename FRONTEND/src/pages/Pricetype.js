@@ -25,7 +25,7 @@ const style = {
   m: 0,
   height: 'auto'
 };
-const PaymentMethods = () => {
+const Pricetype = () => {
 
 
   const dispatch = useDispatch();
@@ -49,27 +49,27 @@ const PaymentMethods = () => {
 
 
 
-  const [methods, setMethods] = useState([]);
+  const [pricetypes, setPricetypes] = useState([]);
 
-  const getMethods = async () => {
-    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/paymentmethod`);
-    setMethods(response.data)
+  const getPricetypes = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/pricetype`);
+    setPricetypes(response.data)
   }
 
-  const deleteMethods = async (userId) => {
-    await axios.delete(`${process.env.REACT_APP_BASE_URL}/paymentmethod/${userId}`);
-    getMethods();
+  const deletePricetype = async (userId) => {
+    await axios.delete(`${process.env.REACT_APP_BASE_URL}/pricetype/${userId}`);
+    getPricetypes();
     navigate(0);
   }
 
 
-  const [paymentname, setpaymentname] = useState("");
+  const [pricetypename, setPriceTypename] = useState("");
   const [msg, setMsg] = useState("");
-  const saveMethod = async (e) => {
+  const savePriceType = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/paymentmethod`, {
-        paymentname: paymentname,
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/pricetype`, {
+        pricetypename: pricetypename,
       });
       navigate(0);
     } catch (error) {
@@ -80,8 +80,8 @@ const PaymentMethods = () => {
   }
 
   useEffect(() => {
-    getMethods();
-    saveMethod();
+    getPricetypes();
+    savePriceType();
   }, [])
 
   const [open, setOpen] = useState(false);
@@ -111,8 +111,8 @@ const PaymentMethods = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} >
-          <p class="text-white text-xl p-3  bg-dark-purple w-full">PAYMENT METHOD DETAILS</p>
-          <form onSubmit={saveMethod}>
+          <p class="text-white text-xl p-3  bg-dark-purple w-full">Price Type DETAILS</p>
+          <form onSubmit={savePriceType}>
             <div className='flex flex-row m-3 justify-around items-center'>
               <div className=''>
                 <label for="languagename" class="block mb-6 text-base font-medium text-gray-900 p-1">Name</label>
@@ -121,8 +121,8 @@ const PaymentMethods = () => {
               <div >
               <input type="text" id="languagename" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
                 placeholder="name" 
-                value={paymentname}
-                onChange={(e) => setpaymentname(e.target.value)}  
+                value={pricetypename}
+                onChange={(e) => setPriceTypename(e.target.value)}  
               />
 
               </div>
@@ -152,7 +152,7 @@ const PaymentMethods = () => {
             <div className='text-center text-xl font-medium'>Would you really delete ?</div>
             <div className='flex items-center justify-center mt-3 mb-3'>
               <button className='bg-blue-600 rounded text-gray-100 ml-5 font-medium w-20 h-10 flex items-center justify-center'
-                onClick={() => deleteMethods(va)}
+                onClick={() => deletePricetype(va)}
               >
                 Delete
               </button>
@@ -168,7 +168,7 @@ const PaymentMethods = () => {
 
       <div className='m-3'>
         <div>
-          <legend className='p-1 ml-3 text-xl text-blue-700'>Payments Methods</legend>
+          <legend className='p-1 ml-3 text-xl text-blue-700'>Price Type</legend>
             <div className='flex'>
             <button onClick={handleOpen} className='bg-blue-600 rounded ml-3 text-gray-100 font-medium w-48 h-10 p-3 flex items-center justify-center' type="submit" name='Add'>
               Add
@@ -184,8 +184,8 @@ const PaymentMethods = () => {
                 </tr>
               </thead>
               <tbody className="text-gray-600  text-sm font-light">
-                {methods.map((method, index) => ( 
-                <tr key={method.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
+                {pricetypes.map((pricetype, index) => ( 
+                <tr key={pricetype.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
                   <td className="p-0  border border-dark-purple">
                     <div className="flex items-center justify-center">
                       <span className="font-medium uppercase">{index + 1}</span>
@@ -193,14 +193,14 @@ const PaymentMethods = () => {
                   </td>
                   <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">{method.paymentname}</span>
+                      <span className="font-medium uppercase">{pricetype.pricetypename}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex item-center justify-center">
                           <div>
                             <Link
-                               to={`/paymentmethods/edit/${method.uuid}`}
+                               to={`/pricetype/edit/${pricetype.uuid}`}
                             >
                               <button className='flex items-center p-1 bg-green-600 text-white text-[1rem]'>
                                 <BiEdit />Edit
@@ -212,7 +212,7 @@ const PaymentMethods = () => {
 
                             <button
                               className='flex items-center p-1 bg-red text-white text-[1rem]'
-                                onClick={() => handleOpen1(method.uuid)}
+                                onClick={() => handleOpen1(pricetype.uuid)}
                             >
                               <MdDeleteSweep size={20} />Delete
                             </button>
@@ -254,4 +254,4 @@ const PaymentMethods = () => {
   )
 }
 
-export default PaymentMethods
+export default Pricetype
