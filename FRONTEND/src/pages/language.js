@@ -5,6 +5,12 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
 
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, Link } from 'react-router-dom'
+import { getMe } from '../features/auth/authSlice'
+import { BiEdit } from 'react-icons/bi'
+import { MdDeleteSweep } from 'react-icons/md'
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -18,7 +24,27 @@ const style = {
   m: 0,
   height: 'auto'
 };
-const language = () => {
+const Language = () => {
+
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isError, user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch])
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/");
+    }
+    if (user && user.role !== "admin") {
+      navigate("/dashboard");
+    }
+  }, [isError, user, navigate]);
+
+
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -26,6 +52,34 @@ const language = () => {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const [languages, setLanguages] = useState([]);
+
+  const getLanguages = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/languages`);
+    setLanguages(response.data)
+  }
+
+  const deleteLanguage = async (userId) => {
+    await axios.delete(`${process.env.REACT_APP_BASE_URL}/languages/${userId}`);
+    getLanguages();
+    navigate(0);
+  }
+
+
+
+
+
+  const [open1, setOpen1] = useState(false);
+  const [va, setVa] = useState("");
+
+  const handleOpen1 = (uuid) => {
+    setOpen1(true);
+    setVa(uuid)
+  };
+  const handleClose1 = () => {
+    setOpen1(false);
   };
   return (
     <Layout >
@@ -66,107 +120,65 @@ const language = () => {
 
 
       <div className='m-3'>
-        <fieldset className='border  rounded border-dark-purple'>
+        <div>
           <legend className='p-1 ml-3 text-xl text-blue-700'>LANGUAGES</legend>
-        
-        
             <div className='flex'>
-          
-       
-
-           
             <button onClick={handleOpen} className='bg-blue-600 rounded ml-3 text-gray-100 font-medium w-48 h-10 p-3 flex items-center justify-center' type="submit" name='Add'>
               Add
             </button>
-           
           </div>
-
-          <fieldset className='m-3 mb-0 h-52 border border-dark-purple'>
-            <table className="w-full   ">
+          <div className='m-3 mb-0 '>
+            <table className="w-[40rem]">
               <thead>
-                <tr className="bg-gray-200  text-gray-600 uppercase text-sm leading-normal">
-                  <th className=" py-3 px-3 text-center">N</th>
-                  <th className=" py-3 px-3 text-center">NAME</th>
-                  <th className=" py-3 px-3 text-center">Action</th>
+                <tr className=" border border-dark-purple bg-gray-200  text-gray-600 uppercase text-sm leading-normal">
+                  <th className=" border border-dark-purple py-3 px-3 text-center">N</th>
+                  <th className=" border border-dark-purple py-3 px-3 text-center">Name</th>
+                  <th className=" border border-dark-purple py-3 px-3 text-center">Action</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600  text-sm font-light">
                 <tr className=" border-gray-400  hover:bg-gray-100 border-b-2">
-                  <td className="p-0">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">1</span>
-                    </div>
-                  </td>
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">English</span>
-                    </div>
-                  </td>
-                 
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex item-center justify-center">
-                      
-                      <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                      </div>
-                      <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </div>
-                    </div>
-                  </td>
-
-
-                </tr>
-
-
-
-                <tr className=" border-gray-400  hover:bg-gray-100 border-b-2">
-                  <td className="p-0">
+                  <td className="p-0  border border-dark-purple">
                     <div className="flex items-center justify-center">
                       <span className="font-medium uppercase">2</span>
                     </div>
                   </td>
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">Français</span>
+                  <td className=" py-3 px-3 text-center  border border-dark-purple">
+                  <div className="flex items-center justify-center">
+                      <span className="font-medium uppercase">Français</span>
                     </div>
                   </td>
-                 
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex item-center justify-center">
-                      
-                      <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                      </div>
-                      <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </div>
-                    </div>
+                  <td className=" py-3 px-3 text-center  border border-dark-purple">
+                  <div className="flex item-center justify-center">
+                          <div>
+                            <Link
+                            to=""
+                              // to={`/users/edit/${use.uuid}`}
+                            >
+                              <button className='flex items-center p-1 bg-green-600 text-white text-[1rem]'>
+                                <BiEdit />Edit
+                              </button>
+                            </Link>
+
+                          </div>
+                          <div className='ml-3'>
+
+                            <button
+                              className='flex items-center p-1 bg-red text-white text-[1rem]'
+                              // onClick={() => handleOpen1(use.uuid)}
+                            >
+                              <MdDeleteSweep size={20} />Delete
+                            </button>
+                          </div>
+                        </div>
                   </td>
-
-
                 </tr>
-                
-
-
-
               </tbody>
             </table>
-          </fieldset>
-          <div className='m-6 flex justify-end'>
-
-  
-         
           </div>
-        </fieldset>
+          <div className='m-6 flex justify-end'>       
+          </div>
+        </div>
       </div>
 
 
@@ -195,4 +207,4 @@ const language = () => {
   )
 }
 
-export default language
+export default Language

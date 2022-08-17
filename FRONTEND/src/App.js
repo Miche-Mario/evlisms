@@ -11,6 +11,7 @@ import Dashboard from './pages/Dashboard';
 import Users from './pages/Users';
 import axios from "axios";
 import EditUser from './pages/EditUser';
+import Language from './pages/Language'
 
 axios.defaults.withCredentials = true;
 
@@ -27,6 +28,7 @@ function App() {
             <Route path='/expenses' element={<Expenses/>}/>
             <Route path='/dashboard' element={<Dashboard/>}/>
             <Route path='/users' element={<Users/>}/>
+            <Route path='/language' element={<Language/>}/>
             <Route path='/users/edit/:id' element={<EditUser/>}/>
         </Routes>
       </BrowserRouter>

@@ -9,8 +9,8 @@ import Icon from '../assets/images.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom'
 import { getMe } from '../features/auth/authSlice'
-import {BiEdit} from 'react-icons/bi'
-import {MdDeleteSweep} from 'react-icons/md'
+import { BiEdit } from 'react-icons/bi'
+import { MdDeleteSweep } from 'react-icons/md'
 
 import axios from "axios";
 
@@ -28,7 +28,7 @@ const style = {
   boxShadow: 24,
   p: 0,
   m: 0,
-  
+
 };
 const Users = () => {
 
@@ -42,10 +42,10 @@ const Users = () => {
   }, [dispatch])
 
   useEffect(() => {
-    if(isError) {
+    if (isError) {
       navigate("/");
     }
-    if(user && user.role !== "admin") {
+    if (user && user.role !== "admin") {
       navigate("/dashboard");
     }
   }, [isError, user, navigate]);
@@ -59,9 +59,10 @@ const Users = () => {
     setUsers(response.data)
   }
 
-  const deleteUser = async(userId) => {
+  const deleteUser = async (userId) => {
     await axios.delete(`${process.env.REACT_APP_BASE_URL}/users/${userId}`);
     getUsers();
+    navigate(0);
   }
 
 
@@ -88,14 +89,14 @@ const Users = () => {
       });
       navigate(0);
     } catch (error) {
-      if(error.response) {
+      if (error.response) {
         setMsg(error.response.data.msg);
       }
     }
   }
 
 
- 
+
 
 
   const [open, setOpen] = useState(false);
@@ -138,25 +139,25 @@ const Users = () => {
               </div>
               <div >
                 <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 "
-                 placeholder="name" 
-                 value={name}
-                 onChange={(e) => setName(e.target.value) }
-                 />
-
-                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
-                placeholder="username" 
-                value={username}
-                 onChange={(e) => setUsername(e.target.value) }
+                  placeholder="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
 
-                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
-                placeholder="********"
-                value={password}
-                onChange={(e) => setPassword(e.target.value) } 
+                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 "
+                  placeholder="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+
+                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 "
+                  placeholder="********"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
                 <select id="countries" class="bg-gray-50 mb-4  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   value={role}
-                  onChange={(e) => setRole(e.target.value) }
+                  onChange={(e) => setRole(e.target.value)}
                 >
                   <option></option>
                   <option value="admin">Admin</option>
@@ -166,7 +167,7 @@ const Users = () => {
             </div>
             <p className='text-sm text-center text-red'>{msg}</p>
             <div className='flex flex-row justify-around  mt-3 mb-3'>
-            
+
 
               <button className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit">
                 Save
@@ -183,23 +184,26 @@ const Users = () => {
 
 
       <Modal
-                          open={open1}
-                          onClose={handleClose1}
-                        >
-                          <Box sx={style}>
-                          <div className='flex flex-row mt-3 mb-3'>
-                            <p>Would you really delete the user: </p>
-                           <button className='bg-blue-600 rounded text-gray-100 ml-5 font-medium w-20 h-10 flex items-center justify-center' 
-                            onClick={() =>deleteUser(va)}
-                           >
-                              Delete
-                            </button>
-                            <button onClick={handleClose1} className='bg-blue-600 rounded ml-5 text-gray-100 font-medium w-20 h-10 flex items-center justify-center'>
-                              Cancel
-                            </button>
-                          </div>
-                          </Box>
-                        </Modal>
+        open={open1}
+        onClose={handleClose1}
+      >
+        <Box sx={style}>
+          <div className='items-center p-3 '>
+            <div className='text-center text-xl font-medium'>Would you really delete ?</div>
+            <div className='flex items-center justify-center mt-3 mb-3'>
+              <button className='bg-blue-600 rounded text-gray-100 ml-5 font-medium w-20 h-10 flex items-center justify-center'
+                onClick={() => deleteUser(va)}
+              >
+                Delete
+              </button>
+              <button onClick={handleClose1} className='bg-blue-600 rounded ml-5 text-gray-100 font-medium w-20 h-10 flex items-center justify-center'>
+                Cancel
+              </button>
+            </div>
+          </div>
+
+        </Box>
+      </Modal>
       <div className='m-3'>
         <fieldset className=''>
           <legend className='p-1 ml-3 text-xl text-blue-700'>Users</legend>
@@ -219,7 +223,7 @@ const Users = () => {
             <table className="w-full   ">
               <thead>
                 <tr className="bg-gray-200  text-gray-600 uppercase text-sm leading-normal">
-                <th className="border border-dark-purple py-3 px-3 text-center">No</th>
+                  <th className="border border-dark-purple py-3 px-3 text-center">No</th>
                   <th className="border border-dark-purple py-3 px-3 text-center">Username</th>
                   <th className="border border-dark-purple py-3 px-3 text-center">Employee name</th>
                   <th className=" border border-dark-purple py-3 px-3 text-center">User group</th>
@@ -230,50 +234,50 @@ const Users = () => {
                 {
                   users.map((use, index) => (
                     <tr key={use.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
-                  <td className="p-0 border border-dark-purple">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">{index + 1}</span>
-                    </div>
-                  </td>
-                  <td className="p-0 border border-dark-purple">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">{use.username}</span>
-                    </div>
-                  </td>
-                  <td className="border border-dark-purple py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">{use.name}</span>
-                    </div>
-                  </td>
-                  <td className="border border-dark-purple py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">{use.role}</span>
-                    </div>
-                  </td>
-                  <td className="border border-dark-purple py-3 px-3 text-center">
-                    <div className="flex item-center justify-center">
-                      <div>
-                        <Link
-                          to={`/users/edit/${use.uuid}`}
-                        >
-                        <button className='flex items-center p-1 bg-green-600 text-white text-[1rem]'>
-                            <BiEdit/>Edit
-                          </button>
-                        </Link>
-                        
-                      </div>
-                      <div className='ml-3'>
-                        
-                        <button 
-                          className='flex items-center p-1 bg-red text-white text-[1rem]'
-                          onClick={() => handleOpen1(use.uuid)}
-                        >
-                          <MdDeleteSweep size={20}/>Delete
-                        </button>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
+                      <td className="p-0 border border-dark-purple">
+                        <div className="flex items-center justify-center">
+                          <span className="font-medium uppercase">{index + 1}</span>
+                        </div>
+                      </td>
+                      <td className="p-0 border border-dark-purple">
+                        <div className="flex items-center justify-center">
+                          <span className="font-medium uppercase">{use.username}</span>
+                        </div>
+                      </td>
+                      <td className="border border-dark-purple py-3 px-3 text-center">
+                        <div className="flex items-center justify-center">
+                          <span className="font-medium">{use.name}</span>
+                        </div>
+                      </td>
+                      <td className="border border-dark-purple py-3 px-3 text-center">
+                        <div className="flex items-center justify-center">
+                          <span className="font-medium">{use.role}</span>
+                        </div>
+                      </td>
+                      <td className="border border-dark-purple py-3 px-3 text-center">
+                        <div className="flex item-center justify-center">
+                          <div>
+                            <Link
+                              to={`/users/edit/${use.uuid}`}
+                            >
+                              <button className='flex items-center p-1 bg-green-600 text-white text-[1rem]'>
+                                <BiEdit />Edit
+                              </button>
+                            </Link>
+
+                          </div>
+                          <div className='ml-3'>
+
+                            <button
+                              className='flex items-center p-1 bg-red text-white text-[1rem]'
+                              onClick={() => handleOpen1(use.uuid)}
+                            >
+                              <MdDeleteSweep size={20} />Delete
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
                   ))
                 }
               </tbody>

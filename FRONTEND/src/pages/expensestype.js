@@ -24,7 +24,7 @@ const style = {
   m: 0,
   height: 'auto'
 };
-const expensestype = () => {
+const Expensestype = () => {
 
 
 
@@ -200,4 +200,4 @@ const expensestype = () => {
   )
 }
 
-export default expensestype
+export default Expensestype
