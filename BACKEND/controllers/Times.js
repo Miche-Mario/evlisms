@@ -5,9 +5,11 @@ import multer from "multer";
 import path from "path"
 
 export const getTime = async (req,res) => {
+    const {number} = req.body;
     try {
         const response = await Time.findAll({
-            attributes: ['id','uuid', 'time']
+            attributes: ['id','uuid', 'time'],
+            limit: number,
         });
         res.status(200).json(response);
     } catch (error) {
@@ -29,6 +31,7 @@ export const createTime = async(req,res) => {
         res.status(400).json({msg: error.message})
     }
 }
+
 export const updateAbout = (req,res) => {
     
 }

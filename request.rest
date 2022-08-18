@@ -187,12 +187,14 @@ POST http://localhost:5000/courses
 Content-Type:  application/json
 
 {
-    "course_courseid": "1",
-    "subcourse_subcourseid": null,
+    "coursename": "General English",
+    "subcoursename": "Intensive",
     "active": false,
     "language_languageid": 1,
-    "pricetype_pricetypeid": "1",
-    "classtype_classtypeid": 1
+    "pricetype_pricetypeid": 1,
+    "classtype_classtypeid": 1,
+    "description": "desciption",
+    "fullprice": "1000"
 }
 
 
@@ -208,8 +210,18 @@ POST http://localhost:5000/time
 Content-Type:  application/json
 
 {
-    "time": 1
+    "time": 20
 }
+
+###
+//Create Time
+POST http://localhost:5000/time
+Content-Type:  application/json
+
+{
+    "number": 1
+}
+
 
 
 ###

@@ -6,8 +6,8 @@ import {
 
 const router = express.Router();
 
-router.get('/time', getTime);
-router.post('/time', createTime);
+router.post('/time', getTime);
+router.post('/timee', createTime);
 
 
 

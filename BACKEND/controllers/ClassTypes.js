@@ -7,7 +7,7 @@ import path from "path"
 export const getClassType = async (req,res) => {
     try {
         const response = await ClassType.findAll({
-            attributes: ['uuid', 'classtypename']
+            attributes: ['uuid', 'id','classtypename']
         });
         res.status(200).json(response);
     } catch (error) {

@@ -7,7 +7,7 @@ import path from "path"
 export const getPriceType = async (req,res) => {
     try {
         const response = await PriceType.findAll({
-            attributes: ['uuid', 'pricetypename']
+            attributes: ['uuid', 'id', 'pricetypename']
         });
         res.status(200).json(response);
     } catch (error) {

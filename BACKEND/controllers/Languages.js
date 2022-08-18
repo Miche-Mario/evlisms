@@ -7,7 +7,7 @@ import path from "path"
 export const getLanguage = async (req,res) => {
     try {
         const response = await Language.findAll({
-            attributes: ['uuid', 'languagename']
+            attributes: ['uuid', 'id','languagename']
         });
         res.status(200).json(response);
     } catch (error) {
