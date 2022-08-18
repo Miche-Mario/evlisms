@@ -206,11 +206,11 @@ GET http://localhost:5000/time
 
 ###
 //Create Time
-POST http://localhost:5000/time
+POST http://localhost:5000/timee
 Content-Type:  application/json
 
 {
-    "time": 20
+    "time": 8
 }
 
 ###

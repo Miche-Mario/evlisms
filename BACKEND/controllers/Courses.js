@@ -52,7 +52,7 @@ export const getSubCourses =async (req,res) => {
 
 
  export const createCourses = async(req,res) => {
-    const {coursename,subcoursename,language_languageid, classtype_classtypeid, pricetype_pricetypeid, description, fullduration, fullprice} = req.body;
+    const {data, coursename,subcoursename,language_languageid, classtype_classtypeid, pricetype_pricetypeid, description, fullduration, fullprice} = req.body;
     let courseId;
     let subCourseId;
 
@@ -83,7 +83,7 @@ export const getSubCourses =async (req,res) => {
                 });
                 res.status(201).json({msg: "Courses Well Created"});
         
-                const data = [
+                const dataa = [
                     {times_timesid : 1, price: 2, courses_coursesid: 1},
                     {times_timesid : 2, price: 1, courses_coursesid: 1},
                     {times_timesid : 3, price: 3,courses_coursesid: 1},
