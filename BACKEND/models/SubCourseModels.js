@@ -17,9 +17,9 @@ const SubCourse = db.define('subcourse', {
     },
     subcoursename:{
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         validate:{
-            notEmpty: true,
+            notEmpty: false,
                 }
     }
 },{

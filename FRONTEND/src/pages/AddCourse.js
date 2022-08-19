@@ -25,11 +25,23 @@ const AddCourse = ({ props }) => {
   }, [isError, navigate
   ])
 
+  const [languages, setLanguages] = useState([]);
+
+  const getLanguages = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/language`);
+    setLanguages(response.data)
+  }
   const [times, setTimes] = useState("");
   const [priceduration, setPriceduration] = useState(0)
   const [msg, setMsg] = useState("");
 
+  
+  const [classtypes, setClasstypes] = useState([]);
 
+  const getClasstypes = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/classtype`);
+    setClasstypes(response.data)
+  }
 
 
   const getTimes = async (e) => {  
@@ -38,34 +50,74 @@ const AddCourse = ({ props }) => {
       });
       setTimes(response.data);
       //setPriceduration(response.data.length)
+  }
+
  
-}
+
 
   useEffect(() => {
   getTimes();
+  getLanguages();
+  getClasstypes();
   },[])
 
-  const [subCourse, setSubCourse] = useState(false)
-  const subcourse = () => {
-    setSubCourse(!subCourse)
-  }
+  const [course, setCourse] = useState('');
+  const [subCource, setSubCourse] = useState('');
+  const [description, setDescription] = useState('');
+  const [classtype, setClasstype] = useState('');
+  const [fullduration, steFullduration] = useState('');
+  const [fullprice, setFullprice] = useState('');
+  const [language, setLanguage] = useState('');
 
-  const [fullPrice, setFullPrice] = useState(true)
-  const fullprice = () => {
-    setFullPrice(!fullPrice)
-  }
-const pricess = []
-const data = times.map((time,index) => {
-  
-    let dataa = {
-      "times_timesid": time.id,
-      "price": pricess[index]
+
+
+  const saveCourses = async (e) => {
+    var keyCode = e.keyCode || e.which;
+  if (keyCode !== 13) { 
+    e.preventDefault();
+    try {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/courses`, {
+        coursename: course,
+        subcoursename: subCource,
+        language_languageid: language,
+        classtype_classtypeid: classtype,
+        description: description,
+        fullprice: fullprice,
+        fullduration: fullduration,
+        times: times,
+        prices: getPrices
+        
+      });
+      navigate(0);
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+      }
     }
-    return dataa
+  }}
 
-  
-  })
-  console.log(pricess)
+
+
+
+
+
+
+
+
+
+
+  const [ifSubCourse, setIfSubCourse] = useState(false)
+  const ifsubcourse = () => {
+    setIfSubCourse(!ifSubCourse)
+  }
+
+ 
+  const getPrices = [];
+
+  const [ifFullPrice, setIfFullPrice] = useState(true)
+  const iffullprice = () => {
+    setIfFullPrice(!ifFullPrice)
+  }
 
   return (
     <Layout>
@@ -73,86 +125,111 @@ const data = times.map((time,index) => {
         <p className='font-bold text-3xl'>Course</p>
         <p className='text-gray-400 text-2xl'>Add New Course</p>
         <div className='bg-white h-full p-5  ml-1 mt-3 elevation'>
-          <form >
+          <form onSubmit={(e) => {saveCourses(e)}}>
             <div className='flex items-start justify-around'>
               <div>
               <label className='text-xl font-bold'>Course name</label>
               <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
-                /* value={name}
-                onChange={(e) => setName(e.target.value)}  */
+                value={course}
+                onChange={(e) => setCourse(e.target.value)} 
                 required
+                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 />
               <div className='flex items-center mt-5'>
                 <p className='text-lg font-medium text-gray-600 '>Create a Subcourse?</p>
-                <input type="checkbox" onClick={subcourse} className="w-5 ml-5 h-5"/>
+                <input type="checkbox" onClick={ifsubcourse} className="w-5 ml-5 h-5"
+                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                />
               </div>
-              {subCourse && 
+              {ifSubCourse && 
                 <div className='mt-3'>
                   <label className='text-xl font-bold '>Subcourse name</label>
                   <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+                    defaultValue={" "}
+                    value={subCource}
+                    onChange={(e) => setSubCourse(e.target.value)} 
+                    onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                   />
                 </div>
               }
               <div className='mt-3'>
                 <label className='text-xl font-bold '>Language</label>
                 <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5"
-                /*  onChange={handleChange}
-                  name="gender"
-                  value={studentData["gender"] || ""} */
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)} 
+                required
+                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 >
                   <option></option>
-                  <option value="male">English</option>
-                  <option value="female">French</option>
+                  { languages.map((language, index) => (
+                      <option value={language.id}>{language.languagename}</option>
+                  ))} 
+                  
                 </select>
               </div>
               <div className='mt-3'>
                 <label className='text-xl font-bold '>Class Type</label>
                 <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5"
-                /*  onChange={handleChange}
-                  name="gender"
-                  value={studentData["gender"] || ""} */
+                  value={classtype}
+                  onChange={(e) => setClasstype(e.target.value)} 
+                  required
+                  onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 >
                   <option></option>
-                  <option value="male">Group</option>
-                  <option value="female">One-on-one</option>
+                  { classtypes.map((classtype, index) => (
+                      <option value={classtype.id}>{classtype.classtypename}</option>
+                  ))}
                 </select>
               </div>
               <div className='mt-3'>
                   <label className='text-xl font-bold '>Description</label>
                   <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)} 
+                    required
+                    onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                   />
                 </div>
               <div className='flex items-center mt-5'>
                 <p className='text-lg font-medium text-gray-600 '>Full Price ?</p>
-                <input type="checkbox" defaultChecked onClick={fullprice} className="w-5 ml-5 h-5"/>
+                <input type="checkbox" defaultChecked onClick={iffullprice} className="w-5 ml-5 h-5"/>
               </div>
-              {fullPrice && 
+              {ifFullPrice && 
                 <>
-                  <div className='mt-3'>
-                      <label className='text-xl font-bold '>Price</label>
-                      <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
-                        placeholder='00' 
-                      />
-                  </div>
+                  
                   <div className='mt-3'>
                     <label className='text-xl font-bold '>Duration</label>
                     <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
-                      placeholder='00' 
+                      placeholder='00'
+                      value={fullduration}
+                      onChange={(e) => steFullduration(e.target.value)} 
+                      required={ifFullPrice ? true : false}  
+                      onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                     />
+                  </div>
+                  <div className='mt-3'>
+                      <label className='text-xl font-bold '>Price</label>
+                      <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+                        placeholder='00'
+                        value={fullprice}
+                        onChange={(e) => setFullprice(e.target.value)} 
+                        required={ifFullPrice ? true : false}   
+                        onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                      />
                   </div>
                 </>
               }
               </div>
               <div>
-              {!fullPrice && 
+              {!ifFullPrice && 
                 <>
                   <div className='mt-3'>
                     <label className='text-xl font-bold '>Duration (Weeks - Hour)</label>
                     <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[30rem] p-2.5 " 
-                      
+                      onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                       onKeyUpCapture={(e) =>  {getTimes(e); setPriceduration(e.target.value)}} 
-                      required
-                    />
+                      required={!ifFullPrice ? true : false}   
+                      />
                   </div>
 
                   <div className='mt-3'>
@@ -175,7 +252,8 @@ const data = times.map((time,index) => {
                             <td className="  border border-dark-purple w-[20rem] h-12">
                               <div className="flex items-center justify-center  ">
                                 <input className=" uppercase text-right w-[20rem] h-12 text-xl font-bold pr-2" placeholder="00"
-                                  onChange= {(e)=> {pricess[index]=e.target.value}}
+                                  onChange= {(e)=> {getPrices[index]=e.target.value}}
+                                  onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                 />
                               </div>
                             </td>
@@ -187,6 +265,14 @@ const data = times.map((time,index) => {
                 </>
               }
               </div>
+            </div>
+            <div className='flex flex-row justify-around  mt-3 mb-3'>
+              <button className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit">
+                Save
+              </button>
+              <button className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center'>
+                Cancel
+              </button>
             </div>
           </form>
         </div>

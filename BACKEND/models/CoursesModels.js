@@ -32,17 +32,11 @@ const Courses = db.define('courses', {
     },
     fullprice:{
         type: DataTypes.INTEGER,
-        allowNull: true,
-        validate: {
-            notEmpty: false
-        }
+        allowNull: true
     },
     fullduration:{
         type: DataTypes.INTEGER,
-        allowNull: true,
-        validate: {
-            notEmpty: false
-        }
+        allowNull: true
     },
     description:{
         type: DataTypes.STRING,

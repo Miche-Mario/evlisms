@@ -12,7 +12,7 @@ import Prices from "../models/PricesModels.js";
 export const getCourses = async (req,res) => {
     try {
         const response = await Courses.findAll({
-            attributes: ['id','uuid','language_languageid','pricetype_pricetypeid', 'active', 'course_courseid', 'subcourse_subcourseid'],
+            attributes: ['id','uuid','language_languageid','pricetype_pricetypeid', 'active', 'course_courseid',, 'description', 'subcourse_subcourseid'],
             include: [{
                 model: Course
                 
@@ -52,8 +52,8 @@ export const getSubCourses =async (req,res) => {
 
 
  export const createCourses = async(req,res) => {
-    const {data, coursename,subcoursename,language_languageid, classtype_classtypeid, pricetype_pricetypeid, description, fullduration, fullprice} = req.body;
-    let courseId;
+    const { coursename,subcoursename,language_languageid, classtype_classtypeid, pricetype_pricetypeid, description, fullduration, fullprice} = req.body;
+    let subcourse;
     let coursess;
 
   
@@ -62,19 +62,19 @@ export const getSubCourses =async (req,res) => {
         });
   
 
+        if(subcoursename){
 
-        const subcourse = await SubCourse.create({
+         subcourse = await SubCourse.create({
             subcoursename: subcoursename
-        });
+        });}
    
 
 
         
            coursess = await Courses.create({
                     active: true,
-                    course_courseid: course.id,
-                    subcourse_subcourseid: subcourse.id,
-                    pricetype_pricetypeid: pricetype_pricetypeid,
+                    course_courseid: course.id ,
+                    subcourse_subcourseid: subcoursename ? subcourse.id : null,
                     description: description,
                     classtype_classtypeid: classtype_classtypeid,
                     fullduration: fullduration,
@@ -89,8 +89,8 @@ export const getSubCourses =async (req,res) => {
 const dataFinal = times.map((time,index) => {
   
     let dataa = {
-      "times_timesid": time.time,
-      "price": prices[index],
+      "times_timesid": time.id,
+      "price": prices[index] ? prices[index] : null ,
       "courses_coursesid": coursess.id
     }
     return dataa
