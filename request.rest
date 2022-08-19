@@ -194,7 +194,13 @@ Content-Type:  application/json
     "pricetype_pricetypeid": 1,
     "classtype_classtypeid": 1,
     "description": "desciption",
-    "fullprice": "1000"
+    "fullprice": "1000",
+    "times": [
+        {"time":"1"},
+        {"time":"2"},
+        {"time":"3"}
+    ],
+    "prices": [1,2,3]
 }
 
 

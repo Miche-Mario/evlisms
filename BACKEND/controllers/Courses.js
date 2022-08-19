@@ -54,7 +54,7 @@ export const getSubCourses =async (req,res) => {
  export const createCourses = async(req,res) => {
     const {data, coursename,subcoursename,language_languageid, classtype_classtypeid, pricetype_pricetypeid, description, fullduration, fullprice} = req.body;
     let courseId;
-    let subCourseId;
+    let coursess;
 
   
         const course = await  Course.create({
@@ -70,7 +70,7 @@ export const getSubCourses =async (req,res) => {
 
 
         
-            Courses.create({
+           coursess = await Courses.create({
                     active: true,
                     course_courseid: course.id,
                     subcourse_subcourseid: subcourse.id,
@@ -83,12 +83,20 @@ export const getSubCourses =async (req,res) => {
                 });
                 res.status(201).json({msg: "Courses Well Created"});
         
-                const dataa = [
-                    {times_timesid : 1, price: 2, courses_coursesid: 1},
-                    {times_timesid : 2, price: 1, courses_coursesid: 1},
-                    {times_timesid : 3, price: 3,courses_coursesid: 1},
-                    {times_timesid : 4, price: 2,courses_coursesid: 1},
-                    {times_timesid : 5, price: 1,courses_coursesid: 1}
-                 ]
-                 Prices.bulkCreate(data, { validate: true })
+              const { times, prices} = req.body;
+
+
+const dataFinal = times.map((time,index) => {
+  
+    let dataa = {
+      "times_timesid": time.time,
+      "price": prices[index],
+      "courses_coursesid": coursess.id
+    }
+    return dataa
+
+  
+  })
+  console.log(dataFinal)
+                 Prices.bulkCreate(dataFinal, { validate: true })
 }
