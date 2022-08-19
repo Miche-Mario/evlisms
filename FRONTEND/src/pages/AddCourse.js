@@ -55,7 +55,18 @@ const AddCourse = ({ props }) => {
     setFullPrice(!fullPrice)
   }
 const pricess = []
-console.log(pricess)
+const data = times.map((time,index) => {
+  
+    let dataa = {
+      "times_timesid": time.id,
+      "price": pricess[index]
+    }
+    return dataa
+
+  
+  })
+  console.log(pricess)
+
   return (
     <Layout>
       <div className='mt-10 ml-5'>
@@ -63,7 +74,8 @@ console.log(pricess)
         <p className='text-gray-400 text-2xl'>Add New Course</p>
         <div className='bg-white h-full p-5  ml-1 mt-3 elevation'>
           <form >
-            <div>
+            <div className='flex items-start justify-around'>
+              <div>
               <label className='text-xl font-bold'>Course name</label>
               <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
                 /* value={name}
@@ -130,11 +142,13 @@ console.log(pricess)
                   </div>
                 </>
               }
+              </div>
+              <div>
               {!fullPrice && 
                 <>
                   <div className='mt-3'>
                     <label className='text-xl font-bold '>Duration (Weeks - Hour)</label>
-                    <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 " 
+                    <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[30rem] p-2.5 " 
                       
                       onKeyUpCapture={(e) =>  {getTimes(e); setPriceduration(e.target.value)}} 
                       required
@@ -172,6 +186,7 @@ console.log(pricess)
               </div>
                 </>
               }
+              </div>
             </div>
           </form>
         </div>
