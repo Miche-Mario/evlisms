@@ -228,7 +228,8 @@ const AddCourse = ({ props }) => {
                     <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[30rem] p-2.5 " 
                       onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                       onKeyUpCapture={(e) =>  {getTimes(e); setPriceduration(e.target.value)}} 
-                      required={!ifFullPrice ? true : false}   
+                      required={!ifFullPrice ? true : false}
+                      onChange={(e) => steFullduration(e.target.value)} 
                       />
                   </div>
 

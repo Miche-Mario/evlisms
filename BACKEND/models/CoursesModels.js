@@ -10,10 +10,10 @@ const  {DataTypes} = Sequelize;
 
 const Courses = db.define('courses', {
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
+      
+        allowNull: true
       },
     uuid:{
         type: DataTypes.STRING,

@@ -7,16 +7,20 @@ import Course from "../models/CourseMoels.js";
 import SubCourse from "../models/SubCourseModels.js";
 import Language from "../models/LanguageModels.js";
 import Prices from "../models/PricesModels.js";
+import ClassType from "../models/ClassTypeModels.js";
+import { getUnpackedSettings } from "http2";
 
 
 export const getCourses = async (req,res) => {
     try {
         const response = await Courses.findAll({
-            attributes: ['id','uuid','language_languageid','pricetype_pricetypeid', 'active', 'course_courseid',, 'description', 'subcourse_subcourseid'],
-            include: [{
-                model: Course
-                
-            }]
+            attributes: ['id','uuid','language_languageid','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+            include: [
+                {model: Course},
+                {model: Language},
+                {model: SubCourse},
+                {model: ClassType}
+           ]
         });
         res.status(200).json(response);
     } catch (error) {
