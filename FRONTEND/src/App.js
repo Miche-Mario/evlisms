@@ -20,6 +20,7 @@ import EditClassType from "./pages/EditClasstype.js"
 import PriceType from './pages/Pricetype';
 import EditPriceType from './pages/EditPriceType';
 import AddCourse from './pages/AddCourse';
+import EditCourse from './pages/EditCourse'
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
             <Route path='/classtype/edit/:id' element={<EditClassType/>}/>
             <Route path='/pricetype/edit/:id' element={<EditPriceType/>}/>
             <Route path='/language/edit/:id' element={<EditLanguage/>}/>
+            <Route path='/course/edit/:id' element={<EditCourse/>}/>
             <Route path='/paymentmethods/edit/:id' element={<EditPaymentMethods/>}/>
             <Route path='/paymentmethods' element={<PaymentMethods/>}/>
             <Route path="/addcourse" element={<AddCourse/>}/>

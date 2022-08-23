@@ -28,23 +28,18 @@ export const getCourses = async (req,res) => {
     }
 }
 
-export const getSubCourses =async (req,res) => {
+export const getCoursesById =async (req,res) => {
     try {
-        const response = await Course.findOne({  
-            attributes: [],
+        const response = await Courses.findOne({  
             where: {
                 uuid: req.params.id
             }, 
             include: [
-                {
-                  model: SubCourse,
-                  as: 'Subcourses',
-                  attributes: ["subcoursename"],
-                },],
-                
-            
-                 
-          
+                {model: Course},
+                {model: Language},
+                {model: SubCourse},
+                {model: ClassType}
+           ]
         });
         res.status(200).json(response);
     } catch (error) {
@@ -90,7 +85,7 @@ export const getSubCourses =async (req,res) => {
               const { times, prices} = req.body;
 
 
-const dataFinal = times.map((time,index) => {
+const dataFinal = await times.map((time,index) => {
   
     let dataa = {
       "times_timesid": time.id,
@@ -102,5 +97,5 @@ const dataFinal = times.map((time,index) => {
   
   })
   console.log(dataFinal)
-                 Prices.bulkCreate(dataFinal, { validate: true })
+                 await Prices.bulkCreate(dataFinal, { validate: true })
 }
