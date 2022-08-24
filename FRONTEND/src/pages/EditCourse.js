@@ -71,8 +71,11 @@ const EditCourse = ({ props }) => {
     setCoursefullprice(response.data.fullprice);
   }
 
-
-
+  const [pricestimes, setPicestimes] = useState();
+  const getPricesTimes = async() => {
+    const response = axios.get(`${process.env.REACT_APP_BASE_URL}/prices`);
+    setPicestimes(response.data);
+  }
 
  
 
@@ -81,6 +84,7 @@ const EditCourse = ({ props }) => {
     getCourse();
     getLanguages()
     getClasstypes();
+    getPricesTimes();
   },[])
 
   const [course, setCourse] = useState('');
@@ -243,15 +247,15 @@ const EditCourse = ({ props }) => {
               }
               </div>
               <div>
-        {/*       {!ifFullPrice && 
+              { coursefullprice !== 0 && 
                 <>
                   <div className='mt-3'>
                     <label className='text-xl font-bold '>Duration (Weeks - Hour)</label>
                     <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[30rem] p-2.5 " 
                       onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                      onKeyUpCapture={(e) =>  {getTimes(e); setPriceduration(e.target.value)}} 
-                      required={!ifFullPrice ? true : false}
-                      onChange={(e) => steFullduration(e.target.value)} 
+                     // onKeyUpCapture={(e) =>  {getTimes(e); setPriceduration(e.target.value)}} 
+                
+                      onChange={(e) => setCoursefullprice(e.target.value)} 
                       />
                   </div>
 
@@ -265,7 +269,7 @@ const EditCourse = ({ props }) => {
                         </tr>
                       </thead>
                       <tbody className="text-gray-600  text-sm font-light">
-                        { times.map((time, index) => (
+                        { pricestimes.map((time, index) => (
                             <tr key={time.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
                             <td className="py-2 px-2  border border-dark-purple">
                               <div className="flex items-center justify-center">
@@ -286,7 +290,7 @@ const EditCourse = ({ props }) => {
                     </table>
               </div>
                 </>
-              } */}
+              }
               </div>
             </div>
             <div className='flex flex-row justify-around  mt-3 mb-3'>

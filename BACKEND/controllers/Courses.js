@@ -80,7 +80,6 @@ export const getCoursesById =async (req,res) => {
                     fullprice: fullprice,
                     language_languageid: language_languageid
                 });
-                res.status(201).json({msg: "Courses Well Created"});
         
               const { times, prices} = req.body;
 
@@ -93,9 +92,7 @@ const dataFinal = await times.map((time,index) => {
       "courses_coursesid": coursess.id
     }
     return dataa
-
-  
-  })
-  console.log(dataFinal)
-                 await Prices.bulkCreate(dataFinal, { validate: true })
+})
+ 
+                  Prices.bulkCreate(dataFinal, { validate: true })
 }

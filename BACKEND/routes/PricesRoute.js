@@ -1,4 +1,5 @@
 import express from 'express'
+import { getCoursesById } from '../controllers/Courses.js';
 import {
     getPrices,
     createPrices,
@@ -8,6 +9,7 @@ import {
 const router = express.Router();
 
 router.get('/prices', getPrices);
+router.get('/prices/:id', getCoursesPrice);
 router.post('/coursesprice', getCoursesPrice);
 router.post('/prices', createPrices);
 

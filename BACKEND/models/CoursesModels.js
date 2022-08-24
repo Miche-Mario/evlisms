@@ -10,10 +10,10 @@ const  {DataTypes} = Sequelize;
 
 const Courses = db.define('courses', {
     id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         primaryKey: true,
-      
-        allowNull: true
+        autoIncrement: true,
+        allowNull: false
       },
     uuid:{
         type: DataTypes.STRING,
@@ -41,6 +41,14 @@ const Courses = db.define('courses', {
     description:{
         type: DataTypes.STRING,
         allowNull: true,
+        validate: {
+            notEmpty: false
+        }
+    },
+    coursecode:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: "Code",
         validate: {
             notEmpty: false
         }

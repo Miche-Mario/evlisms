@@ -22,36 +22,30 @@ export const getPrices = async (req,res) => {
 }
 
 export const getCoursesPrice =async (req,res) => {
-    const {times_timesid, course_courseid, subcourse_subcourseid} = req.body;
+    
     let responsee;
-        if(subcourse_subcourseid == null) {
+      
             responsee = await Courses.findOne({ 
-                attributes: ['id'],
                 where: {
-                    course_courseid: course_courseid
-                }, 
+                    uuid: req.params.id
+                }
             
             });
-        } else {
-            responsee = await Courses.findOne({ 
-                attributes: ['id'],
-                where: {
-                    course_courseid: course_courseid,
-                    subcourse_subcourseid: subcourse_subcourseid
-                }, 
-            
-            });
-        }
+        
     
         
         
         try {
             const response = await Prices.findOne({ 
-                attributes: ['price'],
+           
                 where: {
-                    courses_coursesid: responsee.id,
-                    times_timesid: times_timesid
-                }, 
+                    courses_coursesid: responsee.id
+                },
+                include: [
+                    {model: Times},
+                    {model: Courses},
+            
+               ] 
             
             });
             
