@@ -180,15 +180,15 @@ useEffect(() => {
                         </td>
                         <td className=" py-3 px-3 text-center">
                           <div className="flex items-center justify-center">
-                            <span className="font-medium">{course.course.coursename ? course.course.coursename : ""}</span>
+                            <span className="font-medium">{course.course ? course.course.coursename : ""}</span>
                           </div>
                         </td>
                         <td className=" py-3 px-3 text-center">
-                          <span className="bg-green-600 text-white py-1 px-3 rounded-full text-xs">{course.classtype.classtypename ? course.classtype.classtypename : "" }</span>
+                          <span className="bg-green-600 text-white py-1 px-3 rounded-full text-xs">{course.classtype ? course.classtype.classtypename : "" }</span>
                         </td>
                         <td className=" py-3 px-3 text-center">
                           <div className="flex items-center justify-center">
-                            <span className="font-medium">{course.language.languagename ? course.language.languagename : "" }</span>
+                            <span className="font-medium">{course.language ? course.language.languagename : "" }</span>
                           </div>
                         </td>
                         <td className=" py-3 px-3 text-center">

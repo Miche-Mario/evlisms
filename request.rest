@@ -176,8 +176,28 @@ GET http://localhost:5000/courses
 ###
 //Get SubCourses By Courses Id
 
-GET http://localhost:5000/courses/db3c6f42-ee46-459c-b485-67348bae5c57
+GET http://localhost:5000/courses/1
 
+
+###
+//Update Courses By Courses Id
+
+PATCH http://localhost:5000/courses/1
+Content-Type:  application/json
+
+{
+    "courseid" : 1,
+    "coursename": "General Englishh",
+    "subcourseid": 1,
+    "subcoursename": "Intensivee",
+    "active": false,
+    "language_languageid": 2,
+    "pricetype_pricetypeid": 1,
+    "classtype_classtypeid": 2,
+    "description": "desciptionn",
+    "fullprice": "1000",
+    "fullduration": 2
+}
 
 
 ###
@@ -216,7 +236,7 @@ POST http://localhost:5000/timee
 Content-Type:  application/json
 
 {
-    "time": 3
+    "time": 5
 }
 
 ###

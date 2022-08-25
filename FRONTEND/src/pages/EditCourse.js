@@ -75,13 +75,25 @@ const EditCourse = ({ props }) => {
   }
 
   const [pricestimes, setPricestimes] = useState([]);
+  const [prices, setPrices] = useState([])
   const getPricesTimes = async() => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/prices/${id}`);
     setPricestimes(response.data);
+    
   }
 
-  console.log(pricestimes)
- 
+  const getPrices = pricestimes.map((price)=>{ return price.price})
+ console.log(getPrices)
+
+ const [times, setTimes] = useState("");
+
+ const getTimes = async (e) => {  
+  const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/time`, {
+    number: parseInt(coursefullduration) ,
+  });
+  setTimes(response.data);
+  //setPriceduration(response.data.length)
+}
 
 
   useEffect(() => {
@@ -89,6 +101,7 @@ const EditCourse = ({ props }) => {
     getLanguages()
     getClasstypes();
     getPricesTimes();
+    getTimes();
   },[])
 
   const [course, setCourse] = useState('');
@@ -140,8 +153,7 @@ const EditCourse = ({ props }) => {
     setIfSubCourse(!ifSubCourse)
   }
 
- 
-  const getPrices = [];
+
 
   const [ifFullPrice, setIfFullPrice] = useState(false)
   const iffullprice = () => {
@@ -257,7 +269,7 @@ const EditCourse = ({ props }) => {
                     <label className='text-xl font-bold '>Duration (Weeks - Hour)</label>
                     <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[30rem] p-2.5 " 
                       onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                     // onKeyUpCapture={(e) =>  {getTimes(e); setPriceduration(e.target.value)}} 
+                      onKeyUpCapture={(e) =>  {getTimes(e); setCoursefullduration(e.target.value)}} 
                      value={coursefullduration}
                      onChange={(e) => setCoursefullduration(e.target.value)} 
                       />
@@ -274,17 +286,17 @@ const EditCourse = ({ props }) => {
                       </thead>
                       <tbody className="text-gray-600  text-sm font-light">
                         
-                      { pricestimes.map((time, index) => (  <tr  className=" border-gray-400  hover:bg-gray-100 border-b-2">
+                      { times.map((time, index) => (  <tr  className=" border-gray-400  hover:bg-gray-100 border-b-2">
                             <td className="py-2 px-2  border border-dark-purple">
                               <div className="flex items-center justify-center">
-                                <span className="font-bold text-xl uppercase">{time.time.time}</span>
+                                <span className="font-bold text-xl uppercase">{time.time}</span>
                               </div>
                             </td>
                             <td className="  border border-dark-purple w-[20rem] h-12">
                               <div className="flex items-center justify-center  ">
                                 <input className=" uppercase text-right w-[20rem] h-12 text-xl font-bold pr-2" placeholder="00"
-                                  value={time.price}
-                                  // onChange= {(e)=> {getPrices[index]=e.target.value}}
+                                  value={getPrices[index]}
+                                  onChange= {(e)=> {getPrices[index] = e.target.value; console.log(getPrices)}}
                                   onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                 />
                               </div>

@@ -96,3 +96,46 @@ const dataFinal = await times.map((time,index) => {
  
                   Prices.bulkCreate(dataFinal, { validate: true })
 }
+
+export const updateCourses = async(req,res) => {
+    const courses = await Courses.findOne({
+        where: {
+            id: req.params.id
+        }
+    });
+    if(!courses) return res.status(404).json({msg: "Courses doesn't not exist" });
+    const {courseid, coursename, subcourseid, subcoursename, 
+        description, fullprice, fullduration,
+        language_languageid,classtype_classtypeid} = req.body;
+    
+    
+        await Course.update({
+            coursename: coursename,
+        }, {
+            where: {
+                id: courseid
+            }
+        });
+       
+     subcourseid &&   await SubCourse.update({
+            subcoursename: subcoursename,
+        }, {
+            where: {
+                id: subcourseid
+            }
+        });
+
+        await Courses.update({
+            description: description,
+            fullprice: fullprice,
+            fullduration: fullduration,
+            language_languageid: language_languageid,
+            classtype_classtypeid: classtype_classtypeid,
+            description: description
+        }, {
+            where: {
+                id: req.params.id,
+          
+            }
+        });
+}
