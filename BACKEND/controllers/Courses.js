@@ -14,7 +14,7 @@ import { getUnpackedSettings } from "http2";
 export const getCourses = async (req,res) => {
     try {
         const response = await Courses.findAll({
-            attributes: ['id','uuid','language_languageid','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+            attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
             include: [
                 {model: Course},
                 {model: Language},
@@ -32,7 +32,7 @@ export const getCoursesById =async (req,res) => {
     try {
         const response = await Courses.findOne({  
             where: {
-                uuid: req.params.id
+                id: req.params.id
             }, 
             include: [
                 {model: Course},

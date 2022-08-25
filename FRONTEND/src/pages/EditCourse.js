@@ -35,6 +35,9 @@ const EditCourse = ({ props }) => {
   const [courseactive, setCourseactive] = useState("");
 
 
+  const [fullduration, steFullduration] = useState("");
+  const [full, setFull] = useState("");
+
 
 
 
@@ -71,12 +74,13 @@ const EditCourse = ({ props }) => {
     setCoursefullprice(response.data.fullprice);
   }
 
-  const [pricestimes, setPicestimes] = useState();
+  const [pricestimes, setPricestimes] = useState([]);
   const getPricesTimes = async() => {
-    const response = axios.get(`${process.env.REACT_APP_BASE_URL}/prices`);
-    setPicestimes(response.data);
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/prices/${id}`);
+    setPricestimes(response.data);
   }
 
+  console.log(pricestimes)
  
 
 
@@ -91,7 +95,6 @@ const EditCourse = ({ props }) => {
   const [subCource, setSubCourse] = useState('');
   const [description, setDescription] = useState('');
   const [classtype, setClasstype] = useState('');
-  const [fullduration, steFullduration] = useState('');
   const [fullprice, setFullprice] = useState('');
   const [language, setLanguage] = useState('');
 
@@ -140,7 +143,7 @@ const EditCourse = ({ props }) => {
  
   const getPrices = [];
 
-  const [ifFullPrice, setIfFullPrice] = useState(true)
+  const [ifFullPrice, setIfFullPrice] = useState(false)
   const iffullprice = () => {
     setIfFullPrice(!ifFullPrice)
   }
@@ -221,14 +224,14 @@ const EditCourse = ({ props }) => {
                   />
                 </div>
               
-              {coursefullduration !== 0 && 
+              {coursefullprice !== 0  && 
                 <>
                   
                   <div className='mt-3'>
                     <label className='text-xl font-bold '>Duration</label>
                     <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
                       placeholder='00'
-                      value={fullduration}
+                      value={coursefullduration}
                       onChange={(e) => steFullduration(e.target.value)} 
                       required={ifFullPrice ? true : false}  
                       onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
@@ -247,15 +250,16 @@ const EditCourse = ({ props }) => {
               }
               </div>
               <div>
-              { coursefullprice !== 0 && 
+           
+              { coursefullprice === 0 && 
                 <>
                   <div className='mt-3'>
                     <label className='text-xl font-bold '>Duration (Weeks - Hour)</label>
                     <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[30rem] p-2.5 " 
                       onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                      // onKeyUpCapture={(e) =>  {getTimes(e); setPriceduration(e.target.value)}} 
-                
-                      onChange={(e) => setCoursefullprice(e.target.value)} 
+                     value={coursefullduration}
+                     onChange={(e) => setCoursefullduration(e.target.value)} 
                       />
                   </div>
 
@@ -269,23 +273,24 @@ const EditCourse = ({ props }) => {
                         </tr>
                       </thead>
                       <tbody className="text-gray-600  text-sm font-light">
-                        { pricestimes.map((time, index) => (
-                            <tr key={time.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
+                        
+                      { pricestimes.map((time, index) => (  <tr  className=" border-gray-400  hover:bg-gray-100 border-b-2">
                             <td className="py-2 px-2  border border-dark-purple">
                               <div className="flex items-center justify-center">
-                                <span className="font-bold text-xl uppercase">{time.time}</span>
+                                <span className="font-bold text-xl uppercase">{time.time.time}</span>
                               </div>
                             </td>
                             <td className="  border border-dark-purple w-[20rem] h-12">
                               <div className="flex items-center justify-center  ">
                                 <input className=" uppercase text-right w-[20rem] h-12 text-xl font-bold pr-2" placeholder="00"
-                                  onChange= {(e)=> {getPrices[index]=e.target.value}}
+                                  value={time.price}
+                                  // onChange= {(e)=> {getPrices[index]=e.target.value}}
                                   onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                 />
                               </div>
                             </td>
-                          </tr>
-                         ))} 
+                          </tr>))  }
+                        
                       </tbody>
                     </table>
               </div>

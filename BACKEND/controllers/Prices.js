@@ -27,7 +27,7 @@ export const getCoursesPrice =async (req,res) => {
       
             responsee = await Courses.findOne({ 
                 where: {
-                    uuid: req.params.id
+                    id: req.params.id
                 }
             
             });
@@ -36,7 +36,7 @@ export const getCoursesPrice =async (req,res) => {
         
         
         try {
-            const response = await Prices.findOne({ 
+            const response = await Prices.findAll({ 
            
                 where: {
                     courses_coursesid: responsee.id

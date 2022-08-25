@@ -216,7 +216,7 @@ POST http://localhost:5000/timee
 Content-Type:  application/json
 
 {
-    "time": 2
+    "time": 3
 }
 
 ###
@@ -233,7 +233,7 @@ Content-Type:  application/json
 ###
 //Get All Prices
 
-GET http://localhost:5000/prices/b089ac0b-83f9-4fc9-aafe-6ac7a3b541ad
+GET http://localhost:5000/prices/1
 
 ###
 

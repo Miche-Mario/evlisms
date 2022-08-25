@@ -175,7 +175,7 @@ useEffect(() => {
                         </td>
                         <td className=" py-3 px-3 text-center whitespace-nowrap">
                           <div className="flex items-center justify-center">
-                            <span className="font-medium text-center">{course.id}</span>
+                            <span className="font-medium text-center">{course.coursecode}</span>
                           </div>
                         </td>
                         <td className=" py-3 px-3 text-center">
@@ -184,11 +184,11 @@ useEffect(() => {
                           </div>
                         </td>
                         <td className=" py-3 px-3 text-center">
-                          <span className="bg-green-600 text-white py-1 px-3 rounded-full text-xs"></span>
+                          <span className="bg-green-600 text-white py-1 px-3 rounded-full text-xs">{course.classtype.classtypename ? course.classtype.classtypename : "" }</span>
                         </td>
                         <td className=" py-3 px-3 text-center">
                           <div className="flex items-center justify-center">
-                            <span className="font-medium"></span>
+                            <span className="font-medium">{course.language.languagename ? course.language.languagename : "" }</span>
                           </div>
                         </td>
                         <td className=" py-3 px-3 text-center">
@@ -222,7 +222,7 @@ useEffect(() => {
                               </svg>
                             </div>
                             <Link
-                               to={`/course/edit/${course.uuid}`}
+                               to={`/course/edit/${course.id}`}
                             >
                             <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
