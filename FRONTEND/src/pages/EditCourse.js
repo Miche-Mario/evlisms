@@ -58,38 +58,49 @@ const EditCourse = ({ props }) => {
 
   const [msg, setMsg] = useState("");
 
-
+const [getcourses, setGetCourses] = useState("")
 
   const { id } = useParams();
   const getCourse = async () => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/courses/${id}`);
+    setGetCourses(response.data);
     setCoursename(response.data.course.coursename);
     response.data.subcourse && setSubCoursename(response.data.subcourse.subcoursename);
-    setCourseclasstype(response.data.classtype.classtypename);
-    setCourselanguage(response.data.language.languagename);
+    setCourseclasstype(response.data.classtype.id);
+    setCourselanguage(response.data.language.id);
     setCourseDescription(response.data.description);
     setCoursefullduration(response.data.fullduration);
     setCourseDescription(response.data.description);
     setCourseactive(response.data.active);
     setCoursefullprice(response.data.fullprice);
   }
+  const [getPrices, setGetPrices] = useState([])
 
   const [pricestimes, setPricestimes] = useState([]);
   const [prices, setPrices] = useState([])
   const getPricesTimes = async() => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/prices/${id}`);
     setPricestimes(response.data);
+    setGetPrices(response.data.map((price) => price.price))
     
   }
 
-  const getPrices = pricestimes.map((price)=>{ return price.price})
- console.log(getPrices)
+  const updatePrices = index => e => {
+    let newPrice = [...getPrices];
+    newPrice[index] = e.target.value;
+    setGetPrices(newPrice);
+    
+  }
+
+
+
+  console.log(getPrices)
 
  const [times, setTimes] = useState("");
 
  const getTimes = async (e) => {  
   const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/time`, {
-    number: parseInt(coursefullduration) ,
+    number:  parseInt(coursefullduration),
   });
   setTimes(response.data);
   //setPriceduration(response.data.length)
@@ -104,7 +115,6 @@ const EditCourse = ({ props }) => {
     getTimes();
   },[])
 
-  const [course, setCourse] = useState('');
   const [subCource, setSubCourse] = useState('');
   const [description, setDescription] = useState('');
   const [classtype, setClasstype] = useState('');
@@ -112,40 +122,31 @@ const EditCourse = ({ props }) => {
   const [language, setLanguage] = useState('');
 
 
+  const updateCourses = (e) => {
+    e.preventDefault();
+    try {
+       axios.patch(`${process.env.REACT_APP_BASE_URL}/coursesprice/${id}`, {
+        courseid : getcourses.course.id,
+        coursename: coursename,
+        subcourseid : getcourses.subcourse.id,
+        subcoursename: subcourse,
+        language_languageid: courselanguage,
+        classtype_classtypeid: courseclasstype,
+        description: coursedescription,
+        fullprice: coursefullprice,
+        fullduration: coursefullduration,
+        times: times,
+        prices: getPrices
+      });
+      navigate("/courses");
+    } catch (error) {
+      if(error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
+  }
 
-  // const saveCourses = async (e) => {
-  //   var keyCode = e.keyCode || e.which;
-  // if (keyCode !== 13) { 
-  //   e.preventDefault();
-  //   try {
-  //     await axios.post(`${process.env.REACT_APP_BASE_URL}/courses`, {
-  //       coursename: course,
-  //       subcoursename: subCource,
-  //       language_languageid: language,
-  //       classtype_classtypeid: classtype,
-  //       description: description,
-  //       fullprice: fullprice,
-  //       fullduration: fullduration,
-  //       times: times,
-  //       prices: getPrices
-        
-  //     });
-  //     navigate(0);
-  //   } catch (error) {
-  //     if (error.response) {
-  //       setMsg(error.response.data.msg);
-  //     }
-  //   }
-  // }}
-
-
-
-
-
-
-
-
-
+  
 
 
   const [ifSubCourse, setIfSubCourse] = useState(false)
@@ -154,11 +155,13 @@ const EditCourse = ({ props }) => {
   }
 
 
-
   const [ifFullPrice, setIfFullPrice] = useState(false)
   const iffullprice = () => {
     setIfFullPrice(!ifFullPrice)
   }
+
+
+
 
   return (
     <Layout>
@@ -166,7 +169,7 @@ const EditCourse = ({ props }) => {
         <p className='font-bold text-3xl'>Course</p>
         <p className='text-gray-400 text-2xl'>Edit Course</p>
         <div className='bg-white h-full p-5  ml-1 mt-3 elevation'>
-          <form >
+          <form onSubmit={updateCourses}>
             <div className='flex items-start justify-around'>
               <div>
               <label className='text-xl font-bold'>Course name</label>
@@ -176,18 +179,13 @@ const EditCourse = ({ props }) => {
                 required
                 onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 />
-              <div className='flex items-center mt-5'>
-                <p className='text-lg font-medium text-gray-600 '>Create a Subcourse?</p>
-                <input type="checkbox" onClick={ifsubcourse} className="w-5 ml-5 h-5"
-                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
-                />
-              </div>
-              {ifSubCourse && 
+              
+              {subCource !== null && 
                 <div className='mt-3'>
                   <label className='text-xl font-bold '>Subcourse name</label>
                   <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
                     value={subcourse}
-                    onChange={(e) => setSubCourse(e.target.value)} 
+                    onChange={(e) => setSubCoursename(e.target.value)} 
                     required
                     onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                   />
@@ -202,7 +200,7 @@ const EditCourse = ({ props }) => {
                 onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 >
                   {languages.map((language, index) => (
-                      language.languagename === course.courselanguage ?
+                      language.languagename === courselanguage ?
                       <option value={language.id} selected>{language.languagename}</option>
                       : <option value={language.id} >{language.languagename}</option>
                   ))} 
@@ -219,7 +217,7 @@ const EditCourse = ({ props }) => {
                 >
             
                   { classtypes.map((classtype, index) => (
-                    classtype.classtypename === course.courseclasstype ?
+                    classtype.classtypename === courseclasstype ?
                       <option value={classtype.id} selected>{classtype.classtypename}</option>
                       : <option value={classtype.id} >{classtype.classtypename}</option>
 
@@ -286,7 +284,7 @@ const EditCourse = ({ props }) => {
                       </thead>
                       <tbody className="text-gray-600  text-sm font-light">
                         
-                      { times.map((time, index) => (  <tr  className=" border-gray-400  hover:bg-gray-100 border-b-2">
+                      { times.map((time, index) => (  <tr key={time.id}  className=" border-gray-400  hover:bg-gray-100 border-b-2">
                             <td className="py-2 px-2  border border-dark-purple">
                               <div className="flex items-center justify-center">
                                 <span className="font-bold text-xl uppercase">{time.time}</span>
@@ -296,8 +294,9 @@ const EditCourse = ({ props }) => {
                               <div className="flex items-center justify-center  ">
                                 <input className=" uppercase text-right w-[20rem] h-12 text-xl font-bold pr-2" placeholder="00"
                                   value={getPrices[index]}
-                                  onChange= {(e)=> {getPrices[index] = e.target.value; console.log(getPrices)}}
                                   onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                                  onChange={updatePrices(index)}
+                                  
                                 />
                               </div>
                             </td>

@@ -3,13 +3,13 @@ import {
     getCourses,
     createCourses,
     getCoursesById,
-    updateCourses
+    deleteCourses
 } from "../controllers/Courses.js"
 
 const router = express.Router();
 
 router.get('/courses', getCourses);
-router.patch('/courses/:id', updateCourses);
+router.delete('/courses/:id', deleteCourses);
 router.post('/courses', createCourses);
 router.get('/courses/:id', getCoursesById);
 

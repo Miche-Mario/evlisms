@@ -51,14 +51,16 @@ export const getCoursesById =async (req,res) => {
 
 
  export const createCourses = async(req,res) => {
-    const { coursename,subcoursename,language_languageid, classtype_classtypeid, pricetype_pricetypeid, description, fullduration, fullprice} = req.body;
+    const { courseidd,coursename,subcoursename,language_languageid, classtype_classtypeid, pricetype_pricetypeid, description, fullduration, fullprice} = req.body;
     let subcourse;
+    let course;
     let coursess;
 
-  
-        const course = await  Course.create({
+    if(coursename){
+         course = await  Course.create({
             coursename: coursename
         });
+    }
   
 
         if(subcoursename){
@@ -72,7 +74,7 @@ export const getCoursesById =async (req,res) => {
         
            coursess = await Courses.create({
                     active: true,
-                    course_courseid: course.id ,
+                    course_courseid: coursename ? course.id : courseidd ,
                     subcourse_subcourseid: subcoursename ? subcourse.id : null,
                     description: description,
                     classtype_classtypeid: classtype_classtypeid,
@@ -138,4 +140,52 @@ export const updateCourses = async(req,res) => {
           
             }
         });
+
+        
+        try {
+            await Prices.destroy({
+                where: {
+                    courses_coursesid: req.params.id
+                }
+            });
+            res.status(201).json({msg: "Courses Deleted"});
+        } catch (error) {
+            res.status(400).json({msg: error.message})
+        }
+
+
+        const { times, prices} = req.body;
+
+
+const dataFinal = await times.map((time,index) => {
+  
+    let dataa = {
+      "times_timesid": time.time,
+      "price": prices[index] ? prices[index] : null ,
+      "courses_coursesid": req.params.id
+    }
+    return dataa
+})
+ 
+                  Prices.bulkCreate(dataFinal, { validate: true })
+}
+
+export const deleteCourses = async(req,res) => {
+    const courses = await Courses.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!courses) return res.status(404).json({msg: "Courses Type doesn't not exist" });
+    try {
+        await Courses.destroy({
+            where: {
+                id: courses.id
+            }
+        });
+        res.status(201).json({msg: "Courses Deleted"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+
 }

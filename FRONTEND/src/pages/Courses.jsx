@@ -47,8 +47,7 @@ const Courses = () => {
   }, [isError, navigate
   ])
 
-  const [open, setOpen] = useState(false);
-  const [open1, setOpen1] = useState(false);
+
 
   const [courses, setCourses] = useState([]);
 
@@ -62,15 +61,18 @@ useEffect(() => {
 },[])
 
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+const deleteCourses = async (userId) => {
+  await axios.delete(`${process.env.REACT_APP_BASE_URL}/courses/${userId}`);
+  getCourses();
+  navigate(0);
+}
 
-  const handleOpen1 = () => {
+  const [open1, setOpen1] = useState(false);
+  const [va, setVa] = useState("");
+
+  const handleOpen1 = (uuid) => {
     setOpen1(true);
+    setVa(uuid)
   };
   const handleClose1 = () => {
     setOpen1(false);
@@ -78,24 +80,25 @@ useEffect(() => {
   return (
     <Layout >
       <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} >
-          <AddCourses handleClose={handleClose}/>
-        </Box>
-      </Modal>
-      <Modal
         open={open1}
         onClose={handleClose1}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
       >
-        
-          <GroupStud handleClose1={handleClose1}/>
-     
+        <Box sx={style}>
+          <div className='items-center p-3 '>
+            <div className='text-center text-xl font-medium'>Would you really delete ?</div>
+            <div className='flex items-center justify-center mt-3 mb-3'>
+              <button className='bg-blue-600 rounded text-gray-100 ml-5 font-medium w-20 h-10 flex items-center justify-center'
+                onClick={() => deleteCourses(va)}
+              >
+                Delete
+              </button>
+              <button onClick={handleClose1} className='bg-blue-600 rounded ml-5 text-gray-100 font-medium w-20 h-10 flex items-center justify-center'>
+                Cancel
+              </button>
+            </div>
+          </div>
+
+        </Box>
       </Modal>
       <div>
         <div className='shadow-lg flex h-20 w-full flex-row bg-white border border-gray-300 rounded'>
@@ -230,7 +233,9 @@ useEffect(() => {
                               </svg>
                             </div>
                             </Link>
-                            <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                            <div  className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
+                                onClick={() => handleOpen1(course.uuid)}
+                           >
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                               </svg>

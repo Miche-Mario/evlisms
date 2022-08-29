@@ -42,6 +42,12 @@ const AddCourse = ({ props }) => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/classtype`);
     setClasstypes(response.data)
   }
+  const [allCourse, setAllCourse] = useState([]);
+
+  const getCourse = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/course`);
+    setAllCourse(response.data)
+  }
 
 
   const getTimes = async (e) => {  
@@ -59,9 +65,12 @@ const AddCourse = ({ props }) => {
   getTimes();
   getLanguages();
   getClasstypes();
+  getCourse();
   },[])
 
   const [course, setCourse] = useState('');
+  const [courseidd, setCourseidd] = useState('');
+
   const [subCource, setSubCourse] = useState('');
   const [description, setDescription] = useState('');
   const [classtype, setClasstype] = useState('');
@@ -78,6 +87,7 @@ const AddCourse = ({ props }) => {
     try {
       await axios.post(`${process.env.REACT_APP_BASE_URL}/courses`, {
         coursename: course,
+        courseidd: courseidd,
         subcoursename: subCource,
         language_languageid: language,
         classtype_classtypeid: classtype,
@@ -111,6 +121,11 @@ const AddCourse = ({ props }) => {
     setIfSubCourse(!ifSubCourse)
   }
 
+  const [newCourse, setNewCourse] = useState(false)
+  const ifnewcourse = () => {
+    setNewCourse(!newCourse)
+  }
+
  
   const getPrices = [];
 
@@ -128,13 +143,40 @@ const AddCourse = ({ props }) => {
           <form onSubmit={(e) => {saveCourses(e)}}>
             <div className='flex items-start justify-around'>
               <div>
+              <div className='flex items-center mt-5'>
+                <p className='text-lg font-medium text-gray-600 '>Create from an existed course?</p>
+                <input type="checkbox" onClick={ifnewcourse} className="w-5 ml-5 h-5"
+                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                />
+              </div>
               <label className='text-xl font-bold'>Course name</label>
+              {newCourse ?
+              <div>
+              <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5"
+                value={courseidd}
+                onChange={(e) => setCourseidd(e.target.value)} 
+                required
+                onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                >
+                  <option></option>
+                  { allCourse.map((course, index) => (
+                      <option value={course.id}>{course.coursename}</option>
+                  ))} 
+                  
+                </select>
+              </div>
+              : 
+              <div>
               <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
                 value={course}
                 onChange={(e) => setCourse(e.target.value)} 
                 required
                 onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+
                 />
+                </div>
+                }
+               
               <div className='flex items-center mt-5'>
                 <p className='text-lg font-medium text-gray-600 '>Create a Subcourse?</p>
                 <input type="checkbox" onClick={ifsubcourse} className="w-5 ml-5 h-5"

@@ -176,13 +176,13 @@ GET http://localhost:5000/courses
 ###
 //Get SubCourses By Courses Id
 
-GET http://localhost:5000/courses/1
+GET http://localhost:5000/courses/2
 
 
 ###
 //Update Courses By Courses Id
 
-PATCH http://localhost:5000/courses/1
+PATCH http://localhost:5000/coursesprice/2
 Content-Type:  application/json
 
 {
@@ -191,12 +191,18 @@ Content-Type:  application/json
     "subcourseid": 1,
     "subcoursename": "Intensivee",
     "active": false,
-    "language_languageid": 2,
+    "language_languageid": 1,
     "pricetype_pricetypeid": 1,
-    "classtype_classtypeid": 2,
+    "classtype_classtypeid": 1,
     "description": "desciptionn",
-    "fullprice": "1000",
-    "fullduration": 2
+    "fullprice": 0,
+    "fullduration": 2,
+    "times": [
+        {"time":"1"},
+        {"time":"2"},
+        {"time":"3"}
+    ],
+    "prices": [922,9222,92222]
 }
 
 
@@ -222,6 +228,13 @@ Content-Type:  application/json
     ],
     "prices": [1,2,3]
 }
+
+
+###
+//Delete Courses ByUUID 
+
+DELETE  http://localhost:5000/courses/ff8da0f8-a9f9-43ea-90d7-dd5e97fbf01a
+
 
 
 ###
