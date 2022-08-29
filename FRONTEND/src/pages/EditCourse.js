@@ -74,7 +74,6 @@ const [getcourses, setGetCourses] = useState("")
     setCourseactive(response.data.active);
     setCoursefullprice(response.data.fullprice);
   }
-  const [getPrices, setGetPrices] = useState([])
 
   const [pricestimes, setPricestimes] = useState([]);
   const [prices, setPrices] = useState([])
@@ -84,7 +83,7 @@ const [getcourses, setGetCourses] = useState("")
     setGetPrices(response.data.map((price) => price.price))
     
   }
-
+  const [getPrices, setGetPrices] = useState([])
   const updatePrices = index => e => {
     let newPrice = [...getPrices];
     newPrice[index] = e.target.value;
@@ -120,7 +119,12 @@ const [getcourses, setGetCourses] = useState("")
   const [classtype, setClasstype] = useState('');
   const [fullprice, setFullprice] = useState('');
   const [language, setLanguage] = useState('');
+  
 
+  const [isActive, setIsActive] = useState(false)
+  const activecourse = () => {
+    setIsActive(!isActive)
+  }
 
   const updateCourses = (e) => {
     e.preventDefault();
@@ -136,7 +140,8 @@ const [getcourses, setGetCourses] = useState("")
         fullprice: coursefullprice,
         fullduration: coursefullduration,
         times: times,
-        prices: getPrices
+        prices: getPrices,
+        active: isActive
       });
       navigate("/courses");
     } catch (error) {
@@ -160,7 +165,7 @@ const [getcourses, setGetCourses] = useState("")
     setIfFullPrice(!ifFullPrice)
   }
 
-
+  console.log(subcourse)
 
 
   return (
@@ -173,17 +178,17 @@ const [getcourses, setGetCourses] = useState("")
             <div className='flex items-start justify-around'>
               <div>
               <label className='text-xl font-bold'>Course name</label>
-              <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+              <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                 value={coursename}
                 onChange={(e) => setCoursename(e.target.value)} 
                 required
                 onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 />
               
-              {subCource !== null && 
+              {subcourse !== "" && 
                 <div className='mt-3'>
                   <label className='text-xl font-bold '>Subcourse name</label>
-                  <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+                  <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                     value={subcourse}
                     onChange={(e) => setSubCoursename(e.target.value)} 
                     required
@@ -193,7 +198,7 @@ const [getcourses, setGetCourses] = useState("")
               }
               <div className='mt-3'>
                 <label className='text-xl font-bold '>Language</label>
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5"
+                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5"
                 value={courselanguage}
                 onChange={(e) => setCourselanguage(e.target.value)} 
                 required
@@ -209,7 +214,7 @@ const [getcourses, setGetCourses] = useState("")
               </div>
               <div className='mt-3'>
                 <label className='text-xl font-bold '>Class Type</label>
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5"
+                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5"
                   value={courseclasstype}
                   onChange={(e) => setCourseclasstype(e.target.value)} 
                   required
@@ -226,20 +231,24 @@ const [getcourses, setGetCourses] = useState("")
               </div>
               <div className='mt-3'>
                   <label className='text-xl font-bold '>Description</label>
-                  <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+                  <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                     value={coursedescription}
                     onChange={(e) => setCourseDescription(e.target.value)} 
                     required
                     onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                   />
                 </div>
+                <div className='flex items-center mt-5'>
+                <p className='text-lg font-medium text-gray-600 '>Active </p>
+                <input type="checkbox" defaultChecked onClick={activecourse} className="w-5 ml-5 h-5"/>
+              </div>
               
               {coursefullprice !== 0  && 
                 <>
                   
                   <div className='mt-3'>
                     <label className='text-xl font-bold '>Duration</label>
-                    <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+                    <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                       placeholder='00'
                       value={coursefullduration}
                       onChange={(e) => steFullduration(e.target.value)} 
@@ -249,7 +258,7 @@ const [getcourses, setGetCourses] = useState("")
                   </div>
                   <div className='mt-3'>
                       <label className='text-xl font-bold '>Price</label>
-                      <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+                      <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                         placeholder='00'
                         value={coursefullprice}
                         onChange={(e) => setCoursefullprice(e.target.value)}
@@ -296,7 +305,6 @@ const [getcourses, setGetCourses] = useState("")
                                   value={getPrices[index]}
                                   onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                   onChange={updatePrices(index)}
-                                  
                                 />
                               </div>
                             </td>

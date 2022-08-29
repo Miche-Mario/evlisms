@@ -78,7 +78,15 @@ const AddCourse = ({ props }) => {
   const [fullprice, setFullprice] = useState('');
   const [language, setLanguage] = useState('');
 
+  const [getPrices, setGetPrices] = useState([])
 
+
+  const updatePrices = index => e => {
+    let newPrice = [...getPrices];
+    newPrice[index] = e.target.value;
+    setGetPrices(newPrice);
+    
+  }
 
   const saveCourses = async (e) => {
     var keyCode = e.keyCode || e.which;
@@ -127,13 +135,13 @@ const AddCourse = ({ props }) => {
   }
 
  
-  const getPrices = [];
+  
 
   const [ifFullPrice, setIfFullPrice] = useState(true)
   const iffullprice = () => {
     setIfFullPrice(!ifFullPrice)
   }
-
+  console.log(getPrices)
   return (
     <Layout>
       <div className='mt-10 ml-5'>
@@ -152,7 +160,7 @@ const AddCourse = ({ props }) => {
               <label className='text-xl font-bold'>Course name</label>
               {newCourse ?
               <div>
-              <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5"
+              <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5"
                 value={courseidd}
                 onChange={(e) => setCourseidd(e.target.value)} 
                 required
@@ -167,7 +175,7 @@ const AddCourse = ({ props }) => {
               </div>
               : 
               <div>
-              <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+              <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                 value={course}
                 onChange={(e) => setCourse(e.target.value)} 
                 required
@@ -186,7 +194,7 @@ const AddCourse = ({ props }) => {
               {ifSubCourse && 
                 <div className='mt-3'>
                   <label className='text-xl font-bold '>Subcourse name</label>
-                  <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+                  <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                     defaultValue={" "}
                     value={subCource}
                     onChange={(e) => setSubCourse(e.target.value)} 
@@ -196,7 +204,7 @@ const AddCourse = ({ props }) => {
               }
               <div className='mt-3'>
                 <label className='text-xl font-bold '>Language</label>
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5"
+                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)} 
                 required
@@ -211,7 +219,7 @@ const AddCourse = ({ props }) => {
               </div>
               <div className='mt-3'>
                 <label className='text-xl font-bold '>Class Type</label>
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5"
+                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5"
                   value={classtype}
                   onChange={(e) => setClasstype(e.target.value)} 
                   required
@@ -225,7 +233,7 @@ const AddCourse = ({ props }) => {
               </div>
               <div className='mt-3'>
                   <label className='text-xl font-bold '>Description</label>
-                  <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+                  <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                     value={description}
                     onChange={(e) => setDescription(e.target.value)} 
                     required
@@ -241,7 +249,7 @@ const AddCourse = ({ props }) => {
                   
                   <div className='mt-3'>
                     <label className='text-xl font-bold '>Duration</label>
-                    <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+                    <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                       placeholder='00'
                       value={fullduration}
                       onChange={(e) => steFullduration(e.target.value)} 
@@ -251,7 +259,7 @@ const AddCourse = ({ props }) => {
                   </div>
                   <div className='mt-3'>
                       <label className='text-xl font-bold '>Price</label>
-                      <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50rem] p-2.5 "
+                      <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                         placeholder='00'
                         value={fullprice}
                         onChange={(e) => setFullprice(e.target.value)} 
@@ -295,8 +303,10 @@ const AddCourse = ({ props }) => {
                             <td className="  border border-dark-purple w-[20rem] h-12">
                               <div className="flex items-center justify-center  ">
                                 <input className=" uppercase text-right w-[20rem] h-12 text-xl font-bold pr-2" placeholder="00"
-                                  onChange= {(e)=> {getPrices[index]=e.target.value}}
+                                  
+                                  value={getPrices[index]}
                                   onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                                  onChange={updatePrices(index)}
                                 />
                               </div>
                             </td>

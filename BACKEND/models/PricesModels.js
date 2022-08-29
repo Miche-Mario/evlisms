@@ -24,7 +24,7 @@ const Prices = db.define('prices', {
     },
     price: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         validate: {
             notEmpty: false
         }

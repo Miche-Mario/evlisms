@@ -12,6 +12,8 @@ import { getUnpackedSettings } from "http2";
 
 
 export const getCourses = async (req,res) => {
+    const { classtype, language, active} = req.body;
+
     try {
         const response = await Courses.findAll({
             attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
@@ -20,13 +22,17 @@ export const getCourses = async (req,res) => {
                 {model: Language},
                 {model: SubCourse},
                 {model: ClassType}
-           ]
+           ],
+           where: {
+            active: active
+           }
         });
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({msg: error.message});
     }
 }
+
 
 export const getCoursesById =async (req,res) => {
     try {
@@ -108,7 +114,7 @@ export const updateCourses = async(req,res) => {
     if(!courses) return res.status(404).json({msg: "Courses doesn't not exist" });
     const {courseid, coursename, subcourseid, subcoursename, 
         description, fullprice, fullduration,
-        language_languageid,classtype_classtypeid} = req.body;
+        language_languageid,classtype_classtypeid, active} = req.body;
     
     
         await Course.update({
@@ -133,7 +139,8 @@ export const updateCourses = async(req,res) => {
             fullduration: fullduration,
             language_languageid: language_languageid,
             classtype_classtypeid: classtype_classtypeid,
-            description: description
+            description: description,
+            active: active
         }, {
             where: {
                 id: req.params.id,
@@ -141,7 +148,7 @@ export const updateCourses = async(req,res) => {
             }
         });
 
-        
+
         try {
             await Prices.destroy({
                 where: {
@@ -166,8 +173,9 @@ const dataFinal = await times.map((time,index) => {
     }
     return dataa
 })
- 
+if(fullprice === 0 || fullprice === " ") {
                   Prices.bulkCreate(dataFinal, { validate: true })
+                }
 }
 
 export const deleteCourses = async(req,res) => {

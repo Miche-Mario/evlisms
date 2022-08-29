@@ -47,17 +47,48 @@ const Courses = () => {
   }, [isError, navigate
   ])
 
+  const [active, setActive] = useState(true);
+  const [classtypes, setClasstypes] = useState([]);
+  const [isClasstype, setIsClasstype] = useState([]);
 
+  const getClasstypes = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/classtype`);
+    setClasstypes(response.data)
+  }
+
+  const [languages, setLanguages] = useState([]);
+  const [isLanguage, setIsLanguage] = useState([]);
+
+  const getLanguages = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/language`);
+    setLanguages(response.data)
+  }
+
+
+  const [msg, setMsg] = useState("");
 
   const [courses, setCourses] = useState([]);
 
-  const getCourses = async () => {
-    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/courses`);
-    setCourses(response.data)
+  const getCourses = async (e) => {
+
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/courses`, {
+        classtype: 1,
+       
+      });
+      setCourses(response.data)
+      console.log(response.data)
+    } catch (error) {
+      if(error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
   }
 
 useEffect(() => {
   getCourses();
+  getClasstypes();
+  getLanguages();
 },[])
 
 
@@ -106,28 +137,42 @@ const deleteCourses = async (userId) => {
           <div className=' ml-3  flex items-center'>
 
             <p className='text-xl text-gray-900'>Class type</p>
-            <select id="countries" class="ml-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-24 p-1">
-              <option value="US">Group</option>
-              <option value="CA">Individual</option>
-            </select>
+            <select id="countries" class="ml-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-24 p-1"
+                  value={isClasstype}
+                  onChange={(e) => setIsClasstype(e.target.value)} 
+                  onClick= {()=>getCourses()}
+                  required
+                  onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                >
+                  <option value="999" selected>All</option>
+                  { classtypes.map((classtype, index) => (
+                      <option value={classtype.id} >{classtype.classtypename}</option>
+                  ))}
+                </select>
 
 
             <p className='text-xl ml-3 text-gray-900'>Language</p>
-            <select id="countries" class="ml-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-24 p-1">
-              <option value="all">All</option>
-              <option value="US">English</option>
-              <option value="CA">French</option>
-            </select>
-            <p className='text-xl ml-3 text-gray-900'>Level</p>
-            <select id="countries" class="ml-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-24 p-1">
-              <option value="all">All</option>
-              <option value="US">A1</option>
-              <option value="CA">B1</option>
-            </select>
+            <select id="countries" class="ml-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-24 p-1"
+                  value={setIsLanguage}
+                  onClick= {()=>getCourses()}
+                  onChange={(e) => setIsLanguage(e.target.value)} 
+                  required
+                  onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                >
+                  <option value="999" selected>All</option>
+                  { languages.map((language, index) => (
+                      <option value={language.id} >{language.languagename}</option>
+                  ))}
+                </select>
+            
             <p className='text-xl ml-3 text-gray-900'>Status</p>
-            <select id="countries" class="ml-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-24 p-1">
-              <option value="all">Active</option>
-              <option value="US">Inactive</option>
+            <select id="countries" class="ml-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-24 p-1"
+              value={active}
+              onClick= {()=>getCourses()}
+              onChange={(e)=> setActive(e.target.value)}
+            >
+              <option selected value="true">Active</option>
+              <option value="false">Inactive</option>
             </select>
             <div className='ml-[3em] w-auto'>
 
@@ -211,7 +256,7 @@ const deleteCourses = async (userId) => {
                         </td>
                         <td className=" py-3 px-3 text-center">
                           <div className="flex items-center justify-center">
-                            <span className="bg-green-600 text-white py-1 px-3 rounded-full text-xs">{course.active  ? "active" : "inactive"}</span>
+                            <span className={`bg-green-600 text-white py-1 px-3 rounded-full text-xs ${course.active ? "bg-green-600" : "bg-red" }`} >{course.active  ? "Active" : "Inactive"}</span>
                           </div>
                         </td>
   
