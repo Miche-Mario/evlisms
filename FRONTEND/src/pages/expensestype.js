@@ -68,7 +68,7 @@ const Expensestype = () => {
               
               </div>
               <div >
-               
+             
                 <select id="countries" class="bg-gray-50 mb-4  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
                   <option></option>
                   <option value="US">Accounting</option>

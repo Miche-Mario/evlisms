@@ -12,25 +12,148 @@ import { getUnpackedSettings } from "http2";
 
 
 export const getCourses = async (req,res) => {
-    const { classtype, language, active} = req.body;
-
+    const {  language, classtype, active} = req.body;
+    let response, count;
+   
     try {
-        const response = await Courses.findAll({
-            attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
-            include: [
-                {model: Course},
-                {model: Language},
-                {model: SubCourse},
-                {model: ClassType}
-           ],
-           where: {
-            active: active
-           }
-        });
+        
+  
+           if(language == "" && classtype == ""  && active == "" ) { 
+        
+            count, response = await Courses.findAndCountAll({
+               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               include: [
+                   {model: Course},
+                   {model: Language},
+                   {model: SubCourse},
+                   {model: ClassType}
+              ]
+           });}
+
+           
+           if(language === "" && classtype === "" && active !== "" ) { 
+        
+            response = await Courses.findAndCountAll({
+               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               include: [
+                   {model: Course},
+                   {model: Language},
+                   {model: SubCourse},
+                   {model: ClassType}
+              ],
+              where: {
+                active: active
+              }
+           });}
+
+
+           if(language !== "" && classtype == "" && active == "" ) { 
+        
+            response = await Courses.findAndCountAll({
+               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               include: [
+                   {model: Course},
+                   {model: Language},
+                   {model: SubCourse},
+                   {model: ClassType}
+              ],
+              where: {
+                language_languageid: language
+              }
+           });}
+
+           if(language == "" && classtype !== "" && active == "" ) { 
+        
+            response = await Courses.findAndCountAll({
+               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               include: [
+                   {model: Course},
+                   {model: Language},
+                   {model: SubCourse},
+                   {model: ClassType}
+              ],
+              where: {
+                classtype_classtypeid: classtype
+              }
+           });}
+
+           if(language !== "" && classtype !== "" && active == "" ) { 
+        
+            response = await Courses.findAndCountAll({
+               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               include: [
+                   {model: Course},
+                   {model: Language},
+                   {model: SubCourse},
+                   {model: ClassType}
+              ],
+              where: {
+                [Op.and] : [
+                    {classtype_classtypeid: classtype},
+                    {language_languageid: language},
+
+                ]
+              }
+           });}
+           if(language !== "" && classtype == "" && active !== "" ) { 
+        
+            response = await Courses.findAndCountAll({
+               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               include: [
+                   {model: Course},
+                   {model: Language},
+                   {model: SubCourse},
+                   {model: ClassType}
+              ],
+              where: {
+                [Op.and] : [
+                    {active: active},
+                    {language_languageid: language},
+
+                ]
+              }
+           });}
+           if(language == "" && classtype !== "" && active !== "" ) { 
+        
+            response = await Courses.findAndCountAll({
+               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               include: [
+                   {model: Course},
+                   {model: Language},
+                   {model: SubCourse},
+                   {model: ClassType}
+              ],
+              where: {
+                [Op.and] : [
+                    {classtype_classtypeid: classtype},
+                    {active: active},
+
+                ]
+              }
+           });}
+           if(language !== "" && classtype !== "" && active !== "" ) { 
+        
+            response = await Courses.findAndCountAll({
+               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               include: [
+                   {model: Course},
+                   {model: Language},
+                   {model: SubCourse},
+                   {model: ClassType}
+              ],
+              where: {
+                [Op.and] : [
+                    {classtype_classtypeid: classtype},
+                    {language_languageid: language},
+                    {active: active},
+                ]
+              }
+           });}
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({msg: error.message});
     }
+
 }
 
 
@@ -105,48 +228,48 @@ const dataFinal = await times.map((time,index) => {
                   Prices.bulkCreate(dataFinal, { validate: true })
 }
 
-export const updateCourses = async(req,res) => {
+export const updateCourses = async (req, res) => {
     const courses = await Courses.findOne({
         where: {
             id: req.params.id
         }
     });
-    if(!courses) return res.status(404).json({msg: "Courses doesn't not exist" });
-    const {courseid, coursename, subcourseid, subcoursename, 
+    if (!courses) return res.status(404).json({ msg: "Courses doesn't not exist" });
+    const { courseid, coursename, subcourseid, subcoursename,
         description, fullprice, fullduration,
-        language_languageid,classtype_classtypeid, active} = req.body;
-    
-    
-        await Course.update({
-            coursename: coursename,
-        }, {
-            where: {
-                id: courseid
-            }
-        });
-       
-     subcourseid &&   await SubCourse.update({
-            subcoursename: subcoursename,
-        }, {
-            where: {
-                id: subcourseid
-            }
-        });
+        language_languageid, classtype_classtypeid, active } = req.body;
 
-        await Courses.update({
-            description: description,
-            fullprice: fullprice,
-            fullduration: fullduration,
-            language_languageid: language_languageid,
-            classtype_classtypeid: classtype_classtypeid,
-            description: description,
-            active: active
-        }, {
-            where: {
-                id: req.params.id,
-          
-            }
-        });
+
+    await Course.update({
+        coursename: coursename,
+    }, {
+        where: {
+            id: courseid
+        }
+    });
+
+    subcoursename !== "" && await SubCourse.update({
+        subcoursename: subcoursename,
+    }, {
+        where: {
+            id: subcourseid
+        }
+    });
+
+    await Courses.update({
+        description: description,
+        fullprice: fullprice,
+        fullduration: fullduration,
+        language_languageid: language_languageid,
+        classtype_classtypeid: classtype_classtypeid,
+        description: description,
+        active: active
+    }, {
+        where: {
+            id: req.params.id,
+
+        }
+    })
 
 
         try {
@@ -155,28 +278,28 @@ export const updateCourses = async(req,res) => {
                     courses_coursesid: req.params.id
                 }
             });
-            res.status(201).json({msg: "Courses Deleted"});
+            res.status(201).json({ msg: "Courses Deleted" });
         } catch (error) {
-            res.status(400).json({msg: error.message})
+            res.status(400).json({ msg: error.message })
         }
 
 
-        const { times, prices} = req.body;
+        const { times, prices } = req.body;
 
 
-const dataFinal = await times.map((time,index) => {
-  
-    let dataa = {
-      "times_timesid": time.time,
-      "price": prices[index] ? prices[index] : null ,
-      "courses_coursesid": req.params.id
+        const dataFinal = await times.map((time, index) => {
+
+            let dataa = {
+                "times_timesid": time.id,
+                "price": prices[index] ? prices[index] : null,
+                "courses_coursesid": req.params.id
+            }
+            return dataa
+        })
+
+        Prices.bulkCreate(dataFinal, { validate: true })
     }
-    return dataa
-})
-if(fullprice === 0 || fullprice === " ") {
-                  Prices.bulkCreate(dataFinal, { validate: true })
-                }
-}
+
 
 export const deleteCourses = async(req,res) => {
     const courses = await Courses.findOne({

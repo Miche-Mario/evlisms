@@ -189,8 +189,8 @@ GET http://localhost:5000/courses/2
 ###
 //Update Courses By Courses Id
 
-PATCH http://localhost:5000/coursesprice/2
-Content-Type:  application/json
+PATCH http://localhost:5000/coursesprice/7
+
 
 {
     "courseid" : 1,
@@ -200,16 +200,15 @@ Content-Type:  application/json
     "active": false,
     "language_languageid": 1,
     "pricetype_pricetypeid": 1,
-    "classtype_classtypeid": 1,
+    "classtype_classtypeid": 2,
     "description": "desciptionn",
     "fullprice": 0,
     "fullduration": 2,
     "times": [
         {"time":"1"},
-        {"time":"2"},
-        {"time":"3"}
+        {"time":"2"}
     ],
-    "prices": [922,9222,92222]
+    "prices": [922,9222]
 }
 
 
@@ -225,7 +224,7 @@ Content-Type:  application/json
     "active": false,
     "language_languageid": 1,
     "pricetype_pricetypeid": 1,
-    "classtype_classtypeid": 1,
+    "classtype_classtypeid": 2,
     "description": "desciption",
     "fullprice": 0,
     "times": [

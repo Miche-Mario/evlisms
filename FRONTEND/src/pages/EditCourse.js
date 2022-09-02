@@ -121,32 +121,32 @@ const [getcourses, setGetCourses] = useState("")
   const [language, setLanguage] = useState('');
   
 
-  const [isActive, setIsActive] = useState(false)
   const activecourse = () => {
-    setIsActive(!isActive)
+    setCourseactive(!courseactive)
   }
 
-  const updateCourses = (e) => {
+  const updateCourses = async(e) => {
     e.preventDefault();
     try {
-       axios.patch(`${process.env.REACT_APP_BASE_URL}/coursesprice/${id}`, {
+       await axios.patch(`${process.env.REACT_APP_BASE_URL}/coursesprice/${id}`, {
         courseid : getcourses.course.id,
         coursename: coursename,
-        subcourseid : getcourses.subcourse.id,
-        subcoursename: subcourse,
+        subcourseid : subcourse ? getcourses.subcourse.id : null,
+        subcoursename: subcourse ? subcourse : null,
         language_languageid: courselanguage,
         classtype_classtypeid: courseclasstype,
         description: coursedescription,
         fullprice: coursefullprice,
         fullduration: coursefullduration,
-        times: times,
-        prices: getPrices,
-        active: isActive
+        times: times ? times : "",
+        prices: getPrices ? getPrices : "",
+        active: courseactive
       });
+    
       navigate("/courses");
     } catch (error) {
       if(error.response) {
-        setMsg(error.response.data.msg);
+        console.log(error.response.data.msg);
       }
     }
   }
@@ -165,9 +165,7 @@ const [getcourses, setGetCourses] = useState("")
     setIfFullPrice(!ifFullPrice)
   }
 
-  console.log(subcourse)
-
-
+  console.log(coursefullprice)
   return (
     <Layout>
       <div className='mt-10 ml-5'>
@@ -191,7 +189,7 @@ const [getcourses, setGetCourses] = useState("")
                   <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                     value={subcourse}
                     onChange={(e) => setSubCoursename(e.target.value)} 
-                    required
+                    
                     onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                   />
                 </div>
@@ -234,12 +232,11 @@ const [getcourses, setGetCourses] = useState("")
                   <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                     value={coursedescription}
                     onChange={(e) => setCourseDescription(e.target.value)} 
-                    required
                     onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                   />
                 </div>
                 <div className='flex items-center mt-5'>
-                <p className='text-lg font-medium text-gray-600 '>Active </p>
+                <p className='text-lg font-medium text-gray-600 '>{courseactive ? "Active": "Inactive"} </p>
                 <input type="checkbox" defaultChecked onClick={activecourse} className="w-5 ml-5 h-5"/>
               </div>
               
@@ -251,8 +248,7 @@ const [getcourses, setGetCourses] = useState("")
                     <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5 "
                       placeholder='00'
                       value={coursefullduration}
-                      onChange={(e) => steFullduration(e.target.value)} 
-                      required={ifFullPrice ? true : false}  
+                      onChange={(e) => setCoursefullduration(e.target.value)}   
                       onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                     />
                   </div>
