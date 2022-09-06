@@ -1,13 +1,20 @@
 import express from 'express'
 import {
-    getPurchase,
+    getPurchases,
+    getPurchaseById,
     createPurchase,
+    updatePurchase,
+    deletePurchase
 } from "../controllers/Purchases.js"
 
 const router = express.Router();
 
-router.get('/purchase', getPurchase);
+router.get('/purchases', getPurchases);
+router.get('/purchase/:id', getPurchaseById);
 router.post('/purchase', createPurchase);
+router.patch('/purchase/:id', updatePurchase);
+router.delete('/purchase/:id', deletePurchase);
+
 
 
 

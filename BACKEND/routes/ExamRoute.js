@@ -1,12 +1,18 @@
 import express from 'express'
 import {
-    getExam,
+    getExams,
+    getExamById,
+    updateExam,
+    deleteExam,
     createExam,
 } from "../controllers/Exams.js"
 
 const router = express.Router();
 
-router.get('/exam', getExam);
+router.get('/exam', getExams);
+router.get('/exam/:id', getExamById);
+router.patch('/exam/:id', updateExam);
+router.delete('/exam/:id', deleteExam);
 router.post('/exam', createExam);
 
 

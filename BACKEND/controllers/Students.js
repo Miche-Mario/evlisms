@@ -51,7 +51,7 @@ export const getStudentByName =async (req,res) => {
     }
 }
 export const createStudent = async(req,res) => {
-    const {surnameg, forenamesg, genderg, dateofbirthg, placeofbirthg, citizenshipg,occupationg, emailg, telhomeg, telghanag, maritalg, passportidg, noteg, aboutidg, surnamee, forenamese, gendere, relationshipe,occupatione, emaile, tel1e, tel2e, addresse, surnamep, forenamesp, genderp, relationshipp, occupationp, emailp, tel1p, tel2p, addressp, nameo, addresso, tel1o, emailo, contacto, tel2o, about_aboutid } = req.body;
+    const {surnameg, forenamesg, genderg, dateofbirthg, placeofbirthg, citizenshipg,occupationg, emailg, telhomeg, telghanag,addresshomeg, addressghanag, maritalg, passportidg,academiclevelg, noteg, aboutidg, surnamee, forenamese, gendere, relationshipe,occupatione, emaile, tel1e, tel2e, addresse, surnamep, forenamesp, genderp, relationshipp, occupationp, emailp, tel1p, tel2p, addressp, nameo, addresso, tel1o, emailo, contacto, tel2o, about_aboutid } = req.body;
     
     try {
         await Students.create({
@@ -65,8 +65,11 @@ export const createStudent = async(req,res) => {
             emailg: emailg,
             telhomeg: telhomeg,
             telghanag: telghanag,
+            addresshomeg: addresshomeg,
+            addressghana: addresshomeg,
             maritalg: maritalg,
             passportidg: passportidg,
+            academiclevelg: academiclevelg,
             noteg: noteg,
             aboutidg: aboutidg,
             passportphotographg: req.files['passportphotographg'],

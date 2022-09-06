@@ -160,16 +160,16 @@ const GuardianStudInfo = () => {
                 <label for="adresso" class="block mb-2 text-sm font-medium text-gray-900">Address</label>
                 <input type="text" id="adresso" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Adress" required 
                   onChange={handleChangee}
-                  name="adresso"
-                  value={studentData["adresso"] || ""}
+                  name="addresso"
+                  value={studentData["addresso"] || ""}
                 />
               </div>
               <div>
                 <label for="telo" class="block mb-2 text-sm font-medium text-gray-900">Tel</label>
                 <input type="text" id="telo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  " placeholder="123-456" required 
                   onChange={handleChangee}
-                  name="telo"
-                  value={studentData["telo"] || ""}
+                  name="tel1o"
+                  value={studentData["tel1o"] || ""}
                 />
               </div>
               <div>
@@ -192,8 +192,8 @@ const GuardianStudInfo = () => {
                 <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900   ">Tel</label>
                 <input type="phone" id="visitors" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="123-456" required 
                   onChange={handleChangee}
-                  name="addressp"
-                  value={studentData["addressp"] || ""}
+                  name="tel2o"
+                  value={studentData["tel2o"] || ""}
                 />
               </div>
             </div>
@@ -213,7 +213,11 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900   ">Forenames</label>
-                <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Doe" required />
+                <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Doe" required 
+                  onChange={handleChangee}
+                  name="forenamese"
+                  value={studentData["forenamese"] || ""}
+                />
               </div>
               <div>
                 <label for="gendere" class="block mb-2 text-sm font-medium text-gray-900   ">Gender</label>

@@ -88,12 +88,12 @@ const AddCourse = ({ props }) => {
     
   }
 
-  const saveCourses = async (e) => {
+  const saveCourses =  (e) => {
     var keyCode = e.keyCode || e.which;
   if (keyCode !== 13) { 
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/courses`, {
+       axios.post(`${process.env.REACT_APP_BASE_URL}/courses`, {
         coursename: course,
         courseidd: courseidd,
         subcoursename: subCource,
@@ -106,7 +106,8 @@ const AddCourse = ({ props }) => {
         prices: getPrices
         
       });
-      navigate(0);
+      navigate("/courses");
+
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);

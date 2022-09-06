@@ -1,13 +1,14 @@
-import Accomodation from "../models/AcoomodationModels.js"
+import ClassType from "../models/AcoomodationModels.js"
 import { Sequelize } from "sequelize";
 import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
+import Accomodation from "../models/AcoomodationModels.js";
 
-export const getAccomodation = async (req,res) => {
+export const getAccomodations = async (req,res) => {
     try {
-    const response = await Accomodation.findAll({
-            attributes: ['id','uuid', 'accomodationname', 'accomodationprice']
+        const response = await Accomodation.findAll({
+            attributes: ['uuid', 'id','accomodationname', 'accomodationprice']
         });
         res.status(200).json(response);
     } catch (error) {
@@ -15,8 +16,18 @@ export const getAccomodation = async (req,res) => {
     }
 }
 
-export const geAccomodationById = (req,res) => {
-    
+export const getAccomodationById = async(req,res) => {
+    try {
+        const response = await Accomodation.findOne({
+            attributes: ['uuid', 'accomodationname','accomodationprice'],
+            where: {
+                uuid: req.params.id
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
 }
 export const createAccomodation = async(req,res) => {
     const {accomodationname, accomodationprice} = req.body;
@@ -30,9 +41,45 @@ export const createAccomodation = async(req,res) => {
         res.status(400).json({msg: error.message})
     }
 }
-export const updateAccomodation = (req,res) => {
+export const updateAccomodation = async(req,res) => {
+    const accomodation = await Accomodation.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!accomodation) return res.status(404).json({msg: "Accomodation doesn't not exist" });
+    const {accomodationname, accomodationprice} = req.body;
     
+    try {
+        await Accomodation.update({
+            accomodationname: accomodationname,
+            accomodationprice: accomodationprice
+        }, {
+            where: {
+                id: accomodation.id
+            }
+        });
+        res.status(200).json({msg: "Accomodation  updated"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
 }
-export const deleteAccomodation = (req,res) => {
-    
+export const deleteAccomodation = async(req,res) => {
+    const accomodation = await Accomodation.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!accomodation) return res.status(404).json({msg: "Accomodation doesn't not exist" });
+    try {
+        await Accomodation.destroy({
+            where: {
+                id: accomodation.id
+            }
+        });
+        res.status(201).json({msg: "Accomodation Deleted"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+
 }

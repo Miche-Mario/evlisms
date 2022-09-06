@@ -4,10 +4,10 @@ import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
 
-export const getExam = async (req,res) => {
+export const getExams = async (req,res) => {
     try {
         const response = await Exam.findAll({
-            attributes: ['id','uuid', 'examname', 'examprice']
+            attributes: ['uuid', 'id','examname']
         });
         res.status(200).json(response);
     } catch (error) {
@@ -15,24 +15,68 @@ export const getExam = async (req,res) => {
     }
 }
 
-export const getExamById = (req,res) => {
-    
+export const getExamById = async(req,res) => {
+    try {
+        const response = await Exam.findOne({
+            attributes: ['uuid', 'examname'],
+            where: {
+                uuid: req.params.id
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
 }
 export const createExam = async(req,res) => {
-    const {examname, examprice} = req.body;
+    const {examname} = req.body;
     try {
-        await Exam.create({
-            examname: examname,
-            examprice: examprice
+        await ClassType.create({
+            examname: examname
         });
-        res.status(201).json({msg: "Exams Well Created"});
+        res.status(201).json({msg: "Exam Well Created"});
     } catch (error) {
         res.status(400).json({msg: error.message})
     }
 }
-export const updateExam = (req,res) => {
+export const updateExam = async(req,res) => {
+    const exam = await Exam.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!exam) return res.status(404).json({msg: "Exam doesn't not exist" });
+    const {examname} = req.body;
     
+    try {
+        await ClassType.update({
+            examname: examname,
+        }, {
+            where: {
+                id: exam.id
+            }
+        });
+        res.status(200).json({msg: "Exam  updated"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
 }
-export const deleteExam = (req,res) => {
-    
+export const deleteExam = async(req,res) => {
+    const exam = await Exam.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!exam) return res.status(404).json({msg: "Exam doesn't not exist" });
+    try {
+        await Exam.destroy({
+            where: {
+                id: exam.id
+            }
+        });
+        res.status(201).json({msg: "Exam Deleted"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+
 }

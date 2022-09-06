@@ -81,11 +81,11 @@ const Courses = () => {
 
   const [courses, setCourses] = useState([]);
   const [count, setCount] = useState();
-console.log(count)
+
   const getCourses = async (e) => {
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/courses`,{
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/getcourses`,{
         classtype: isClasstype,
         language: isLanguage,
         active: active
@@ -140,14 +140,14 @@ const deleteCourses = async (userId) => {
   const getPricesTimes = async(id) => {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/prices/${id}`);
       setPricestimes(response.data);
-      
+    
     }
   
   const handleOpen = (code) => {
     setOpen(true);
     setCode(code)
 
-    
+  
     getPricesTimes();
 
   };
@@ -205,7 +205,7 @@ const deleteCourses = async (userId) => {
                 <p className='mb-2 ml-4 mt-2 bg-dark-purple text-xl text-white text-center rounded-lg block w-[20rem] p-2'>{code.classtype ? code.classtype.classtypename : ""}</p>
                 <p className='mb-2 ml-4 mt-2 bg-dark-purple text-xl text-white text-center rounded-lg block w-[20rem] p-2'>{code.language ? code.language.languagename : ""}</p>
                 <p className={`mb-2 ml-4 mt-2 bg-dark-purple text-xl text-white text-center rounded-lg block w-[20rem] p-2 ${code.active ? "bg-green-600" : "bg-red" }`} >{code.active  ? "Active" : "Inactive"}</p>
-                <p className='mb-2 ml-4 mt-2 bg-dark-purple text-xl text-white text-center rounded-lg block w-[20rem] p-2'>{code.fullduration ? code.fullduration: ""}</p>
+                <p className='mb-2 ml-4 mt-2 bg-dark-purple text-xl text-white text-center rounded-lg block w-[20rem] p-2'>{code.fullduration ? code.fullprice : ""}</p>
 
               </div>
            

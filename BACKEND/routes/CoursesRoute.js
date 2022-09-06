@@ -8,7 +8,7 @@ import {
 
 const router = express.Router();
 
-router.post('/courses', getCourses);
+router.post('/getcourses', getCourses);
 router.delete('/courses/:id', deleteCourses);
 router.post('/courses', createCourses);
 router.get('/courses/:id', getCoursesById);

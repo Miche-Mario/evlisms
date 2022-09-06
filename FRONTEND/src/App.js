@@ -21,6 +21,10 @@ import PriceType from './pages/Pricetype';
 import EditPriceType from './pages/EditPriceType';
 import AddCourse from './pages/AddCourse';
 import EditCourse from './pages/EditCourse'
+import ItemsSale from './pages/Itemssale'
+import EditItemSale from "./pages/EditItemsSale"
+import Accomodation from "./pages/Accomodation"
+import EditAccomodation from './pages/EditAccomodation'
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -44,9 +48,14 @@ function App() {
             <Route path='/pricetype/edit/:id' element={<EditPriceType/>}/>
             <Route path='/language/edit/:id' element={<EditLanguage/>}/>
             <Route path='/course/edit/:id' element={<EditCourse/>}/>
+            <Route path='/accomodation/edit/:id' element={<EditAccomodation/>}/>
+            <Route path='/purchase/edit/:id' element={<EditItemSale/>}/>
             <Route path='/paymentmethods/edit/:id' element={<EditPaymentMethods/>}/>
             <Route path='/paymentmethods' element={<PaymentMethods/>}/>
             <Route path="/addcourse" element={<AddCourse/>}/>
+            <Route path="/itemssale" element={<ItemsSale/>}/>
+            <Route path="/accomodations" element={<Accomodation/>}/>
+
 
         </Routes>
       </BrowserRouter>

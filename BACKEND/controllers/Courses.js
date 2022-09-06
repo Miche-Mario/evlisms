@@ -21,7 +21,7 @@ export const getCourses = async (req,res) => {
            if(language == "" && classtype == ""  && active == "" ) { 
         
             count, response = await Courses.findAndCountAll({
-               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               attributes: ['id','uuid','language_languageid','fullprice','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
                include: [
                    {model: Course},
                    {model: Language},
@@ -34,7 +34,7 @@ export const getCourses = async (req,res) => {
            if(language === "" && classtype === "" && active !== "" ) { 
         
             response = await Courses.findAndCountAll({
-               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               attributes: ['id','uuid','language_languageid','fullprice','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
                include: [
                    {model: Course},
                    {model: Language},
@@ -50,7 +50,7 @@ export const getCourses = async (req,res) => {
            if(language !== "" && classtype == "" && active == "" ) { 
         
             response = await Courses.findAndCountAll({
-               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               attributes: ['id','uuid','language_languageid','fullprice','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
                include: [
                    {model: Course},
                    {model: Language},
@@ -65,7 +65,7 @@ export const getCourses = async (req,res) => {
            if(language == "" && classtype !== "" && active == "" ) { 
         
             response = await Courses.findAndCountAll({
-               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               attributes: ['id','uuid','language_languageid','fullprice','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
                include: [
                    {model: Course},
                    {model: Language},
@@ -80,7 +80,7 @@ export const getCourses = async (req,res) => {
            if(language !== "" && classtype !== "" && active == "" ) { 
         
             response = await Courses.findAndCountAll({
-               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               attributes: ['id','uuid','language_languageid','fullprice','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
                include: [
                    {model: Course},
                    {model: Language},
@@ -98,7 +98,7 @@ export const getCourses = async (req,res) => {
            if(language !== "" && classtype == "" && active !== "" ) { 
         
             response = await Courses.findAndCountAll({
-               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               attributes: ['id','uuid','language_languageid','fullprice','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
                include: [
                    {model: Course},
                    {model: Language},
@@ -116,7 +116,7 @@ export const getCourses = async (req,res) => {
            if(language == "" && classtype !== "" && active !== "" ) { 
         
             response = await Courses.findAndCountAll({
-               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               attributes: ['id','uuid','language_languageid','fullprice','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
                include: [
                    {model: Course},
                    {model: Language},
@@ -134,7 +134,7 @@ export const getCourses = async (req,res) => {
            if(language !== "" && classtype !== "" && active !== "" ) { 
         
             response = await Courses.findAndCountAll({
-               attributes: ['id','uuid','language_languageid','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
+               attributes: ['id','uuid','language_languageid','fullprice','coursecode','fullduration','pricetype_pricetypeid', 'active', 'course_courseid', 'description', 'subcourse_subcourseid'],
                include: [
                    {model: Course},
                    {model: Language},

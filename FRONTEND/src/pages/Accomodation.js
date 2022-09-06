@@ -49,29 +49,29 @@ const Itemssale = () => {
 
 
 
-  const [items, setItems] = useState([]);
+  const [accomodations, setAccomodation] = useState([]);
 
-  const getItems = async () => {
-    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/purchases`);
-    setItems(response.data)
+  const getAccomodation = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/accomodations`);
+    setAccomodation(response.data)
   }
 
-  const deleteItems = async (userId) => {
-    await axios.delete(`${process.env.REACT_APP_BASE_URL}/purchase/${userId}`);
-    getItems();
+  const deleteAccomodation = async (userId) => {
+    await axios.delete(`${process.env.REACT_APP_BASE_URL}/accomadation/${userId}`);
+    getAccomodation();
     navigate(0);
   }
 
 
-  const [purchasename, setPurchasename] = useState("");
-  const [purchaseprice, setPurchaseprice] = useState("");
+  const [accomodationname, setAccomodationname] = useState("");
+  const [accomodationprice, setAccomodationprice] = useState("");
   const [msg, setMsg] = useState("");
-  const saveItems = async (e) => {
+  const saveAccomodations = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.REACT_APP_BASE_URL}/purchase`, {
-        purchasename: purchasename,
-        purchaseprice: purchaseprice
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/accomodation`, {
+        accomodationname: accomodationname,
+        accomodationprice: accomodationprice
       });
       navigate(0);
     } catch (error) {
@@ -82,8 +82,8 @@ const Itemssale = () => {
   }
 
   useEffect(() => {
-    getItems();
-    saveItems();
+    getAccomodation();
+    saveAccomodations();
   }, [])
 
   const [open, setOpen] = useState(false);
@@ -113,8 +113,8 @@ const Itemssale = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} >
-          <p class="text-white text-xl p-3  bg-dark-purple w-full">Purchase DETAILS</p>
-          <form onSubmit={saveItems}>
+          <p class="text-white text-xl p-3  bg-dark-purple w-full">Accomodation DETAILS</p>
+          <form onSubmit={saveAccomodations}>
             <div className='flex flex-row m-3 justify-around items-center'>
               <div className=''>
                 <label for="languagename" class="block mb-6 text-base font-medium text-gray-900 p-1">Name</label>
@@ -124,13 +124,13 @@ const Itemssale = () => {
               <div >
               <input type="text" id="languagename" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
                 placeholder="name" 
-                value={purchasename}
-                onChange={(e) => setPurchasename(e.target.value)}  
+                value={accomodationname}
+                onChange={(e) => setAccomodationname(e.target.value)}  
               />
               <input type="text" id="languagename" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
                 placeholder="00" 
-                value={purchaseprice}
-                onChange={(e) => setPurchaseprice(e.target.value)}  
+                value={accomodationprice}
+                onChange={(e) => setAccomodationprice(e.target.value)}  
               />
               </div>
               <div >
@@ -162,7 +162,7 @@ const Itemssale = () => {
             <div className='text-center text-xl font-medium'>Would you really delete ?</div>
             <div className='flex items-center justify-center mt-3 mb-3'>
               <button className='bg-blue-600 rounded text-gray-100 ml-5 font-medium w-20 h-10 flex items-center justify-center'
-                onClick={() => deleteItems(va)}
+                onClick={() => deleteAccomodation(va)}
               >
                 Delete
               </button>
@@ -178,7 +178,7 @@ const Itemssale = () => {
 
       <div className='m-3'>
         <div>
-          <legend className='p-1 ml-3 text-xl text-blue-700'>Purchases</legend>
+          <legend className='p-1 ml-3 text-xl text-blue-700'>Accomodations</legend>
             <div className='flex'>
             <button onClick={handleOpen} className='bg-blue-600 rounded ml-3 text-gray-100 font-medium w-48 h-10 p-3 flex items-center justify-center' type="submit" name='Add'>
               Add
@@ -195,8 +195,8 @@ const Itemssale = () => {
                 </tr>
               </thead>
               <tbody className="text-gray-600  text-sm font-light">
-                {items.map((item, index) => ( 
-                <tr key={item.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
+                {accomodations.map((acco, index) => ( 
+                <tr key={acco.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
                   <td className="p-0  border border-dark-purple">
                     <div className="flex items-center justify-center">
                       <span className="font-medium uppercase">{index + 1}</span>
@@ -204,19 +204,19 @@ const Itemssale = () => {
                   </td>
                   <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">{item.purchasename}</span>
+                      <span className="font-medium uppercase">{acco.accomodationname}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">{item.purchaseprice}</span>
+                      <span className="font-medium uppercase">{acco.accomodationprice}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex item-center justify-center">
                           <div>
                             <Link
-                               to={`/purchase/edit/${item.uuid}`}
+                               to={`/accomodation/edit/${acco.uuid}`}
                             >
                               <button className='flex items-center p-1 bg-green-600 text-white text-[1rem]'>
                                 <BiEdit />Edit
@@ -228,7 +228,7 @@ const Itemssale = () => {
 
                             <button
                               className='flex items-center p-1 bg-red text-white text-[1rem]'
-                                onClick={() => handleOpen1(item.uuid)}
+                                onClick={() => handleOpen1( acco.uuid)}
                             >
                               <MdDeleteSweep size={20} />Delete
                             </button>
