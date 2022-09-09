@@ -169,6 +169,30 @@ Content-Type:  application/json
 
 
 ###
+//Get All GETCOURSEWITHSUBCOURSE
+
+POST http://localhost:5000/getsubcourse
+Content-Type:  application/json
+
+{
+    "courseid": 1
+}
+
+
+
+###
+//Get All COURSESPRICE
+
+POST http://localhost:5000/getcoursesprice
+Content-Type:  application/json
+
+{
+    "courseid": 4,
+    "subcourseid": null,
+    "duration": 2
+}
+
+###
 //Get All Courses
 
 GET http://localhost:5000/courses
@@ -179,6 +203,7 @@ Content-Type:  application/json
     "language": 1,
     "active": true
 }
+
 
 ###
 //Get SubCourses By Courses Id
@@ -246,7 +271,7 @@ DELETE  http://localhost:5000/courses/ff8da0f8-a9f9-43ea-90d7-dd5e97fbf01a
 ###
 //Get All Times
 
-GET http://localhost:5000/time
+GET http://localhost:5000/times
 
 
 ###

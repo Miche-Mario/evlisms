@@ -57,7 +57,7 @@ const Itemssale = () => {
   }
 
   const deleteAccomodation = async (userId) => {
-    await axios.delete(`${process.env.REACT_APP_BASE_URL}/accomadation/${userId}`);
+    await axios.delete(`${process.env.REACT_APP_BASE_URL}/accomodation/${userId}`);
     getAccomodation();
     navigate(0);
   }

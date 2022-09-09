@@ -15,6 +15,21 @@ export const getPurchases = async (req,res) => {
     }
 }
 
+export const getPurchasePrice = async(req,res) => {
+    const {purchaseid} = req.body;
+
+    try {
+        const response = await Purchases.findOne({
+            attributes: ['purchaseprice'],
+            where: {
+                id: purchaseid
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
 export const getPurchaseById = async(req,res) => {
     try {
         const response = await Purchases.findOne({
@@ -28,6 +43,7 @@ export const getPurchaseById = async(req,res) => {
         res.status(500).json({msg: error.message});
     }
 }
+
 export const createPurchase = async(req,res) => {
     const {purchasename,purchaseprice} = req.body;
     try {

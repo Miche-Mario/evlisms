@@ -7,7 +7,7 @@ import path from "path"
 export const getExams = async (req,res) => {
     try {
         const response = await Exam.findAll({
-            attributes: ['uuid', 'id','examname']
+            attributes: ['uuid', 'id','examname', 'examprice']
         });
         res.status(200).json(response);
     } catch (error) {
@@ -18,7 +18,7 @@ export const getExams = async (req,res) => {
 export const getExamById = async(req,res) => {
     try {
         const response = await Exam.findOne({
-            attributes: ['uuid', 'examname'],
+            attributes: ['uuid', 'examname', 'examprice'],
             where: {
                 uuid: req.params.id
             }
@@ -28,11 +28,27 @@ export const getExamById = async(req,res) => {
         res.status(500).json({msg: error.message});
     }
 }
-export const createExam = async(req,res) => {
-    const {examname} = req.body;
+export const getExamPrice = async(req,res) => {
+    const {examid} = req.body;
+
     try {
-        await ClassType.create({
-            examname: examname
+        const response = await Exam.findOne({
+            attributes: ['examprice'],
+            where: {
+                id: examid
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
+export const createExam = async(req,res) => {
+    const {examname, examprice} = req.body;
+    try {
+        await Exam.create({
+            examname: examname,
+            examprice: examprice
         });
         res.status(201).json({msg: "Exam Well Created"});
     } catch (error) {
@@ -46,11 +62,13 @@ export const updateExam = async(req,res) => {
         }
     });
     if(!exam) return res.status(404).json({msg: "Exam doesn't not exist" });
-    const {examname} = req.body;
+    const {examname, examprice} = req.body;
     
     try {
-        await ClassType.update({
+        await Exam.update({
             examname: examname,
+            examprice: examprice
+
         }, {
             where: {
                 id: exam.id

@@ -4,6 +4,16 @@ import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
 
+export const getAllTime = async (req,res) => {
+    try {
+        const response = await Time.findAll({
+            attributes: ['id','uuid', 'time'],
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
 export const getTime = async (req,res) => {
     const {number} = req.body;
     try {

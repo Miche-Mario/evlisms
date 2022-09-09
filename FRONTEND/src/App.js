@@ -25,6 +25,8 @@ import ItemsSale from './pages/Itemssale'
 import EditItemSale from "./pages/EditItemsSale"
 import Accomodation from "./pages/Accomodation"
 import EditAccomodation from './pages/EditAccomodation'
+import Exams from './pages/Exams';
+import EditExam from './pages/EditExam';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -50,11 +52,14 @@ function App() {
             <Route path='/course/edit/:id' element={<EditCourse/>}/>
             <Route path='/accomodation/edit/:id' element={<EditAccomodation/>}/>
             <Route path='/purchase/edit/:id' element={<EditItemSale/>}/>
+            <Route path='/exam/edit/:id' element={<EditExam/>}/>
             <Route path='/paymentmethods/edit/:id' element={<EditPaymentMethods/>}/>
             <Route path='/paymentmethods' element={<PaymentMethods/>}/>
             <Route path="/addcourse" element={<AddCourse/>}/>
             <Route path="/itemssale" element={<ItemsSale/>}/>
             <Route path="/accomodations" element={<Accomodation/>}/>
+            <Route path="/exams" element={<Exams/>}/>
+
 
 
         </Routes>

@@ -1,5 +1,5 @@
 import Courses from "../models/CoursesModels.js"
-import { Model, Sequelize } from "sequelize";
+import { Model, Sequelize, where } from "sequelize";
 import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
@@ -8,7 +8,79 @@ import SubCourse from "../models/SubCourseModels.js";
 import Language from "../models/LanguageModels.js";
 import Prices from "../models/PricesModels.js";
 import ClassType from "../models/ClassTypeModels.js";
-import { getUnpackedSettings } from "http2";
+
+export const getCourseWithSubcourse = async (req,res) => {
+    const {  courseid} = req.body;
+    let response, count;
+   
+    try {
+             response = await Courses.findAll({
+               attributes: ['id'],
+               include: {
+                model: SubCourse,
+               
+              },
+              where: {
+                course_courseid: courseid
+              }
+           }); 
+           
+           res.status(200).json(response);
+        } catch (error) {
+            res.status(500).json({msg: error.message});
+        }
+    
+    }
+
+    export const getCoursesPrice = async (req,res) => {
+        const {  courseid, subcourseid, duration} = req.body;
+        let courses
+        courses = await Courses.findOne({
+               
+                where: {
+                course_courseid: courseid,
+                subcourse_subcourseid: subcourseid
+            }
+        })
+       
+        if(!courses) return res.status(404).json({msg: "Courses doesn't not exist" });
+
+
+            if (courses.fullprice !== 0)  {
+                try {
+                    const response = await Courses.findOne({
+                        attributes: ['fullduration', 'fullprice'],
+                       where: {
+                        course_courseid: courseid,
+                        subcourse_subcourseid: subcourseid
+                       }
+                    }); 
+                    
+                    res.status(200).json(response);
+                } catch (error) {
+                    res.status(500).json({msg: error.message});
+                }
+            } else {
+                try {
+
+                    const response = await Prices.findOne({
+                        attributes: ['price'],
+                       where: {
+                         courses_coursesid: courses.id,
+                         times_timesid: duration
+                       }
+                    }); 
+                    
+                    res.status(200).json(response);
+                } catch (error) {
+                    res.status(500).json({msg: error.message});
+                }
+                
+            }
+               
+           
+        
+        }
 
 
 export const getCourses = async (req,res) => {

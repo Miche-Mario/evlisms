@@ -6,9 +6,11 @@ import Modal from '@mui/material/Modal';
 
 
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { getMe } from '../features/auth/authSlice'
-
+import { BiEdit } from 'react-icons/bi'
+import { MdDeleteSweep } from 'react-icons/md'
+import axios from "axios"
 
 const style = {
   position: 'absolute',
@@ -23,25 +25,66 @@ const style = {
   m: 0,
   height: 'auto'
 };
-const exams = () => {
-
-
+const Exams = () => {
 
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isError } = useSelector((state) => state.auth);
+  const { isError, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getMe());
   }, [dispatch])
 
   useEffect(() => {
-    if(isError) {
-      navigate("/")
+    if (isError) {
+      navigate("/");
     }
-  }, [isError, navigate
-  ])
+    if (user && user.role !== "admin") {
+      navigate("/dashboard");
+    }
+  }, [isError, user, navigate]);
+
+
+
+
+
+  const [exams, setExams] = useState([]);
+
+  const getExams = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/exam`);
+    setExams(response.data)
+  }
+
+  const deleteExams = async (userId) => {
+    await axios.delete(`${process.env.REACT_APP_BASE_URL}/exam/${userId}`);
+    getExams();
+    navigate(0);
+  }
+
+
+  const [examname, setExamname] = useState("");
+  const [examprice, setExamprice] = useState("");
+  const [msg, setMsg] = useState("");
+  const saveExam = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/exam`, {
+        examname: examname,
+        examprice: examprice
+      });
+      navigate(0);
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
+  }
+
+  useEffect(() => {
+    getExams();
+    saveExam();
+  }, [])
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -49,6 +92,17 @@ const exams = () => {
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const [open1, setOpen1] = useState(false);
+  const [va, setVa] = useState("");
+
+  const handleOpen1 = (uuid) => {
+    setOpen1(true);
+    setVa(uuid)
+  };
+  const handleClose1 = () => {
+    setOpen1(false);
   };
   return (
     <Layout >
@@ -59,33 +113,36 @@ const exams = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} >
-          <p class="text-white text-xl p-3  bg-dark-purple w-full">EXAM DETAILS</p>
-          <form>
+          <p class="text-white text-xl p-3  bg-dark-purple w-full">Exam DETAILS</p>
+          <form onSubmit={saveExam}>
             <div className='flex flex-row m-3 justify-around items-center'>
               <div className=''>
-                <label for="first_name" class="block mb-6 text-base font-medium text-gray-900 p-1">Name</label>
-                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Description</label>
-                <label for="first_name" class="block mb-5 text-base font-medium text-gray-900 p-1">Course</label>               
-               
-              
+                <label for="languagename" class="block mb-6 text-base font-medium text-gray-900 p-1">Name</label>
+                <label for="languagename" class="block mb-6 text-base font-medium text-gray-900 p-1">Price</label>
+
               </div>
               <div >
-              <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="name" />
-
-                <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="description" />
-                <select id="countries" class="bg-gray-50 mb-4  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
-                  <option></option>
-                  <option value="US">Kids</option>
-                  <option value="CA">General English</option>
-                </select> 
-
+              <input type="text" id="languagename" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
+                placeholder="name" 
+                value={examname}
+                onChange={(e) => setExamname(e.target.value)}  
+              />
+              <input type="text" id="languagename" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
+                placeholder="00" 
+                value={examprice}
+                onChange={(e) => setExamprice(e.target.value)}  
+              />
+              </div>
+              <div >
               </div>
             </div>
+           
+            <p className='text-sm text-center text-red'>{msg}</p>
             <div className='flex flex-row justify-around  mt-3 mb-3'>
-              <button className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
-                Ok
+              <button className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit">
+                Save
               </button>
-              <button onClick={handleClose} className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
+              <button onClick={handleClose} className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center'>
                 Cancel
               </button>
             </div>
@@ -95,127 +152,96 @@ const exams = () => {
 
       </Modal>
 
+      
+      <Modal
+        open={open1}
+        onClose={handleClose1}
+      >
+        <Box sx={style}>
+          <div className='items-center p-3 '>
+            <div className='text-center text-xl font-medium'>Would you really delete ?</div>
+            <div className='flex items-center justify-center mt-3 mb-3'>
+              <button className='bg-blue-600 rounded text-gray-100 ml-5 font-medium w-20 h-10 flex items-center justify-center'
+                onClick={() => deleteExams(va)}
+              >
+                Delete
+              </button>
+              <button onClick={handleClose1} className='bg-blue-600 rounded ml-5 text-gray-100 font-medium w-20 h-10 flex items-center justify-center'>
+                Cancel
+              </button>
+            </div>
+          </div>
 
+        </Box>
+      </Modal>
 
 
       <div className='m-3'>
-        <fieldset className='border  rounded border-dark-purple'>
-          <legend className='p-1 ml-3 text-xl text-blue-700'>EXAMS - KEEP TRACK OF STUDENT PROGRESS</legend>
-        
-        
-          <div className='flex ml-3 items-start'>
-
-          <div className='flex'>
-            <p className='text-xl mt-1 ml-8 text-gray-900'>Tests</p>
-            <select id="countries" class="ml-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 p-1.5">
-              <option value="US">All</option>
-              <option value="CA">Accessoires</option>
-              <option value="CA">Bills</option>
-              <option value="CA">Cleaning</option>
-              <option value="CA">Salaries</option>
-            </select>
-            </div>
-            <div className=' flex'>
-              <p className='text-xl ml-8 mt-1 text-gray-900'>From date</p>
-              <input type="date" id="first_name" class=" ml-3 bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 p-1.5 " placeholder="name" />
-            </div>
-
-
-            
-
-            <div className=' flex '>
-              <p className='text-xl mt-1 ml-8 text-gray-900'>To date</p>
-              <input type="date" id="first_name" class=" ml-3 bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-50 p-1.5 " placeholder="name" />
-            </div>
-
-           
-           
+        <div>
+          <legend className='p-1 ml-3 text-xl text-blue-700'>Exams</legend>
+            <div className='flex'>
             <button onClick={handleOpen} className='bg-blue-600 rounded ml-3 text-gray-100 font-medium w-48 h-10 p-3 flex items-center justify-center' type="submit" name='Add'>
               Add
             </button>
-           
           </div>
-           
-          <fieldset className='m-3 mb-0 h-52 border border-dark-purple'>
-            <table className="w-full   ">
+          <div className='m-3 mb-0 '>
+            <table className="w-[40rem]">
               <thead>
-                <tr className="bg-gray-200  text-gray-600 uppercase text-sm leading-normal">
-                  <th className=" py-3 px-3 text-center">N</th>
-                  <th className=" py-3 px-3 text-center">Test</th>
-                  <th className=" py-3 px-3 text-center">Student</th>
-                  <th className=" py-3 px-3 text-center">Exam date</th>
-                  <th className=" py-3 px-3 text-center">Result</th>
-                  <th className=" py-3 px-3 text-center">Grade</th>
-                  <th className=" py-3 px-3 text-center">Action</th>
-
-
+                <tr className=" border border-dark-purple bg-gray-200  text-gray-600 uppercase text-sm leading-normal">
+                  <th className=" border border-dark-purple py-3 px-3 text-center">N</th>
+                  <th className=" border border-dark-purple py-3 px-3 text-center">Name</th>
+                  <th className=" border border-dark-purple py-3 px-3 text-center">Price</th>
+                  <th className=" border border-dark-purple py-3 px-3 text-center">Action</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600  text-sm font-light">
-                <tr className=" border-gray-400  hover:bg-gray-100 border-b-2">
-                  <td className="p-0">
+                {exams.map((exam, index) => ( 
+                <tr key={exam.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
+                  <td className="p-0  border border-dark-purple">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">1</span>
+                      <span className="font-medium uppercase">{index + 1}</span>
                     </div>
                   </td>
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">APTIS</span>
+                  <td className=" py-3 px-3 text-center  border border-dark-purple">
+                  <div className="flex items-center justify-center">
+                      <span className="font-medium uppercase">{exam.examname}</span>
                     </div>
                   </td>
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">Miche Mario</span>
+                  <td className=" py-3 px-3 text-center  border border-dark-purple">
+                  <div className="flex items-center justify-center">
+                      <span className="font-medium uppercase">{exam.examprice}</span>
                     </div>
                   </td>
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">03 Jun 1997</span>
-                    </div>
-                  </td>
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">50%</span>
-                    </div>
-                  </td>
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">B2</span>
-                    </div>
-                  </td>
+                  <td className=" py-3 px-3 text-center  border border-dark-purple">
+                  <div className="flex item-center justify-center">
+                          <div>
+                            <Link
+                               to={`/exam/edit/${exam.uuid}`}
+                            >
+                              <button className='flex items-center p-1 bg-green-600 text-white text-[1rem]'>
+                                <BiEdit />Edit
+                              </button>
+                            </Link>
 
-                 
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex item-center justify-center">
-                      
-                      <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                      </div>
-                      <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </div>
-                    </div>
+                          </div>
+                          <div className='ml-3'>
+
+                            <button
+                              className='flex items-center p-1 bg-red text-white text-[1rem]'
+                                onClick={() => handleOpen1( exam.uuid)}
+                            >
+                              <MdDeleteSweep size={20} />Delete
+                            </button>
+                          </div>
+                        </div>
                   </td>
-
-
-                </tr>
-                
-
-
-
+                </tr>))}
               </tbody>
             </table>
-          </fieldset>
-          <div className='m-6 flex justify-end'>
-
-  
-         
           </div>
-        </fieldset>
+          <div className='m-6 flex justify-end'>       
+          </div>
+        </div>
       </div>
 
 
@@ -244,4 +270,4 @@ const exams = () => {
   )
 }
 
-export default exams
+export default Exams

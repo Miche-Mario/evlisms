@@ -16,12 +16,29 @@ export const getAccomodations = async (req,res) => {
     }
 }
 
+
 export const getAccomodationById = async(req,res) => {
     try {
         const response = await Accomodation.findOne({
             attributes: ['uuid', 'accomodationname','accomodationprice'],
             where: {
                 uuid: req.params.id
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
+export const getAccomodationPrice = async(req,res) => {
+    const {accoid} = req.body;
+
+    try {
+        const response = await Accomodation.findOne({
+            attributes: ['accomodationprice'],
+            where: {
+                id: accoid
             }
         });
         res.status(200).json(response);

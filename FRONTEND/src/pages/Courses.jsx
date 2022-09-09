@@ -321,6 +321,7 @@ const deleteCourses = async (userId) => {
                       <th className="py-3 px-3 text-center">N</th>
                       <th className="py-3 px-3 text-center">Course code</th>
                       <th className="py-3 px-3 text-center">Course name</th>
+                      <th className="py-3 px-3 text-center">Subcourse name</th>
                       <th className="py-3 px-3 text-center">Type</th>
                       <th className="py-3 px-3 text-center">Language</th>
                       <th className="py-3 px-3 text-center">Tuition fee</th>
@@ -349,6 +350,11 @@ const deleteCourses = async (userId) => {
                         <td className=" py-3 px-3 text-center">
                           <div className="flex items-center justify-center">
                             <span className="font-medium">{course.course ? course.course.coursename : ""}</span>
+                          </div>
+                        </td>
+                        <td className=" py-3 px-3 text-center">
+                          <div className="flex items-center justify-center">
+                            <span className="font-medium">{course.subcourse ? course.subcourse.subcoursename : "No Subcourse"}</span>
                           </div>
                         </td>
                         <td className=" py-3 px-3 text-center">
