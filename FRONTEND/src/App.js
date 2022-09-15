@@ -27,6 +27,11 @@ import Accomodation from "./pages/Accomodation"
 import EditAccomodation from './pages/EditAccomodation'
 import Exams from './pages/Exams';
 import EditExam from './pages/EditExam';
+import OtherFee from './pages/OtherFee';
+
+
+import Complete from './components/Students/Steps/Complete';
+import EditOtherFee from './pages/EditOtherFee';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -54,11 +59,16 @@ function App() {
             <Route path='/purchase/edit/:id' element={<EditItemSale/>}/>
             <Route path='/exam/edit/:id' element={<EditExam/>}/>
             <Route path='/paymentmethods/edit/:id' element={<EditPaymentMethods/>}/>
+            <Route path='/otherfee/edit/:id' element={<EditOtherFee/>}/>
             <Route path='/paymentmethods' element={<PaymentMethods/>}/>
             <Route path="/addcourse" element={<AddCourse/>}/>
             <Route path="/itemssale" element={<ItemsSale/>}/>
             <Route path="/accomodations" element={<Accomodation/>}/>
             <Route path="/exams" element={<Exams/>}/>
+            <Route path="/invoice" element={<Complete/>}/>
+            <Route path="/otherfee" element={<OtherFee/>}/>
+
+
 
 
 

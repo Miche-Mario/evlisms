@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 router.get('/accomodations', getAccomodations);
-router.post('/accomodation', getAccomodationPrice);
+router.post('/accomodationprice', getAccomodationPrice);
 router.get('/accomodation/:id', getAccomodationById);
 router.patch('/accomodation/:id', updateAccomodation);
 router.delete('/accomodation/:id', deleteAccomodation);

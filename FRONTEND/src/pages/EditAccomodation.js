@@ -27,6 +27,8 @@ const EditAccomodation = ({props}) => {
 
   const [accomodationname, setAccomodationname] = useState("");
   const [accomodationprice, setAccomodationprice] = useState("");
+  const [description, setDescription] = useState("");
+  
 
   const [msg, setMsg] = useState("");
 
@@ -37,13 +39,15 @@ const EditAccomodation = ({props}) => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/accomodation/${id}`);
     setAccomodationname(response.data.accomodationname);
     setAccomodationprice(response.data.accomodationprice);
+    setDescription(response.data.description)
   }
   const updateAccomodation = async (e) => {
     e.preventDefault();
     try {
       await axios.patch(`${process.env.REACT_APP_BASE_URL}/accomodation/${id}`, {
         accomodationname: accomodationname,
-        accomodationprice: accomodationprice
+        accomodationprice: accomodationprice,
+        description: description
       });
       navigate("/accomodations");
     } catch (error) {
@@ -82,6 +86,14 @@ const EditAccomodation = ({props}) => {
                       <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " 
                         value={accomodationprice}
                         onChange={(e) => setAccomodationprice(e.target.value)} 
+                        required
+                      />
+                    </div>
+                    <div className='mt-5'>
+                      <label className='text-xl font-bold'>Description</label>
+                      <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " 
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)} 
                         required
                       />
                     </div>

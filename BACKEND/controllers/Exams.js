@@ -7,7 +7,7 @@ import path from "path"
 export const getExams = async (req,res) => {
     try {
         const response = await Exam.findAll({
-            attributes: ['uuid', 'id','examname', 'examprice']
+            attributes: ['uuid', 'id','examname', 'examprice', 'description']
         });
         res.status(200).json(response);
     } catch (error) {
@@ -18,7 +18,7 @@ export const getExams = async (req,res) => {
 export const getExamById = async(req,res) => {
     try {
         const response = await Exam.findOne({
-            attributes: ['uuid', 'examname', 'examprice'],
+            attributes: ['uuid', 'examname', 'examprice', 'description'],
             where: {
                 uuid: req.params.id
             }
@@ -44,11 +44,12 @@ export const getExamPrice = async(req,res) => {
     }
 }
 export const createExam = async(req,res) => {
-    const {examname, examprice} = req.body;
+    const {examname, examprice, description} = req.body;
     try {
         await Exam.create({
             examname: examname,
-            examprice: examprice
+            examprice: examprice,
+            description: description
         });
         res.status(201).json({msg: "Exam Well Created"});
     } catch (error) {
@@ -62,13 +63,13 @@ export const updateExam = async(req,res) => {
         }
     });
     if(!exam) return res.status(404).json({msg: "Exam doesn't not exist" });
-    const {examname, examprice} = req.body;
+    const {examname, examprice, description} = req.body;
     
     try {
         await Exam.update({
             examname: examname,
-            examprice: examprice
-
+            examprice: examprice,
+            description: description
         }, {
             where: {
                 id: exam.id

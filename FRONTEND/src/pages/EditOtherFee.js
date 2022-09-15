@@ -8,7 +8,7 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom';
 
 
-const EditExam = ({props}) => {
+const EditOtherFee = ({props}) => {
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -25,31 +25,31 @@ const EditExam = ({props}) => {
   }, [isError, navigate
   ])
 
-  const [examname, setExamname] = useState("");
-  const [examprice, setExamprice] = useState("");
+  const [feename, setFeename] = useState("");
+  const [feeprice, setFeeprice] = useState("");
   const [description, setDescription] = useState("");
-
+  
 
   const [msg, setMsg] = useState("");
 
 
 
   const { id } = useParams();
-  const getExam = async () => {
-    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/exam/${id}`);
-    setExamname(response.data.examname);
-    setExamprice(response.data.examprice);
+  const getOtherFee = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/otherfee/${id}`);
+    setFeename(response.data.feename);
+    setFeeprice(response.data.feeprice);
     setDescription(response.data.description)
   }
-  const updateExam = async (e) => {
+  const updateOtherFee = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`${process.env.REACT_APP_BASE_URL}/exam/${id}`, {
-        examname: examname,
-        examprice: examprice,
+      await axios.patch(`${process.env.REACT_APP_BASE_URL}/otherFee/${id}`, {
+        feename: feename,
+        feeprice: feeprice,
         description: description
       });
-      navigate("/exams");
+      navigate("/otherfee");
     } catch (error) {
       if(error.response) {
         setMsg(error.response.data.msg);
@@ -58,8 +58,8 @@ const EditExam = ({props}) => {
   }
 
   useEffect(() => {
-    getExam();
-    updateExam();
+    getOtherFee();
+    updateOtherFee();
 
   }, [])
 
@@ -67,25 +67,25 @@ const EditExam = ({props}) => {
   return (
     <Layout>
         <div className='mt-10 ml-5'>
-            <p className='font-bold text-3xl'>Exams</p>
-            <p className='text-gray-400 text-2xl'>Edit Exam</p>
+            <p className='font-bold text-3xl'>Others Fees</p>
+            <p className='text-gray-400 text-2xl'>Edit Other Fess</p>
             <div className='bg-white h-[20rem] p-5  ml-1 mt-3 elevation'>
-                <form onSubmit={updateExam}>
+                <form onSubmit={updateOtherFee}>
                   
                   
                     <div className='mt-5'>
-                      <label className='text-xl font-bold'>Exam Name</label>
+                      <label className='text-xl font-bold'>Other Fee Name</label>
                       <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " 
-                        value={examname}
-                        onChange={(e) => setExamname(e.target.value)} 
+                        value={feename}
+                        onChange={(e) => setFeename(e.target.value)} 
                         required
                       />
                     </div>
                     <div className='mt-5'>
-                      <label className='text-xl font-bold'>Exam Price</label>
+                      <label className='text-xl font-bold'>Other Fee Price</label>
                       <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " 
-                        value={examprice}
-                        onChange={(e) => setExamprice(e.target.value)} 
+                        value={feeprice}
+                        onChange={(e) => setFeeprice(e.target.value)} 
                         required
                       />
                     </div>
@@ -101,7 +101,7 @@ const EditExam = ({props}) => {
                       <p className='text-sm text-center text-red'>{msg}</p>
                       <div className='flex flex-row  mt-3 mb-3'>
                         <button className='bg-blue-600 rounded text-gray-100 font-medium w-30 h-10 p-3 flex items-center justify-center' type="submit">
-                          Update Exam
+                          Update Other Fee
                         </button>
                         <button  className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 p-3 flex items-center justify-center ml-5'>
                           Cancel
@@ -115,4 +115,4 @@ const EditExam = ({props}) => {
   )
 }
 
-export default EditExam
+export default EditOtherFee

@@ -22,11 +22,11 @@ import LanguagesRoute from "./routes/LanguagesRoute.js"
 import StudentsAccomodations from "./routes/StudentsAccomodationsRoute.js";
 import StudentsExams from "./routes/StudentsExmasRoute.js"
 import PaymentMethodRoute from "./routes/PaymentMethodsRoute.js"
-
+import OtherFeeRooute from "./routes/OtherFeeRoute.js"
 
 import AccomodationRoute from "./routes/AccomodationRoute.js"
 import CoursesRoute from "./routes/CoursesRoute.js"
-
+import RegistrationRoute from "./routes/RegistrationRoute.js"
 
 
 dotenv.config();
@@ -75,6 +75,8 @@ app.use(StudentsPurchasesRoute);
 app.use(StudentsAccomodations);
 app.use(StudentsExams);
 app.use(PaymentMethodRoute);
+app.use(OtherFeeRooute);
+app.use(RegistrationRoute);
 
 
 // Static Images Folder

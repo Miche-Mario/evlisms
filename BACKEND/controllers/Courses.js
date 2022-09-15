@@ -49,7 +49,7 @@ export const getCourseWithSubcourse = async (req,res) => {
             if (courses.fullprice !== 0)  {
                 try {
                     const response = await Courses.findOne({
-                        attributes: ['fullduration', 'fullprice'],
+                        attributes: ['fullduration', 'fullprice', 'description'],
                        where: {
                         course_courseid: courseid,
                         subcourse_subcourseid: subcourseid
@@ -61,6 +61,7 @@ export const getCourseWithSubcourse = async (req,res) => {
                     res.status(500).json({msg: error.message});
                 }
             } else {
+                const description = courses.description
                 try {
 
                     const response = await Prices.findOne({
@@ -71,7 +72,7 @@ export const getCourseWithSubcourse = async (req,res) => {
                        }
                     }); 
                     
-                    res.status(200).json(response);
+                    res.status(200).json({response, description});
                 } catch (error) {
                     res.status(500).json({msg: error.message});
                 }

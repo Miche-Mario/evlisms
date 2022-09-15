@@ -65,13 +65,16 @@ const Itemssale = () => {
 
   const [accomodationname, setAccomodationname] = useState("");
   const [accomodationprice, setAccomodationprice] = useState("");
+  const [description, setDescription] = useState("");
+
   const [msg, setMsg] = useState("");
   const saveAccomodations = async (e) => {
     e.preventDefault();
     try {
       await axios.post(`${process.env.REACT_APP_BASE_URL}/accomodation`, {
         accomodationname: accomodationname,
-        accomodationprice: accomodationprice
+        accomodationprice: accomodationprice,
+        description: description
       });
       navigate(0);
     } catch (error) {
@@ -119,7 +122,7 @@ const Itemssale = () => {
               <div className=''>
                 <label for="languagename" class="block mb-6 text-base font-medium text-gray-900 p-1">Name</label>
                 <label for="languagename" class="block mb-6 text-base font-medium text-gray-900 p-1">Price</label>
-
+                <label for="languagename" class="block mb-6 text-base font-medium text-gray-900 p-1">Description</label>
               </div>
               <div >
               <input type="text" id="languagename" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
@@ -131,6 +134,11 @@ const Itemssale = () => {
                 placeholder="00" 
                 value={accomodationprice}
                 onChange={(e) => setAccomodationprice(e.target.value)}  
+              />
+              <input type="text" id="languagename" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " 
+                placeholder="00" 
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}  
               />
               </div>
               <div >
@@ -191,6 +199,7 @@ const Itemssale = () => {
                   <th className=" border border-dark-purple py-3 px-3 text-center">N</th>
                   <th className=" border border-dark-purple py-3 px-3 text-center">Name</th>
                   <th className=" border border-dark-purple py-3 px-3 text-center">Price</th>
+                  <th className=" border border-dark-purple py-3 px-3 text-center">Description</th>
                   <th className=" border border-dark-purple py-3 px-3 text-center">Action</th>
                 </tr>
               </thead>
@@ -210,6 +219,11 @@ const Itemssale = () => {
                   <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex items-center justify-center">
                       <span className="font-medium uppercase">{acco.accomodationprice}</span>
+                    </div>
+                  </td>
+                  <td className=" py-3 px-3 text-center  border border-dark-purple">
+                  <div className="flex items-center justify-center">
+                      <span className="font-medium uppercase">{acco.description}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center  border border-dark-purple">

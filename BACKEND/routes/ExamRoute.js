@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 router.get('/exam', getExams);
-router.post('/exam', getExamPrice)
+router.post('/examprice', getExamPrice)
 router.get('/exam/:id', getExamById);
 router.patch('/exam/:id', updateExam);
 router.delete('/exam/:id', deleteExam);

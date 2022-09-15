@@ -7,7 +7,7 @@ import path from "path"
 export const getPurchases = async (req,res) => {
     try {
         const response = await Purchases.findAll({
-            attributes: ['uuid', 'id','purchasename', 'purchaseprice']
+            attributes: ['uuid', 'id','purchasename', 'purchaseprice', 'description']
         });
         res.status(200).json(response);
     } catch (error) {
@@ -33,7 +33,7 @@ export const getPurchasePrice = async(req,res) => {
 export const getPurchaseById = async(req,res) => {
     try {
         const response = await Purchases.findOne({
-            attributes: ['uuid', 'purchasename', 'purchaseprice'],
+            attributes: ['uuid', 'purchasename', 'purchaseprice', 'description'],
             where: {
                 uuid: req.params.id
             }
@@ -45,11 +45,12 @@ export const getPurchaseById = async(req,res) => {
 }
 
 export const createPurchase = async(req,res) => {
-    const {purchasename,purchaseprice} = req.body;
+    const {purchasename,purchaseprice, description} = req.body;
     try {
         await Purchases.create({
             purchasename: purchasename,
-            purchaseprice:purchaseprice
+            purchaseprice:purchaseprice,
+            description:description
         });
         res.status(201).json({msg: "Purchase Well Created"});
     } catch (error) {
@@ -63,12 +64,13 @@ export const updatePurchase = async(req,res) => {
         }
     });
     if(!purchase) return res.status(404).json({msg: "Purchase doesn't not exist" });
-    const {purchasename, purchaseprice} = req.body;
+    const {purchasename, purchaseprice, description} = req.body;
     
     try {
         await Purchases.update({
             purchasename: purchasename,
-            purchaseprice:purchaseprice
+            purchaseprice:purchaseprice,
+            description: description
         }, {
             where: {
                 id: purchase.id

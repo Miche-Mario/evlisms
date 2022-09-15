@@ -27,6 +27,7 @@ const EditItemsSale = ({props}) => {
 
   const [purchasename, setPurchasename] = useState("");
   const [purchaseprice, setPurchaseprice] = useState("");
+  const [description, setDescription] = useState("");
 
   const [msg, setMsg] = useState("");
 
@@ -37,13 +38,15 @@ const EditItemsSale = ({props}) => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/purchase/${id}`);
     setPurchasename(response.data.purchasename);
     setPurchaseprice(response.data.purchaseprice);
+    setDescription(response.data.description)
   }
   const updateItems = async (e) => {
     e.preventDefault();
     try {
       await axios.patch(`${process.env.REACT_APP_BASE_URL}/purchase/${id}`, {
         purchasename: purchasename,
-        purchaseprice: purchaseprice
+        purchaseprice: purchaseprice,
+        description: description
       });
       navigate("/itemssale");
     } catch (error) {
@@ -82,6 +85,14 @@ const EditItemsSale = ({props}) => {
                       <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " 
                         value={purchaseprice}
                         onChange={(e) => setPurchaseprice(e.target.value)} 
+                        required
+                      />
+                    </div>
+                    <div className='mt-5'>
+                      <label className='text-xl font-bold'>Description</label>
+                      <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " 
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)} 
                         required
                       />
                     </div>

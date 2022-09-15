@@ -28,6 +28,13 @@ const Purchase = db.define('purchases', {
             notEmpty: true,
                 }
     },
+    description:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate:{
+            notEmpty: false,
+        }
+    },
 },{
     freezeTableName: true
 })

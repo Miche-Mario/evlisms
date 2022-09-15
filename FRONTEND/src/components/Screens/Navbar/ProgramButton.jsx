@@ -97,6 +97,12 @@ const ProgramButton = () => {
             <a>
               <li className="rounded-sm px-3  py-1  pl-6 cursor-pointer">Exams</li>
             </a>        
+            </NavLink>
+            
+            <NavLink to="/otherfee">
+            <a>
+              <li className="rounded-sm px-3  py-1  pl-6 cursor-pointer">Other Fee</li>
+            </a>        
             </NavLink>  </>}
                 
       </ul>

@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 router.get('/purchases', getPurchases);
-router.post('/purchase', getPurchasePrice);
+router.post('/purchaseprice', getPurchasePrice);
 router.get('/purchase/:id', getPurchaseById);
 router.post('/purchase', createPurchase);
 router.patch('/purchase/:id', updatePurchase);

@@ -4,7 +4,7 @@ import db from '../config/Database.js';
 
 const  {DataTypes} = Sequelize;
 
-const Accomodation = db.define('accomodations', {
+const Registration = db.define('registration', {
     uuid:{
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
@@ -13,30 +13,23 @@ const Accomodation = db.define('accomodations', {
             notEmpty: true
         }
     },
-    accomodationname:{
+    registrationname:{
         type: DataTypes.STRING,
         allowNull: false,
         validate:{
             notEmpty: true,
                 }
     },
-    accomodationprice:{
+    registrationprice:{
         type: DataTypes.INTEGER,
         allowNull: false,
         validate:{
             notEmpty: true,
                 }
-    },
-    description:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-        }
-    },
+    }
 },{
     freezeTableName: true
 })
 
 
-export default Accomodation
+export default Registration

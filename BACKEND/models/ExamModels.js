@@ -25,7 +25,14 @@ const Exam = db.define('exams', {
         allowNull: false,
         validate:{
             notEmpty: true,
-                }
+        }
+    },
+    description:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate:{
+            notEmpty: false,
+        }
     },
 },{
     freezeTableName: true

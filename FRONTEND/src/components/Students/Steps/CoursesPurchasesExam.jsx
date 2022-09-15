@@ -28,7 +28,7 @@ const CoursesPurchasesExam = () => {
   const getExamPrice = async (e) => {
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/exam`, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/examprice`, {
         examid: parseInt(examid)
       });
 
@@ -54,7 +54,7 @@ const CoursesPurchasesExam = () => {
   const getAccoPrice = async (e) => {
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/accomodation`, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/accomodationprice`, {
         accoid: parseInt(accoid)
       });
 
@@ -66,6 +66,35 @@ const CoursesPurchasesExam = () => {
       }
     }
   }
+
+
+
+    // GET ALL Other Fee
+    const [otherfee, setOtherFee] = useState([]);
+    const [otherFeeId, setOtherFeeId] = useState();
+    const [otherfeeprice, setOtherFeeprice] = useState();
+    const getOtherFee = async () => {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/otherfee`);
+      setOtherFee(response.data)
+    }
+  
+  
+    const getOtherFeePrice = async (e) => {
+  
+      try {
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/otherfeeprice`, {
+          otherFeeId: parseInt(otherFeeId)
+        });
+  
+        setOtherFeeprice(response.data.feeprice)
+      } catch (error) {
+        if (error.response) {
+          setMsg(error.response.data.msg);
+          console.log(msg)
+        }
+      }
+    }
+  
 
   // GET ALL ITEMS
   const [item, setItems] = useState([]);
@@ -79,7 +108,7 @@ const CoursesPurchasesExam = () => {
   const getPurchasePrice = async (e) => {
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/purchase`, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/purchaseprice`, {
         purchaseid: parseInt(purchaseid)
       });
 
@@ -132,8 +161,10 @@ const CoursesPurchasesExam = () => {
         subcourseid: parseInt(optionid),
         duration: parseInt(laduration)
       });
-      response.data.price ? setPrice(response.data.price) : setPrice(response.data.fullprice)
+      response.data.response.price ? setPrice(response.data.response.price) : setPrice(response.data.fullprice)
       response.data.fullduration && setLaDuration(response.data.fullduration)
+      response.data.description && setCourseDescription(response.data.description)
+      console.log(response)
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
@@ -156,6 +187,7 @@ const CoursesPurchasesExam = () => {
     getCourse();
     getCourseSubcourse();
     getTimes()
+    getOtherFee()
   }, [])
 
 
@@ -224,18 +256,32 @@ const CoursesPurchasesExam = () => {
       return []
     }
   }
+
+  const getOtherFeeDataFromLS = () => {
+    const data = localStorage.getItem('otherFeeList');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
   const [lecoursename, setLeCoursename] = useState('')
   const [lesubcoursename, setLeSubcoursename] = useState('')
   const [lexamname, setLexamName] = useState('')
   const [lepurchasename, setLePurchaseName] = useState('')
   const [lacconame, setLacconame] = useState('')
+  const [lotherfeename, setLotherFeeName] = useState('')
 
-  const [laduration, setLaDuration] = useState(null)
+
+  const [laduration, setLaDuration] = useState('')
+  const [coursedescription, setCourseDescription] = useState('')
 
   const [courseList, setCourseList] = useState(getCourseDataFromLS())
   const [examList, setExamList] = useState(getExamDataFromLS())
   const [purchaseList, setPurchaseList] = useState(getPurchaseDataFromLS())
   const [accoList, setAccoList] = useState(getAccoDataFromLS())
+  const [otherFeeList, setOtherFeeList] = useState(getOtherFeeDataFromLS())
+
 
 
   const addCourse = (e) => {
@@ -246,6 +292,7 @@ const CoursesPurchasesExam = () => {
       lesubcoursename,
       laduration,
       price,
+      coursedescription,
       uuid
     }
     setCourseList([...courseList, acourse]);
@@ -287,6 +334,17 @@ const CoursesPurchasesExam = () => {
     setPurchaseList([...purchaseList, apurchase]);
   }
 
+  const addOtherFee = (e) => {
+    e.preventDefault(e);
+    const uuid = Math.random() + 89
+    let afee = {
+      lotherfeename,
+      otherfeeprice,
+      uuid
+    }
+    setOtherFeeList([...otherFeeList, afee]);
+  }
+
   useEffect(() => {
     localStorage.setItem('courseList', JSON.stringify(courseList))
   }, [courseList])
@@ -303,6 +361,11 @@ const CoursesPurchasesExam = () => {
     localStorage.setItem('purchaseList', JSON.stringify(purchaseList))
   }, [purchaseList])
 
+  useEffect(() => {
+    localStorage.setItem('otherFeeList', JSON.stringify(otherFeeList))
+  }, [otherFeeList])
+
+
 
 
 
@@ -311,7 +374,6 @@ const CoursesPurchasesExam = () => {
       return element.uuid !== param;
     })
     setCourseList(filterr)
-    console.log(filterr)
   }
   const deleteExamFromList = (param) => {
     const filterr = examList.filter((element, index) => {
@@ -334,6 +396,14 @@ const CoursesPurchasesExam = () => {
       return element.uuid !== param;
     })
     setPurchaseList(filterr)
+
+  }
+
+  const deleteOtherFeeFromList = (param) => {
+    const filterr = otherFeeList.filter((element, index) => {
+      return element.uuid !== param;
+    })
+    setOtherFeeList(filterr)
 
   }
   const handleChangeCourse = () => {
@@ -370,7 +440,80 @@ const CoursesPurchasesExam = () => {
     var selectedValue = lepurchase.value;
     setLePurchaseName(selectedText);
   }
-  console.log(purchaseprice)
+
+  const handleChangeOtherFee = () => {
+    var lotherfee = document.getElementById("lotherfee");
+    var selectedText = lotherfee.options[lotherfee.selectedIndex].innerHTML;
+    var selectedValue = lotherfee.value;
+    setLotherFeeName(selectedText);
+  }
+  
+  const  sumCoursePrice = courseList.reduce((accumulator, object) => {
+    return accumulator + object.price;
+  }, 0);
+
+  const sumExamPrice = examList.reduce((accumulator, object) => {
+    return accumulator + object.examprice;
+  }, 0);
+
+  const sumAccoPrice = accoList.reduce((accumulator, object) => {
+    return accumulator + object.accoprice;
+  }, 0);
+
+  const sumPurchasePrice = purchaseList.reduce((accumulator, object) => {
+    return accumulator + object.purchaseprice;
+  }, 0);
+
+
+  let total; 
+  const NumberOfCourse = courseList.length
+
+ if(NumberOfCourse <= 1 ) {
+  total = sumCoursePrice + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice;
+ }
+else {
+  total = ((sumCoursePrice - (courseList[0].price)) + ((courseList[0].price) - (courseList[0].price) *((NumberOfCourse - 1) * 0.2))) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice;
+
+}
+
+let shirt = 0;
+
+function isShirt(pruchase) {
+  return pruchase.lepurchasename  == 'Tee-Shirt';
+}
+shirt = purchaseList.find(isShirt) ? purchaseList.find(isShirt) : 0;
+const shirtprice = shirt ? shirt.purchaseprice : 0;
+
+useEffect(() => {
+  setStudentData({...studentData, "Tshirtprice": shirtprice})
+}, [shirtprice])
+let book = 0;
+
+function isBook(pruchase) {
+  return pruchase.lepurchasename  == 'Books';
+}
+book = purchaseList.find(isBook) ? purchaseList.find(isBook) : 0 ;
+const bookprice = book ? book.purchaseprice : 0;
+useEffect(() => {
+  setStudentData({...studentData, "bookprice": bookprice})
+}, [bookprice])
+
+let maincourse = 0;
+
+function isMainCourse(course) {
+  return course.lecoursename  == 'General English';
+}
+maincourse = courseList.find(isMainCourse) ? courseList.find(isMainCourse) : 0;
+const maincourseprice = maincourse.price ? maincourse.price : 0
+const maincoursesubcourse = maincourse.lesubcoursename ? maincourse.lesubcoursename : "";
+
+useEffect(() => {
+  setStudentData({...studentData,courseList})
+}, [courseList])
+
+
+
+  
   return (
     <div className='flex flex-row w-full'>
       <div>
@@ -461,9 +604,7 @@ const CoursesPurchasesExam = () => {
         {view && <div className='m-5'>
           <p className='text-lg font-medium text-gray-600 '>Would you like to book additional one-on-one classes?</p>
           <input type="checkbox" className="w-5 h-5 mt-3"
-            value={studentData["oneOnOnecp"] || ""}
-            name="oneOnOne1cp"
-            onChange={(e) => { oneOnChange(); handleChangee(e) }} />
+          />
 
         </div>}
 
@@ -471,9 +612,7 @@ const CoursesPurchasesExam = () => {
           <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
         focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 dark:placeholder-gray-400
          dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            value={studentData["oneOnOne1cp"] || ""}
-            name="oneOnOne1cp"
-            onChange={handleChangee}
+           
           >
             {times.map((option) => (
               <option value={option.id}>{option} Private lesson</option>
@@ -557,13 +696,47 @@ const CoursesPurchasesExam = () => {
           </div>
         </div>}
 
+        {view && <div className='m-5'>
+          <p className='text-lg font-medium text-gray-600 '>Other Fees</p>
+          <div className='flex flex-row items-center'>
+            <div>
+              <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 
+        focus:ring-blue-500 
+        focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 
+        dark:placeholder-gray-400
+         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                id="lotherfee"
+                onChange={(e) => { handleChangeOtherFee(); setOtherFeeId(e.target.value) }}
+                onClick={getOtherFeePrice}
+              >
+
+                <option value="" className='text-md'></option>
+                {otherfee.map((fee) => (
+                  <option className='text-xl' value={fee.id}>{fee.feename}</option>
+                ))}
+              </select>
+            </div>
+            <div className=' cursor-pointer' onClick={addOtherFee}>
+              <MdOutlineAddToPhotos style={{ fontSize: "45px", color: "green" }} />
+            </div>
+
+          </div>
+        </div>}
+
 
 
 
       </div>
 
 
-      <div className='ml-32 mt-12 w-full'>
+      <div className='ml-10 mt-12 w-full'>
+        <div className=' bg-dark-purple w-full p-1'>
+            <div className='flex justify-end items-center'>
+                <span className='text-white text-xl'>Total:</span>
+                <span className='text-white ml-6 bg-red font-bold min-w-1 6 p-2 rounded-xl text-xl'>{total}</span>
+            </div>
+        </div>
+        <div>
         {
           courseList.length > 0 &&
           <div>
@@ -605,9 +778,7 @@ const CoursesPurchasesExam = () => {
           </div>
 
         }
-          
-
-
+        </div>
         <div>
           {
             examList.length > 0 && <>
@@ -677,7 +848,6 @@ const CoursesPurchasesExam = () => {
             </>
           }
         </div>
-
         <div>
           {
             accoList.length > 0 && <>
@@ -712,11 +882,40 @@ const CoursesPurchasesExam = () => {
             </>
           }
         </div>
-
-       
-
-
-
+        <div>
+          {
+            otherFeeList.length > 0 && <>
+            <table class="min-w-full shadow-lg border-collapse block md:table">
+              <thead class="block md:table-header-group">
+                <tr class="border border-gray-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
+                  <th class=" bg-dark-purple p-2 w-10 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">N</th>
+                  <th class="bg-dark-purple p-2 w-48 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">other Fees </th>
+                  <th class="bg-dark-purple p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Price</th>
+                  <th class="bg-dark-purple p-2 w-32 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="block md:table-row-group">
+                {otherFeeList.map((fee, index) => (
+                  <tr class="bg-gray-300 border-b-2 block md:table-row">
+                    <td class="p-3 w-10  text-center font-medium block md:table-cell">{index + 1}</td>
+                    <td class="p-3 w-48 text-center font-medium block md:table-cell">{fee.lotherfeename}</td>
+                    <td class="p-3 text-center font-medium block md:table-cell">{fee.otherfeeprice}</td>
+                    <td class="p-3 w-32 text-center font-medium block md:table-cell">
+                      <div onClick={() => deleteOtherFeeFromList(fee.uuid)} className=' cursor-pointer flex items-center p-2 shadow-md bg-white rounded-md'>
+                        <BiTrash style={{ fontSize: "20px", color: 'red' }} />
+                        <span className='ml-1 text-sm text-black'>Delete</span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className=' justify-end flex items-center m-2'>
+            <button onClick={()=>setOtherFeeList([])} className=' justify-center flex items-center cursor-pointer p-1 shadow-lg rounded-lg font-semibold bg-redd text-white w-64'>Remove All</button>
+            </div>
+            </>
+          }
+        </div>
       </div>
 
 

@@ -8,7 +8,7 @@ import Accomodation from "../models/AcoomodationModels.js";
 export const getAccomodations = async (req,res) => {
     try {
         const response = await Accomodation.findAll({
-            attributes: ['uuid', 'id','accomodationname', 'accomodationprice']
+            attributes: ['uuid', 'id','accomodationname', 'accomodationprice', 'description']
         });
         res.status(200).json(response);
     } catch (error) {
@@ -20,7 +20,7 @@ export const getAccomodations = async (req,res) => {
 export const getAccomodationById = async(req,res) => {
     try {
         const response = await Accomodation.findOne({
-            attributes: ['uuid', 'accomodationname','accomodationprice'],
+            attributes: ['uuid', 'accomodationname','accomodationprice', 'description'],
             where: {
                 uuid: req.params.id
             }
@@ -47,11 +47,12 @@ export const getAccomodationPrice = async(req,res) => {
     }
 }
 export const createAccomodation = async(req,res) => {
-    const {accomodationname, accomodationprice} = req.body;
+    const {accomodationname, accomodationprice, description} = req.body;
     try {
         await Accomodation.create({
             accomodationname: accomodationname,
-            accomodationprice: accomodationprice
+            accomodationprice: accomodationprice,
+            description: description
         });
         res.status(201).json({msg: "Accomodation Well Created"});
     } catch (error) {
@@ -65,12 +66,13 @@ export const updateAccomodation = async(req,res) => {
         }
     });
     if(!accomodation) return res.status(404).json({msg: "Accomodation doesn't not exist" });
-    const {accomodationname, accomodationprice} = req.body;
+    const {accomodationname, accomodationprice, description} = req.body;
     
     try {
         await Accomodation.update({
             accomodationname: accomodationname,
-            accomodationprice: accomodationprice
+            accomodationprice: accomodationprice,
+            description: description
         }, {
             where: {
                 id: accomodation.id
