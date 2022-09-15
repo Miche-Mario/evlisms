@@ -65,7 +65,6 @@ const AddStudents = () => {
     //Check if steps are within bounds
     newStep > 0 && newStep <= steps.length && setCurrentStep(newStep);
   }
-  console.log(studentData)
     return (
       <Layout>
         <div className='w-full mx:auto p-2 shadow-xl rounded-2xl bg-gray-100'>

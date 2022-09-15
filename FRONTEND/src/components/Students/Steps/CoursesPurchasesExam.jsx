@@ -161,10 +161,11 @@ const CoursesPurchasesExam = () => {
         subcourseid: parseInt(optionid),
         duration: parseInt(laduration)
       });
-      response.data.response.price ? setPrice(response.data.response.price) : setPrice(response.data.fullprice)
+      response.data.response ?  setPrice(response.data.response.price) : setPrice(response.data.fullprice)
+      response.data.fullprice &&  setPrice(response.data.fullprice)
       response.data.fullduration && setLaDuration(response.data.fullduration)
       response.data.description && setCourseDescription(response.data.description)
-      console.log(response)
+  
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
@@ -172,6 +173,9 @@ const CoursesPurchasesExam = () => {
       }
     }
   }
+  const [programId, setProgramId] = useState(null)
+
+
 
   /*    useEffect(() => { // useEffect hook
        setTimeout(() => { // simulate a delay
@@ -191,7 +195,6 @@ const CoursesPurchasesExam = () => {
   }, [])
 
 
-  const [programId, setProgramId] = useState(null)
 
 
   const [view, setView] = useState(false)
@@ -220,7 +223,6 @@ const CoursesPurchasesExam = () => {
   const oneOnChange = () => {
     setOneOnOne(!oneOnOne)
   }
-
 
 
 
@@ -265,6 +267,9 @@ const CoursesPurchasesExam = () => {
       return []
     }
   }
+
+
+
   const [lecoursename, setLeCoursename] = useState('')
   const [lesubcoursename, setLeSubcoursename] = useState('')
   const [lexamname, setLexamName] = useState('')
@@ -364,6 +369,8 @@ const CoursesPurchasesExam = () => {
   useEffect(() => {
     localStorage.setItem('otherFeeList', JSON.stringify(otherFeeList))
   }, [otherFeeList])
+
+
 
 
 
@@ -475,7 +482,7 @@ else {
   total = ((sumCoursePrice - (courseList[0].price)) + ((courseList[0].price) - (courseList[0].price) *((NumberOfCourse - 1) * 0.2))) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice;
 
 }
-
+/* 
 let shirt = 0;
 
 function isShirt(pruchase) {
@@ -483,29 +490,28 @@ function isShirt(pruchase) {
 }
 shirt = purchaseList.find(isShirt) ? purchaseList.find(isShirt) : 0;
 const shirtprice = shirt ? shirt.purchaseprice : 0;
-
+console.log(studentData)
 useEffect(() => {
   setStudentData({...studentData, "Tshirtprice": shirtprice})
 }, [shirtprice])
-let book = 0;
 
+
+let book = 0;
 function isBook(pruchase) {
   return pruchase.lepurchasename  == 'Books';
 }
 book = purchaseList.find(isBook) ? purchaseList.find(isBook) : 0 ;
-const bookprice = book ? book.purchaseprice : 0;
+const bb = book ? book.purchaseprice : 0;
+setBookprice(bb)
+useEffect(() => {
+  localStorage.setItem('bookprice', JSON.stringify(bookprice))
+}, [bookprice])
+
 useEffect(() => {
   setStudentData({...studentData, "bookprice": bookprice})
 }, [bookprice])
+ */
 
-let maincourse = 0;
-
-function isMainCourse(course) {
-  return course.lecoursename  == 'General English';
-}
-maincourse = courseList.find(isMainCourse) ? courseList.find(isMainCourse) : 0;
-const maincourseprice = maincourse.price ? maincourse.price : 0
-const maincoursesubcourse = maincourse.lesubcoursename ? maincourse.lesubcoursename : "";
 
 useEffect(() => {
   setStudentData({...studentData,courseList})

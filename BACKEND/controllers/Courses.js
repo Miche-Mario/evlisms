@@ -35,18 +35,30 @@ export const getCourseWithSubcourse = async (req,res) => {
     export const getCoursesPrice = async (req,res) => {
         const {  courseid, subcourseid, duration} = req.body;
         let courses
-        courses = await Courses.findOne({
+        if(courseid !== null && subcourseid !== null) {
+            courses = await Courses.findOne({
                
                 where: {
                 course_courseid: courseid,
                 subcourse_subcourseid: subcourseid
             }
         })
-       
+        }
+
+        if(courseid !== null && subcourseid == null) {
+            courses = await Courses.findOne({
+               
+                where: {
+                course_courseid: courseid
+            }
+        })
+        }
+        
+
         if(!courses) return res.status(404).json({msg: "Courses doesn't not exist" });
 
 
-            if (courses.fullprice !== 0)  {
+            if (courses.fullprice > 0)  {
                 try {
                     const response = await Courses.findOne({
                         attributes: ['fullduration', 'fullprice', 'description'],
@@ -60,7 +72,7 @@ export const getCourseWithSubcourse = async (req,res) => {
                 } catch (error) {
                     res.status(500).json({msg: error.message});
                 }
-            } else {
+            } if(courses.fullprice == 0 ) {
                 const description = courses.description
                 try {
 

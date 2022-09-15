@@ -5,6 +5,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { Page, Text, View, Document, Image, StyleSheet } from '@react-pdf/renderer';
 import Logo from '../../assets/logoo.png'
 import { StepperContext } from '../../contexts/stepperContext'
+import axios from 'axios'
 
 
 const styles = StyleSheet.create({
@@ -12,10 +13,24 @@ const styles = StyleSheet.create({
     header: { marginTop: 20, flexDirection: "row", justifyContent: "space-around", alignItems: 'center' },
     headerLogo: { width: 200 },
     headerTitle: { fontSize: 25, color: "green" },
-    sectionFirst: { marginTop: 10, flexDirection: "row", justifyContent: "space-around", alignItems: 'center' }
+    sectionFirst: { marginTop: 10, flexDirection: "row", justifyContent: "space-around", alignItems: 'center' },
+    line1: {backgroundColor:"white",padding: 4,color: "white", marginHorizontal: 30, flexDirection: "row", alignItems:'center'},
+    line2: {backgroundColor:"E7F0FF",padding: 4,color: "white", marginHorizontal: 30, flexDirection: "row", alignItems:'center'}
 });
+
+
 const Invoice = (props) => {
-    const { bookprice } = props.studentData
+const { courseList, examList, purchaseList, accoList, otherFeeList} = props.studentData
+const [registration, setRegistration] = useState();
+const getRegistration = async () => {
+const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration`);
+    setRegistration(response.data[0])
+
+  }
+
+useEffect(() => {
+    getRegistration();
+}, [])
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -55,7 +70,7 @@ const Invoice = (props) => {
                     <Text style={{marginTop: 3, fontSize: "9"}}>BENIN</Text>
                 </View>
                 <View style={{marginTop: 10}}>
-                    <View style={{backgroundColor: "blue", padding: 10,color:"white",marginHorizontal: 30,flexDirection: "row", alignItems:'center'}}>
+                    <View style={{backgroundColor: "#2E74B4", padding: 10,color:"white",marginHorizontal: 30,flexDirection: "row", alignItems:'center'}}>
                         <View style={{width: 150}}>
                             <Text style={{fontSize:9}}>Salesperson</Text>
                         </View>
@@ -70,7 +85,7 @@ const Invoice = (props) => {
                         </View>
                         
                     </View>
-                    <View style={{backgroundColor: "darkgreen",color: "white", marginHorizontal: 30, flexDirection: "row", alignItems:'center'}}>
+                    <View style={{backgroundColor: "#E7F0FF",color: "black", marginHorizontal: 30, flexDirection: "row", alignItems:'center'}}>
                         <View style={{width: 150}}>
                             <Text style={{fontSize:9}}>JODAN GBELINGA</Text>
                         </View>
@@ -88,7 +103,7 @@ const Invoice = (props) => {
                 </View>
 
                 <View style={{marginTop:8,}}>
-                    <View style={{backgroundColor: "blue", padding: 10,color:"white",marginHorizontal: 30,flexDirection: "row", alignItems:'center'}}>
+                    <View style={{backgroundColor: "#2E74B4", padding: 10, color:"white",marginHorizontal: 30,flexDirection: "row", alignItems:'center'}}>
                         <View style={{width: 150}}>
                             <Text style={{fontSize:9}}>Quantity</Text>
                         </View>
@@ -103,38 +118,40 @@ const Invoice = (props) => {
                         </View>
                         
                     </View>
-                    {bookprice !== 0 &&
-                    <View style={{backgroundColor: "darkgreen",padding: 4,color: "white", marginHorizontal: 30, flexDirection: "row", alignItems:'center'}}>
+                 
+                   {registration && <View style={{backgroundColor: "#E7F0FF",padding: 4,color: "black", marginHorizontal: 30, flexDirection: "row", alignItems:'center'}}>
                         <View style={{width: 150}}>
                             <Text style={{fontSize:9}}>1</Text>
                         </View>
                         <View style={{width: 250}}>
-                            <Text style={{fontSize:9}}>Registration Fee {bookprice !== 0 ? " + TShirt" :" " }</Text>
+                            <Text style={{fontSize:9}}>{registration.registrationname}</Text>
                         </View>
                         <View style={{width: 150}}>
-                            <Text style={{fontSize:9, marginLeft: 6, fontWeight: "extralight"}}>{15000 + bookprice}</Text>
+                            <Text style={{fontSize:9, marginLeft: 6, fontWeight: "extralight"}}>{registration.registrationprice}</Text>
                         </View>
                         <View style={{width: 150}}>
-                            <Text style={{fontSize:9}}>{0} </Text>
+                            <Text style={{fontSize:9}}>{registration.registrationprice} </Text>
                         </View>
-                    </View>
-                    }
-
-                    {bookprice !== 0 &&
-                        <View style={{backgroundColor: "darkgreen",padding: 4,color: "white", marginHorizontal: 30, flexDirection: "row", alignItems:'center'}}>
+                    </View>}
+                    
+                    {courseList !== 0 &&
+                    courseList.map((courses, index) => (
+                        <View style={[index % 2 === 0 && styles.line1, index % 2 !== 0 && styles.line2]}>
                             <View style={{width: 150}}>
                                 <Text style={{fontSize:9}}>1</Text>
                             </View>
                             <View style={{width: 250}}>
-                                <Text style={{fontSize:9}}>Registration Fee {bookprice !== 0 ? " + TShirt" :" " }</Text>
+                                <Text style={{fontSize:9}}> {courses.coursedescription}</Text>
                             </View>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9, marginLeft: 6, fontWeight: "extralight"}}>{15000 + bookprice}</Text>
+                                <Text style={{fontSize:9, marginLeft: 6, fontWeight: "extralight"}}> {courses.price}</Text>
                             </View>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9}}>{15000 + bookprice} </Text>
+                                <Text style={{fontSize:9}}>{courses.price} </Text>
                             </View>
                         </View>
+                    ))
+                        
                     }
                 </View>
                 <View>
