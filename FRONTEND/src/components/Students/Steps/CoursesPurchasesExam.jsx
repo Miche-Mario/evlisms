@@ -24,6 +24,7 @@ const CoursesPurchasesExam = () => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/exam`);
     setExams(response.data)
   }
+  const [currencyvalue, setCurrencyValue] = useState(1);
 
   const getExamPrice = async (e) => {
 
@@ -32,7 +33,8 @@ const CoursesPurchasesExam = () => {
         examid: parseInt(examid)
       });
 
-      setExamPrice(response.data.examprice)
+      setExamDescription(response.data.description)
+      setExamPrice(response.data.examprice * currencyvalue)
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
@@ -40,6 +42,8 @@ const CoursesPurchasesExam = () => {
       }
     }
   }
+
+
 
   // GET ALL ACCOMODATIONS
   const [accomodation, setAccomodation] = useState([]);
@@ -57,8 +61,8 @@ const CoursesPurchasesExam = () => {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/accomodationprice`, {
         accoid: parseInt(accoid)
       });
-
-      setAccoPrice(response.data.accomodationprice)
+      setAccoDescription(response.data.description)
+      setAccoPrice(response.data.accomodationprice * currencyvalue)
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
@@ -85,8 +89,8 @@ const CoursesPurchasesExam = () => {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/otherfeeprice`, {
           otherFeeId: parseInt(otherFeeId)
         });
-  
-        setOtherFeeprice(response.data.feeprice)
+        setOtherFeeDescription(response.data.description)
+        setOtherFeeprice(response.data.feeprice * currencyvalue)
       } catch (error) {
         if (error.response) {
           setMsg(error.response.data.msg);
@@ -102,6 +106,7 @@ const CoursesPurchasesExam = () => {
   const [purchaseprice, setPurchasePrice] = useState();
   const getItems = async () => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/purchases`);
+
     setItems(response.data)
   }
 
@@ -111,8 +116,8 @@ const CoursesPurchasesExam = () => {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/purchaseprice`, {
         purchaseid: parseInt(purchaseid)
       });
-
-      setPurchasePrice(response.data.purchaseprice)
+      setPurchaseDescription(response.data.description)
+      setPurchasePrice(response.data.purchaseprice * currencyvalue)
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
@@ -120,6 +125,19 @@ const CoursesPurchasesExam = () => {
       }
     }
   }
+
+  const [registrationprice, setRegistrationprice] = useState();
+  const [registrationname, setRegistrationname] = useState();
+  
+const getRegistration = async () => {
+const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration`);
+    setRegistrationprice(response.data[0].registrationprice )
+    setRegistrationname(response.data[0].registrationname)
+
+  }
+  
+
+
 
   // GET ALL COURSE
   const [course, setCourse] = useState([]);
@@ -144,6 +162,7 @@ const CoursesPurchasesExam = () => {
       }
     }
   }
+  console.log(options)
   //GET ALL TIMES
   const [times, setTimes] = useState([]);
   const getTimes = async () => {
@@ -161,8 +180,8 @@ const CoursesPurchasesExam = () => {
         subcourseid: parseInt(optionid),
         duration: parseInt(laduration)
       });
-      response.data.response ?  setPrice(response.data.response.price) : setPrice(response.data.fullprice)
-      response.data.fullprice &&  setPrice(response.data.fullprice)
+      response.data.response ?  setPrice(response.data.response.price * currencyvalue) : setPrice(response.data.fullprice * currencyvalue)
+      response.data.fullprice &&  setPrice(response.data.fullprice * currencyvalue)
       response.data.fullduration && setLaDuration(response.data.fullduration)
       response.data.description && setCourseDescription(response.data.description)
   
@@ -192,6 +211,7 @@ const CoursesPurchasesExam = () => {
     getCourseSubcourse();
     getTimes()
     getOtherFee()
+    getRegistration()
   }, [])
 
 
@@ -269,6 +289,15 @@ const CoursesPurchasesExam = () => {
   }
 
 
+  const getRegistrationDataFromLS = () => {
+    const data = localStorage.getItem('registration');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
+
 
   const [lecoursename, setLeCoursename] = useState('')
   const [lesubcoursename, setLeSubcoursename] = useState('')
@@ -280,27 +309,45 @@ const CoursesPurchasesExam = () => {
 
   const [laduration, setLaDuration] = useState('')
   const [coursedescription, setCourseDescription] = useState('')
+  const [examdescription, setExamDescription] = useState('');
+  const [purchasedescription, setPurchaseDescription] = useState('')
+  const [accodescription, setAccoDescription] = useState('')
+  const [otherfeedescription, setOtherFeeDescription] = useState('')
 
   const [courseList, setCourseList] = useState(getCourseDataFromLS())
   const [examList, setExamList] = useState(getExamDataFromLS())
   const [purchaseList, setPurchaseList] = useState(getPurchaseDataFromLS())
   const [accoList, setAccoList] = useState(getAccoDataFromLS())
   const [otherFeeList, setOtherFeeList] = useState(getOtherFeeDataFromLS())
-
-
+  const [registrationList, setRegistrationList] = useState(getRegistrationDataFromLS)
 
   const addCourse = (e) => {
     e.preventDefault(e);
     const uuid = Math.random() + 89
+    const regir = registrationprice * currencyvalue;
     let acourse = {
       lecoursename,
       lesubcoursename,
       laduration,
-      price,
+      price ,
+      lecurrency,
       coursedescription,
+      regir,
+      registrationname,
       uuid
     }
+    const uuidd = Math.random() + 89
+    let registration = {
+      registrationname,
+      regir,
+      lecurrency,
+      uuidd
+
+    }
     setCourseList([...courseList, acourse]);
+    if(courseList.length == 0)
+    {setRegistrationList([...registrationList, registration]);}
+
     setOptionId(null)
     setOptionId(null)
     setLeSubcoursename(null)
@@ -313,17 +360,22 @@ const CoursesPurchasesExam = () => {
     let anexam = {
       lexamname,
       examprice,
+      lecurrency,
+      examdescription,
       uuid
     }
     setExamList([...examList, anexam]);
   }
-
+  const [acotimes, setAcoTimes] = useState();
   const addAcco = (e) => {
     e.preventDefault(e);
     const uuid = Math.random() + 89
     let anacco = {
       lacconame,
       accoprice,
+      accodescription,
+      lecurrency,
+      acotimes,
       uuid
     }
     setAccoList([...accoList, anacco]);
@@ -334,6 +386,8 @@ const CoursesPurchasesExam = () => {
     let apurchase = {
       lepurchasename,
       purchaseprice,
+      lecurrency,
+      purchasedescription,
       uuid
     }
     setPurchaseList([...purchaseList, apurchase]);
@@ -345,6 +399,8 @@ const CoursesPurchasesExam = () => {
     let afee = {
       lotherfeename,
       otherfeeprice,
+      lecurrency,
+      otherfeedescription,
       uuid
     }
     setOtherFeeList([...otherFeeList, afee]);
@@ -369,6 +425,10 @@ const CoursesPurchasesExam = () => {
   useEffect(() => {
     localStorage.setItem('otherFeeList', JSON.stringify(otherFeeList))
   }, [otherFeeList])
+
+  useEffect(() => {
+    localStorage.setItem('registration', JSON.stringify(registrationList))
+  }, [registrationList])
 
 
 
@@ -411,6 +471,23 @@ const CoursesPurchasesExam = () => {
       return element.uuid !== param;
     })
     setOtherFeeList(filterr)
+
+  }
+
+  const deleteRegistrationFromList = (param) => {
+    const filterr = otherFeeList.filter((element, index) => {
+      return element.uuidd !== param;
+    })
+    setRegistrationList(filterr)
+
+  }
+const [lecurrency, setLecurrency ] = useState();
+  const handleChangeCurency = () => {
+    var lecurrency = document.getElementById("lecurrency");
+    var selectedText = lecurrency.options[lecurrency.selectedIndex].innerHTML;
+    var selectedValue = lecurrency.value;
+    setLecurrency(selectedText);
+    
 
   }
   const handleChangeCourse = () => {
@@ -464,7 +541,7 @@ const CoursesPurchasesExam = () => {
   }, 0);
 
   const sumAccoPrice = accoList.reduce((accumulator, object) => {
-    return accumulator + object.accoprice;
+    return accumulator + (object.accoprice * object.acotimes);
   }, 0);
 
   const sumPurchasePrice = purchaseList.reduce((accumulator, object) => {
@@ -473,15 +550,36 @@ const CoursesPurchasesExam = () => {
 
 
   let total; 
+  let subtotal;
+  let fee;
+  let table = []
+  let sum
   const NumberOfCourse = courseList.length
 
  if(NumberOfCourse <= 1 ) {
-  total = sumCoursePrice + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice;
+  total = sumCoursePrice + sumExamPrice + sumAccoPrice + sumPurchasePrice;
  }
 else {
-  total = ((sumCoursePrice - (courseList[0].price)) + ((courseList[0].price) - (courseList[0].price) *((NumberOfCourse - 1) * 0.2))) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice;
-
+  for(let i=1; i<NumberOfCourse; i++) {
+     fee = courseList[i].price * 0.1;
+    
+     table[i] = fee
+     sum = table.reduce((a, b) => a + b, 0)
+  }
+ 
+  total =  (courseList[0].price + (sumCoursePrice - courseList[0].price) - sum) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice;
 }
+subtotal = sumCoursePrice + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice;
+
+useEffect(() => {
+  localStorage.setItem('total', JSON.stringify(total));
+  localStorage.setItem('subtotal', JSON.stringify(subtotal));
+
+}, [total, subtotal])
+
+
+
+
 /* 
 let shirt = 0;
 
@@ -512,14 +610,58 @@ useEffect(() => {
 }, [bookprice])
  */
 
-
 useEffect(() => {
-  setStudentData({...studentData,courseList})
+  setStudentData({...studentData,courseList, examList, accoList,purchaseList, otherFeeList, total, subtotal, registrationList})
+}, [])
+useEffect(() => {
+  setStudentData({...studentData,examList, courseList})
 }, [courseList])
 
+ useEffect(() => {
+  setStudentData({...studentData,examList, courseList})
+}, [examList])
+
+useEffect(() => {
+  setStudentData({...studentData,examList, courseList, accoList})
+}, [accoList])
+
+useEffect(() => {
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList})
+}, [purchaseList])
+
+useEffect(() => {
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList})
+}, [otherFeeList])
+
+useEffect(() => {
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total})
+}, [total])
+
+useEffect(() => {
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal})
+}, [subtotal])
+useEffect(() => {
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal, registrationList})
+}, [registrationList])
+/*
+useEffect(() => {
+  setStudentData({...studentData,purchaseList})
+}, [purchaseList])
+
+useEffect(() => {
+  setStudentData({...studentData,accoList})
+}, [accoList])
+ */
+
+console.log(registrationprice)
+
+function separator(numb) {
+  var str = numb.toString().split(".");
+  str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return str.join(".");
+}
 
 
-  
   return (
     <div className='flex flex-row w-full'>
       <div>
@@ -700,6 +842,30 @@ useEffect(() => {
             </div>
 
           </div>
+          <select class="bg-blue-100 border border-gray-300 text-gray-900 mt-3 text-xl p-2 
+        focus:ring-blue-500 
+        focus:border-blue-500 block  dark:bg-gray-700 w-[22rem] dark:border-gray-600 
+        dark:placeholder-gray-400
+         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+               
+                onChange={(e) => setAcoTimes(e.target.value)}
+              >
+
+                <option value="1" className='text-md'>1</option>
+                <option value="2" className='text-md'>2</option>
+                <option value="3" className='text-md'>3</option>
+                <option value="4" className='text-md'>4</option>
+                <option value="5" className='text-md'>5</option>
+                <option value="6" className='text-md'>6</option>
+                <option value="7" className='text-md'>7</option>
+                <option value="8" className='text-md'>8</option>
+                <option value="9" className='text-md'>9</option>
+                <option value="10" className='text-md'>10</option>
+                <option value="11" className='text-md'>11</option>
+                <option value="12" className='text-md'>12</option>
+
+               
+              </select>
         </div>}
 
         {view && <div className='m-5'>
@@ -736,10 +902,26 @@ useEffect(() => {
 
 
       <div className='ml-10 mt-12 w-full'>
+        <div>
+          <p className='text-lg font-medium text-gray-600 mb-1 '>Choose Currency</p>
+          <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
+          focus:border-blue-500 block  dark:bg-gray-700 w-[22rem] dark:border-gray-600 
+          dark:placeholder-gray-400
+          dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-3"
+              onChange={(e) => {setCurrencyValue( e.target.value); handleChangeCurency(); getRegistration()}}
+              id='lecurrency'
+          >    
+            <option></option>
+            <option value="0.015">GHC</option>
+            <option value="0.015">$</option>
+
+
+          </select>
+        </div>
         <div className=' bg-dark-purple w-full p-1'>
             <div className='flex justify-end items-center'>
                 <span className='text-white text-xl'>Total:</span>
-                <span className='text-white ml-6 bg-red font-bold min-w-1 6 p-2 rounded-xl text-xl'>{total}</span>
+                <span className='text-white ml-6 bg-red font-bold min-w-1 6 p-2 rounded-xl text-xl'>{separator(total)}</span>
             </div>
         </div>
         <div>
@@ -747,7 +929,7 @@ useEffect(() => {
           courseList.length > 0 &&
           <div>
 
-
+            <div className='w-full bg-gray-300 text-right p-2 font-semibold border-b-2'>{registrationList[0].registrationname} : <span className='font-bold text-xl'>{registrationList[0].regir}</span></div>
             <table class="min-w-full shadow-lg border-collapse block md:table">
               <thead class="block md:table-header-group">
                 <tr class="border border-gray-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
@@ -766,7 +948,7 @@ useEffect(() => {
                     <td class="p-3 w-48 text-center font-medium block md:table-cell">{course.lecoursename}</td>
                     <td class="p-3 text-center font-medium block md:table-cell">{course.lesubcoursename}</td>
                     <td class="p-3 text-center font-medium block md:table-cell">{course.laduration}</td>
-                    <td class="p-3 text-center font-medium block md:table-cell">{course.price}</td>
+                    <td class="p-3 text-center font-medium block md:table-cell">{course.lecurrency} {separator(course.price)}</td>
                     <td class="p-3 w-32 text-center font-medium block md:table-cell">
                       <div onClick={() => deleteCourseFromList(course.uuid)} className=' cursor-pointer flex items-center p-2 shadow-md bg-white rounded-md'>
                         <BiTrash style={{ fontSize: "20px", color: 'red' }} />
@@ -803,7 +985,7 @@ useEffect(() => {
                   <tr class="bg-gray-300 border-b-2 block md:table-row">
                     <td class="p-3 w-10  text-center font-medium block md:table-cell">{index + 1}</td>
                     <td class="p-3 w-48 text-center font-medium block md:table-cell">{exam.lexamname}</td>
-                    <td class="p-3 text-center font-medium block md:table-cell">{exam.examprice}</td>
+                    <td class="p-3 text-center font-medium block md:table-cell"> {exam.lecurrency} {separator(exam.examprice)}</td>
                     <td class="p-3 w-32 text-center font-medium block md:table-cell">
                       <div onClick={() => deleteExamFromList(exam.uuid)} className=' cursor-pointer flex items-center p-2 shadow-md bg-white rounded-md'>
                         <BiTrash style={{ fontSize: "20px", color: 'red' }} />
@@ -837,7 +1019,7 @@ useEffect(() => {
                   <tr class="bg-gray-300 border-b-2 block md:table-row">
                     <td class="p-3 w-10  text-center font-medium block md:table-cell">{index + 1}</td>
                     <td class="p-3 w-48 text-center font-medium block md:table-cell">{purchase.lepurchasename}</td>
-                    <td class="p-3 text-center font-medium block md:table-cell">{purchase.purchaseprice}</td>
+                    <td class="p-3 text-center font-medium block md:table-cell"> {purchase.lecurrency} {separator(purchase.purchaseprice)}</td>
                     <td class="p-3 w-32 text-center font-medium block md:table-cell">
                       <div onClick={() => deletePurchaseFromList(purchase.uuid)} className=' cursor-pointer flex items-center p-2 shadow-md bg-white rounded-md'>
                         <BiTrash style={{ fontSize: "20px", color: 'red' }} />
@@ -862,6 +1044,7 @@ useEffect(() => {
                 <tr class="border border-gray-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
                   <th class=" bg-dark-purple p-2 w-10 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">N</th>
                   <th class="bg-dark-purple p-2 w-48 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Accomodation </th>
+                  <th class="bg-dark-purple p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Duration</th>
                   <th class="bg-dark-purple p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Price</th>
                   <th class="bg-dark-purple p-2 w-32 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Actions</th>
                 </tr>
@@ -871,7 +1054,8 @@ useEffect(() => {
                   <tr class="bg-gray-300 border-b-2 block md:table-row">
                     <td class="p-3 w-10  text-center font-medium block md:table-cell">{index + 1}</td>
                     <td class="p-3 w-48 text-center font-medium block md:table-cell">{acco.lacconame}</td>
-                    <td class="p-3 text-center font-medium block md:table-cell">{acco.accoprice}</td>
+                    <td class="p-3 w-48 text-center font-medium block md:table-cell">{acco.acotimes}</td>
+                    <td class="p-3 text-center font-medium block md:table-cell">{acco.lecurrency} {separator(acco.accoprice)}</td>
                     <td class="p-3 w-32 text-center font-medium block md:table-cell">
                       <div onClick={() => deleteAccoFromList(acco.uuid)} className=' cursor-pointer flex items-center p-2 shadow-md bg-white rounded-md'>
                         <BiTrash style={{ fontSize: "20px", color: 'red' }} />
@@ -905,7 +1089,7 @@ useEffect(() => {
                   <tr class="bg-gray-300 border-b-2 block md:table-row">
                     <td class="p-3 w-10  text-center font-medium block md:table-cell">{index + 1}</td>
                     <td class="p-3 w-48 text-center font-medium block md:table-cell">{fee.lotherfeename}</td>
-                    <td class="p-3 text-center font-medium block md:table-cell">{fee.otherfeeprice}</td>
+                    <td class="p-3 text-center font-medium block md:table-cell">{fee.lecurrency} {separator(fee.otherfeeprice)}</td>
                     <td class="p-3 w-32 text-center font-medium block md:table-cell">
                       <div onClick={() => deleteOtherFeeFromList(fee.uuid)} className=' cursor-pointer flex items-center p-2 shadow-md bg-white rounded-md'>
                         <BiTrash style={{ fontSize: "20px", color: 'red' }} />

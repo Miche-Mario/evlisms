@@ -5,12 +5,14 @@ import {
     createStudent,
     updateStudent,
     deleteStudent,
-    upload
+    upload,
+    getUserByName
 } from "../controllers/Students.js"
 
 const router = express.Router();
 
 router.get('/students', getStudents);
+router.post('/studentbyname', getUserByName);
 router.get('/students/:id', getStudentById);
 router.post('/students',upload, createStudent);
 router.patch('/students/:id', updateStudent);

@@ -36,7 +36,7 @@ export const getOtherFeePrice = async(req,res) => {
 
     try {
         const response = await OtherFee.findOne({
-            attributes: ['feeprice'],
+            attributes: ['feeprice', 'description'],
             where: {
                 id: otherFeeId
             }

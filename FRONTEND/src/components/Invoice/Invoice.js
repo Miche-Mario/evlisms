@@ -9,28 +9,25 @@ import axios from 'axios'
 
 
 const styles = StyleSheet.create({
-    page: { paddingLeft: 35, paddingRight: 35, display: 'flex', backgroundColor: 'white', margin: 35 },
-    header: { marginTop: 20, flexDirection: "row", justifyContent: "space-around", alignItems: 'center' },
+    page: { paddingLeft: 0, paddingRight: 0, display: 'flex', backgroundColor: 'white', margin: 10 },
+    header: { marginTop: 20, flexDirection: "row",marginHorizontal: 26,  alignItems: 'center' },
     headerLogo: { width: 200 },
     headerTitle: { fontSize: 25, color: "green" },
-    sectionFirst: { marginTop: 10, flexDirection: "row", justifyContent: "space-around", alignItems: 'center' },
-    line1: {backgroundColor:"white",padding: 4,color: "white", marginHorizontal: 30, flexDirection: "row", alignItems:'center'},
-    line2: {backgroundColor:"E7F0FF",padding: 4,color: "white", marginHorizontal: 30, flexDirection: "row", alignItems:'center'}
+    sectionFirst: {marginHorizontal: 32, marginTop: 10, flexDirection: "row",  alignItems: 'center' },
+    line1: {backgroundColor:"white",padding: 4,color: "black", marginHorizontal: 30, flexDirection: "row", alignItems:'center'},
+    line2: {backgroundColor:"#E7F0FF",padding: 4,color: "black", marginHorizontal: 30, flexDirection: "row", alignItems:'center'}
 });
 
 
 const Invoice = (props) => {
-const { courseList, examList, purchaseList, accoList, otherFeeList} = props.studentData
-const [registration, setRegistration] = useState();
-const getRegistration = async () => {
-const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration`);
-    setRegistration(response.data[0])
+const { courseList, examList, purchaseList, accoList, otherFeeList, total, subtotal, registrationList} = props.studentData
 
-  }
 
-useEffect(() => {
-    getRegistration();
-}, [])
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -38,8 +35,8 @@ useEffect(() => {
                     <View>
                         <Image style={styles.headerLogo} src={Logo} />        
                     </View>
-                    <View className=" mr-6">
-                        <Text style={styles.headerTitle}>{}</Text>
+                    <View style={{marginLeft: 150}}>
+                        <Text style={styles.headerTitle}>INVOICE</Text>
                     </View>
                 </View>
                 <View style={styles.sectionFirst}>
@@ -50,7 +47,7 @@ useEffect(() => {
                         <Text style={{ fontSize: 9, marginTop: 2 }}>Tel. +233302405496</Text>
                         <Text style={{ fontSize: 9, marginTop: 2 }}>Email: jodan@eaglevisionworld.com</Text>
                     </View>
-                    <View style={{ marginTop: 5, flexDirection: "row", paddingRight: 40, }}>
+                    <View style={{ marginTop: 5, flexDirection: "row", marginLeft:130 }}>
                         <View style={{ flexDirection: "column", alignItems: 'flex-end' }}>
                             <Text style={{ fontSize: 8, color: "green", marginTop: 2 }}>Invoice No : </Text>
                             <Text style={{ fontSize: 8, color: "green", marginTop: 2 }}>Date : </Text>
@@ -74,26 +71,34 @@ useEffect(() => {
                         <View style={{width: 150}}>
                             <Text style={{fontSize:9}}>Salesperson</Text>
                         </View>
-                        <View style={{width: 250}}>
+                        <View style={{width: 280}}>
                             <Text style={{fontSize:9}}>Service</Text>
                         </View>
-                        <View style={{width: 150}}>
-                            <Text style={{fontSize:9, marginLeft: 6}}>Payment Terms</Text>
+                        <View style={{width: 150,}}>
+                            <Text style={{fontSize:9,paddingLeft:2}}>Payment Terms</Text>
                         </View>
                         <View style={{width: 150}}>
-                            <Text style={{fontSize:9}}>Due Date</Text>
+                            <Text style={{fontSize:9, paddingLeft:4}}>Due Date</Text>
                         </View>
                         
                     </View>
                     <View style={{backgroundColor: "#E7F0FF",color: "black", marginHorizontal: 30, flexDirection: "row", alignItems:'center'}}>
                         <View style={{width: 150}}>
-                            <Text style={{fontSize:9}}>JODAN GBELINGA</Text>
+                            <Text style={{fontSize:9,paddingLeft:9}}>JODAN GBELINGA</Text>
                         </View>
-                        <View style={{width: 250, margin: 4}}>
-                            <Text style={{fontSize:10}}>SEMI-INTENSIVE ENGLISH PROGRAM WITH ACCOMODATION FOR GBETIE NICOLE FOR 02 MONTHS</Text>
+                        <View style={{width: 280}}>
+                            <Text style={{fontSize:10,paddingLeft:5}}>
+                                {/* {courseList.length > 0  && courseList[0].lesubcoursename} {courseList.length > 0 && "ENGLISH PROGRAM " }
+                                {courseList && courseList.length >= 1 && "WITH " }  
+                                {courseList && courseList.length >= 1 && courseList[1].lesubcoursename}      
+                                {accoList.length > 0 && " WITH ACCOMODATION " } 
+                                {courseList.length > 0 && " FOR " } 
+                                {courseList.length > 0 && courseList[0].laduration}  
+                                {courseList.length > 0 && " WEEKS" } */}
+                            </Text>
                         </View>
                         <View style={{width: 150}}>
-                            <Text style={{fontSize:9, marginLeft: 6}}>Due Upon Receipt</Text>
+                            <Text style={{fontSize:9 }}>Due Upon Receipt</Text>
                         </View>
                         <View style={{width: 150}}>
                             <Text style={{fontSize:9}}>03-10-22</Text>
@@ -107,55 +112,223 @@ useEffect(() => {
                         <View style={{width: 150}}>
                             <Text style={{fontSize:9}}>Quantity</Text>
                         </View>
-                        <View style={{width: 250}}>
+                        <View style={{width: 280}}>
                             <Text style={{fontSize:9}}>Description</Text>
                         </View>
                         <View style={{width: 150}}>
-                            <Text style={{fontSize:9, marginLeft: 6}}>Unit Price</Text>
+                            <Text style={{fontSize:9}}>Unit Price</Text>
                         </View>
                         <View style={{width: 150}}>
-                            <Text style={{fontSize:9}}>Line Total</Text>
+                            <Text style={{fontSize:9,paddingLeft:3}}>Line Total</Text>
                         </View>
                         
                     </View>
-                 
-                   {registration && <View style={{backgroundColor: "#E7F0FF",padding: 4,color: "black", marginHorizontal: 30, flexDirection: "row", alignItems:'center'}}>
-                        <View style={{width: 150}}>
-                            <Text style={{fontSize:9}}>1</Text>
-                        </View>
-                        <View style={{width: 250}}>
-                            <Text style={{fontSize:9}}>{registration.registrationname}</Text>
-                        </View>
-                        <View style={{width: 150}}>
-                            <Text style={{fontSize:9, marginLeft: 6, fontWeight: "extralight"}}>{registration.registrationprice}</Text>
-                        </View>
-                        <View style={{width: 150}}>
-                            <Text style={{fontSize:9}}>{registration.registrationprice} </Text>
-                        </View>
-                    </View>}
-                    
-                    {courseList !== 0 &&
-                    courseList.map((courses, index) => (
+                    {registrationList !== 0 &&
+                    registrationList.map((regist, index) => (
                         <View style={[index % 2 === 0 && styles.line1, index % 2 !== 0 && styles.line2]}>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9}}>1</Text>
+                                <Text style={{fontSize:9,paddingLeft:5}}>1</Text>
                             </View>
-                            <View style={{width: 250}}>
-                                <Text style={{fontSize:9}}> {courses.coursedescription}</Text>
-                            </View>
-                            <View style={{width: 150}}>
-                                <Text style={{fontSize:9, marginLeft: 6, fontWeight: "extralight"}}> {courses.price}</Text>
+                            <View style={{width: 280}}>
+                                <Text style={{fontSize:9}}> {regist.registrationname}</Text>
                             </View>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9}}>{courses.price} </Text>
+                                <Text style={{fontSize:9, fontWeight: "extralight"}}>{regist.lecurrency} {separator(regist.regir)}</Text>
+                            </View>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9}}>{regist.lecurrency} {separator(regist.regir)} </Text>
                             </View>
                         </View>
                     ))
                         
                     }
-                </View>
-                <View>
+                  
+                    
+                    {courseList !== 0 &&
+                    courseList.map((courses, index) => (
+                        <View style={[index % 2 === 0 && styles.line1, index % 2 !== 0 && styles.line2]}>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9,paddingLeft:5}}>1</Text>
+                            </View>
+                            <View style={{width: 280}}>
+                                <Text style={{fontSize:9}}> {courses.coursedescription}</Text>
+                            </View>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9, fontWeight: "extralight"}}>{courses.lecurrency} {separator(courses.price)}</Text>
+                            </View>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9}}>XOF {separator(courses.price)} </Text>
+                            </View>
+                        </View>
+                    ))
+                        
+                    }
+                    {examList !== 0 &&
+                    examList.map((exam, index) => (
+                        <View style={[index % 2 === 0 && styles.line1, index % 2 !== 0 && styles.line2]}>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9,paddingLeft:5}}>1</Text>
+                            </View>
+                            <View style={{width: 280}}>
+                                <Text style={{fontSize:9}}> {exam.examdescription}</Text>
+                            </View>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9, fontWeight: "extralight"}}>{exam.lecurrency} {separator(exam.examprice)}</Text>
+                            </View>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9}}>XOF {separator(exam.examprice)} </Text>
+                            </View>
+                        </View>
+                    ))
+                        
+                    }
+                   
 
+                    {purchaseList !== 0 &&
+                    purchaseList.map((item, index) => (
+                        <View style={[index % 2 === 0 && styles.line2, index % 2 !== 0 && styles.line1]}>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9,paddingLeft:5}}>1</Text>
+                            </View>
+                            <View style={{width: 280}}>
+                                <Text style={{fontSize:9}}> {item.purchasedescription}</Text>
+                            </View>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9, fontWeight: "extralight"}}>XOF {separator(item.purchaseprice)}</Text>
+                            </View>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9}}>XOF {separator(item.purchaseprice)} </Text>
+                            </View>
+                        </View>
+                    ))
+                        
+                    }
+
+                    {accoList !== 0 &&
+                    accoList.map((acco, index) => (
+                        <View style={[index % 2 === 0 && styles.line1, index % 2 !== 0 && styles.line2]}>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9,paddingLeft:5}}>{acco.acotimes}</Text>
+                            </View>
+                            <View style={{width: 280}}>
+                                <Text style={{fontSize:9}}> {acco.accodescription}</Text>
+                            </View>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9, fontWeight: "extralight"}}>XOF {separator(acco.accoprice)}</Text>
+                            </View>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9}}>XOF {separator(acco.acotimes * acco.accoprice)} </Text>
+                            </View>
+                        </View>
+                    ))
+                        
+                    }
+
+
+                    {otherFeeList !== 0 &&
+                    otherFeeList.map((fee, index) => (
+                        <View style={[index % 2 === 0 && styles.line2, index % 2 !== 0 && styles.line1]}>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9,paddingLeft:5}}>1</Text>
+                            </View>
+                            <View style={{width: 280}}>
+                                <Text style={{fontSize:9}}> {fee.otherfeedescription}</Text>
+                            </View>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9, fontWeight: "extralight"}}>XOF {separator(fee.otherfeeprice)}</Text>
+                            </View>
+                            <View style={{width: 150}}>
+                                <Text style={{fontSize:9}}>XOF {separator(fee.otherfeeprice)} </Text>
+                            </View>
+                        </View>
+                    ))
+                        
+                    }
+                    
+                </View>
+                <View style={{display: 'flex', flexDirection: 'row'}}>
+                    <View style={{width: 80,marginTop: 15, fontSize:8, lineHeight:1.3, marginHorizontal:30}}>
+                        <View       
+                            style={{
+                                borderBottomColor: 'black',
+                                borderBottomWidth: 0.5,
+                                marginBottom: 3,
+                                marginTop: 10
+                            }}
+                        />
+                        <Text>For payment</Text><br/>
+                        <Text style={{margintTop: 2}}>throug the bank,</Text><br/>
+                        <Text  style={{margintTop: 2}}>Use the details below</Text><br/>
+                        
+                    </View>
+                    
+                    <View style={{fontSize: 9, marginLeft: 203,}}>
+                        <View style={{display: 'flex', flexDirection: 'row'}}>
+                            <View style={{ display: "flex", flexDirection: 'column', }}>
+                                <Text style={{padding: 5, color:'black'}}>Sutotal</Text>
+                                <Text style={{padding: 5, color:'black'}}>Discount</Text>
+                                <Text style={{padding: 5, color:'black'}}>Sales Tax @ 0.00%</Text>
+                                <Text style={{padding: 5, color:'black'}}>Total</Text>
+                            </View>
+                            <View style={{marginLeft: 20, display: "flex", flexDirection: 'column'}}> 
+                                <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', paddingTop: 5,paddingBottom: 5,  backgroundColor: "#AED8E6", width: 115}}>                            
+                                    <Text >XOF {separator(subtotal)}</Text>
+                                </View>  
+                                <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', backgroundColor: "#AED8E6", paddingTop: 5,paddingBottom: 5,   width: 115}}>                      
+                                    <Text>{(courseList.length - 1)* 10}%</Text> 
+                                </View>      
+                                <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', backgroundColor: "#03BFFF", paddingTop: 5,paddingBottom: 5,   width: 115}}>                      
+                                    <Text>XOF 0.00</Text>           
+                                </View>
+                                <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', backgroundColor: "#0073CF", paddingTop: 5,paddingBottom: 5,   width: 115}}>                      
+                                    <Text>XOF {separator(total)}</Text>           
+                                </View>
+                            </View>
+                        </View>
+                        
+                    </View>
+                </View>
+                <View style={{marginTop: -20,width: 290, padding:3, height: "auto", borderWidth: 1, marginHorizontal: 30}}>
+
+                        <View style={{display: 'flex', flexDirection: 'row'}}>
+                            <View>
+                                <Text style={{fontSize:9}}>Account name:</Text>
+                            </View>
+                            <View style={{marginLeft: 20}}>
+                                <Text style={{fontSize:10}}>EAGLE VISION LANGUAGE INSTITUTE LTD</Text>
+                            </View>
+                        </View>
+                        <View style={{display: 'flex', flexDirection: 'row', marginTop: 5}}>
+                            <View>
+                                <Text style={{fontSize:9}}>Account number:</Text>
+                            </View>
+                            <View style={{marginLeft: 12}}>
+                                <Text style={{fontSize:10}}>9040002893635</Text>
+                            </View>
+                        </View>
+                        <View style={{display: 'flex', flexDirection: 'row', marginTop: 5}}>
+                            <View>
+                                <Text style={{fontSize:9}}>Bank</Text>
+                            </View>
+                            <View style={{marginLeft: 60}}>
+                                <Text style={{fontSize:10, fontWeight: "bold"}}>STANBIC BANK GHANA LIMITED</Text>
+                                <Text style={{fontSize:10, fontWeight: "bold"}}>AIRPORT CITY STANBIC HEIGHTS</Text>
+                                <Text style={{fontSize:10, fontWeight: "bold"}}>ACCRA</Text>
+                                <Text style={{fontSize:10, fontWeight: "bold"}}>GHANA</Text>
+                            </View>
+                        </View>
+                        <View style={{display: 'flex', flexDirection: 'row', marginTop: 5}}>
+                            <View>
+                                <Text style={{fontSize:9}}>Swift Code:</Text>
+                            </View>
+                            <View style={{marginLeft: 35}}>
+                                <Text style={{fontSize:10, fontWeight: "bold"}}>SBICGHAC</Text>
+                            </View>
+                        </View>
+                    
+                </View>
+                <View style={{display: 'flex',marginHorizontal:48, width: 280}}>
+                    <Text style={{textAlign: 'center', fontSize:9}}>THANK YOU FOR YOUR BUSINESS</Text>
                 </View>
             </Page>
         </Document>

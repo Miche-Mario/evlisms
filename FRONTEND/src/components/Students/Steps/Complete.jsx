@@ -4,12 +4,14 @@ import {PDFViewer }  from '@react-pdf/renderer';
 import { BsPrinter } from "react-icons/bs"
 import {MdOutlineMarkEmailUnread} from 'react-icons/md'
 import { StepperContext } from '../../../contexts/stepperContext'
+import { useNavigate } from 'react-router-dom'
 
 
 
 const Complete = () => {
   const { studentData, setStudentData } = useContext(StepperContext)
 
+  const navigate = useNavigate();
 
 
 

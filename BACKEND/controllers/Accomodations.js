@@ -36,7 +36,7 @@ export const getAccomodationPrice = async(req,res) => {
 
     try {
         const response = await Accomodation.findOne({
-            attributes: ['accomodationprice'],
+            attributes: ['accomodationprice', 'description'],
             where: {
                 id: accoid
             }

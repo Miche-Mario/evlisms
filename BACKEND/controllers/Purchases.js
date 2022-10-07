@@ -20,7 +20,7 @@ export const getPurchasePrice = async(req,res) => {
 
     try {
         const response = await Purchases.findOne({
-            attributes: ['purchaseprice'],
+            attributes: ['purchaseprice', 'description'],
             where: {
                 id: purchaseid
             }

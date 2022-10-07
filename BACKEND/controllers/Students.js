@@ -19,7 +19,22 @@ export const getStudents = async (req,res) => {
         res.status(500).json({msg: error.message});
     }
 }
-
+export const getUserByName = async(req,res) => {
+    const { search } = await req.body;
+    try {
+        const response = await Users.findAndCountAll({
+            attributes: ['id','uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
+            where: {
+                forenamesg: {
+                    [Op.like]: `%${search}%`
+                  }
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
 export const getStudentById =async (req,res) => {
     try {
         const response = await Students.findOne({
