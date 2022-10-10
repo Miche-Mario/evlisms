@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 
 const Invoice = (props) => {
-const { courseList, examList, purchaseList, accoList, otherFeeList, total, subtotal, registrationList} = props.studentData
+const { courseList, examList, purchaseList, accoList, otherFeeList, total, subtotal, registrationList, currency} = props.studentData
 
 
 function separator(numb) {
@@ -130,7 +130,7 @@ function separator(numb) {
                                 <Text style={{fontSize:9,paddingLeft:5}}>1</Text>
                             </View>
                             <View style={{width: 280}}>
-                                <Text style={{fontSize:9}}> {regist.registrationname}</Text>
+                                <Text style={{fontSize:9}}>{regist.registrationname}</Text>
                             </View>
                             <View style={{width: 150}}>
                                 <Text style={{fontSize:9, fontWeight: "extralight"}}>{regist.lecurrency} {separator(regist.regir)}</Text>
@@ -157,7 +157,7 @@ function separator(numb) {
                                 <Text style={{fontSize:9, fontWeight: "extralight"}}>{courses.lecurrency} {separator(courses.price)}</Text>
                             </View>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9}}>XOF {separator(courses.price)} </Text>
+                                <Text style={{fontSize:9}}>{courses.lecurrency} {separator(courses.price)} </Text>
                             </View>
                         </View>
                     ))
@@ -176,7 +176,7 @@ function separator(numb) {
                                 <Text style={{fontSize:9, fontWeight: "extralight"}}>{exam.lecurrency} {separator(exam.examprice)}</Text>
                             </View>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9}}>XOF {separator(exam.examprice)} </Text>
+                                <Text style={{fontSize:9}}>{exam.lecurrency} {separator(exam.examprice)} </Text>
                             </View>
                         </View>
                     ))
@@ -194,10 +194,10 @@ function separator(numb) {
                                 <Text style={{fontSize:9}}> {item.purchasedescription}</Text>
                             </View>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9, fontWeight: "extralight"}}>XOF {separator(item.purchaseprice)}</Text>
+                                <Text style={{fontSize:9, fontWeight: "extralight"}}>{item.lecurrency} {separator(item.purchaseprice)}</Text>
                             </View>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9}}>XOF {separator(item.purchaseprice)} </Text>
+                                <Text style={{fontSize:9}}>{item.lecurrency} {separator(item.purchaseprice)} </Text>
                             </View>
                         </View>
                     ))
@@ -214,10 +214,10 @@ function separator(numb) {
                                 <Text style={{fontSize:9}}> {acco.accodescription}</Text>
                             </View>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9, fontWeight: "extralight"}}>XOF {separator(acco.accoprice)}</Text>
+                                <Text style={{fontSize:9, fontWeight: "extralight"}}>{acco.lecurrency} {separator(acco.accoprice)}</Text>
                             </View>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9}}>XOF {separator(acco.acotimes * acco.accoprice)} </Text>
+                                <Text style={{fontSize:9}}>{acco.lecurrency} {separator(acco.acotimes * acco.accoprice)} </Text>
                             </View>
                         </View>
                     ))
@@ -235,10 +235,10 @@ function separator(numb) {
                                 <Text style={{fontSize:9}}> {fee.otherfeedescription}</Text>
                             </View>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9, fontWeight: "extralight"}}>XOF {separator(fee.otherfeeprice)}</Text>
+                                <Text style={{fontSize:9, fontWeight: "extralight"}}>{fee.lecurrency} {separator(fee.otherfeeprice)}</Text>
                             </View>
                             <View style={{width: 150}}>
-                                <Text style={{fontSize:9}}>XOF {separator(fee.otherfeeprice)} </Text>
+                                <Text style={{fontSize:9}}>{fee.lecurrency} {separator(fee.otherfeeprice)} </Text>
                             </View>
                         </View>
                     ))
@@ -272,16 +272,16 @@ function separator(numb) {
                             </View>
                             <View style={{marginLeft: 20, display: "flex", flexDirection: 'column'}}> 
                                 <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', paddingTop: 5,paddingBottom: 5,  backgroundColor: "#AED8E6", width: 115}}>                            
-                                    <Text >XOF {separator(subtotal)}</Text>
+                                    <Text >{currency.lecurrency} {separator(subtotal)}</Text>
                                 </View>  
                                 <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', backgroundColor: "#AED8E6", paddingTop: 5,paddingBottom: 5,   width: 115}}>                      
                                     <Text>{(courseList.length - 1)* 10}%</Text> 
                                 </View>      
                                 <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', backgroundColor: "#03BFFF", paddingTop: 5,paddingBottom: 5,   width: 115}}>                      
-                                    <Text>XOF 0.00</Text>           
+                                    <Text>{currency.lecurrency} 0.00</Text>           
                                 </View>
                                 <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', backgroundColor: "#0073CF", paddingTop: 5,paddingBottom: 5,   width: 115}}>                      
-                                    <Text>XOF {separator(total)}</Text>           
+                                    <Text>{currency.lecurrency} {separator(total)}</Text>           
                                 </View>
                             </View>
                         </View>

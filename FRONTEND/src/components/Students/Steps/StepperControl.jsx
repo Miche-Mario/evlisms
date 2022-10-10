@@ -1,6 +1,6 @@
 import React from 'react'
 
-const StepperControl = ({handleClick, currentStep, steps}) => {
+const StepperControl = ({handleClick,handleProceed, currentStep, steps}) => {
 
   return (
     <div className='container -mt-8 flex justify-around'>
@@ -15,12 +15,13 @@ const StepperControl = ({handleClick, currentStep, steps}) => {
             back
         </button>
         <button 
-          onClick={()=>handleClick("next")}
+          onClick={()=>{ handleClick('next'); }}
           className='bg-green-500 text-white  uppercase py-2 px-4
           rounded-xl font-semibold cursor-pointer  
           hover:bg-blue-700 hover:text-white transition duration-200 ease-in-out '
+          id="box"
         >
-            {currentStep == steps.length ? "Confirm" : "Next"}
+            {currentStep == steps.length ? "Proceed" : "Next"}
         </button>
     </div>
   )
