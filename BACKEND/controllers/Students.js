@@ -8,8 +8,8 @@ import About from "../models/AboutModels.js";
 
 export const getStudents = async (req,res) => {
     try {
-        const response = await Students.findAll({
-            attributes: ['id','uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
+        const response = await Students.findAndCountAll({
+            attributes: ['studentid','startdate','enddate','id','uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
             include: [{
                 model: About
             }]
@@ -23,7 +23,7 @@ export const getUserByName = async(req,res) => {
     const { search } = await req.body;
     try {
         const response = await Users.findAndCountAll({
-            attributes: ['id','uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
+            attributes: ['startdate','enddate','id','uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
             where: {
                 forenamesg: {
                     [Op.like]: `%${search}%`
@@ -66,7 +66,9 @@ export const getStudentByName =async (req,res) => {
     }
 }
 export const createStudent = async(req,res) => {
-    const {surnameg, forenamesg, genderg, dateofbirthg, placeofbirthg, citizenshipg,occupationg, emailg, telhomeg, telghanag,addresshomeg, addressghanag, maritalg, passportidg,academiclevelg, noteg, aboutidg, surnamee, forenamese, gendere, relationshipe,occupatione, emaile, tel1e, tel2e, addresse, surnamep, forenamesp, genderp, relationshipp, occupationp, emailp, tel1p, tel2p, addressp, nameo, addresso, tel1o, emailo, contacto, tel2o, about_aboutid } = req.body;
+    const url = req.protocol + '://' + req.get('host')
+
+    const {surnameg, forenamesg, genderg, dateofbirthg, placeofbirthg, citizenshipg,occupationg, emailg, telhomeg, telghanag,addresshomeg, addressghanag, maritalg, passportidg,academiclevelg, noteg, aboutidg, surnamee, forenamese, gendere, relationshipe,occupatione, emaile, tel1e, tel2e, addresse, surnamep, forenamesp, genderp, relationshipp, occupationp, emailp, tel1p, tel2p, addressp, nameo, addresso, tel1o, emailo, contacto, tel2o, about_aboutid, startdate, enddate } = req.body;
     
     try {
         await Students.create({
@@ -87,8 +89,8 @@ export const createStudent = async(req,res) => {
             academiclevelg: academiclevelg,
             noteg: noteg,
             aboutidg: aboutidg,
-            passportphotographg: req.files['passportphotographg'],
-            idscang: req.files['idscang'],
+            passportphotographg: req.files.passportphotographg &&  url + '/Images/' + req.files.passportphotographg[0].filename,
+            idscang: req.files.idscang && url + '/Images/' + req.files.idscang[0].filename,
             surnamee: surnamee,
             forenamese: forenamese,
             gendere: gendere,
@@ -113,9 +115,13 @@ export const createStudent = async(req,res) => {
             emailo: emailo,
             contacto: contacto,
             tel2o: tel2o,
-            about_aboutid: about_aboutid
+            about_aboutid: about_aboutid,
+            startdate: startdate,
+            enddate: enddate
 
-        });
+        },{   
+            headers: { "Content-Type": "multipart/form-data" } 
+    });
         res.status(200).json({msg: "Student well created"})
     } catch (error) {
         res.status(400).json({msg: error.message})
@@ -127,27 +133,31 @@ export const updateStudent = (req,res) => {
 export const deleteStudent = (req,res) => {
     
 }
-export const storage = multer.diskStorage({
+
+
+
+
+
+
+
+const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'Images')
+        cb(null, 'Images');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname))
+        const fileName = file.originalname.toLowerCase().split(' ').join('-');
+        cb(null, '-' + fileName)
     }
-})
-
+});
 export const upload = multer({
     storage: storage,
-    limits: { fileSize: '1000000' },
     fileFilter: (req, file, cb) => {
-        const fileTypes = /jpeg|jpg|png|gif/
-        const mimeType = fileTypes.test(file.mimetype)  
-        const extname = fileTypes.test(path.extname(file.originalname))
-        if(mimeType && extname) {
-            return cb(null, true)
+        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+            cb(null, true);
+        } else {
+            cb(null, false);
+            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
         }
-        cb('Give proper files formate to upload')
-       
     }
 }).fields(
     [

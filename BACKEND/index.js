@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import bodyParser from "body-parser";
+
 import session from "express-session";
 import dotenv from "dotenv";
 import db from "./config/Database.js"
@@ -33,6 +35,11 @@ dotenv.config();
 
 const app = express();
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 const sessionStore = SequelizeStore(session.Store);
 

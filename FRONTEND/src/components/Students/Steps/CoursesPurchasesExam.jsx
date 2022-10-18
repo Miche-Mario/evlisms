@@ -19,6 +19,7 @@ const CoursesPurchasesExam = () => {
   //GET ALL EXMAS
   const [exam, setExams] = useState([]);
   const [examid, setExamId] = useState();
+  const [exampriceid, setExamPriceId] = useState()
   const [examprice, setExamPrice] = useState();
   const getExams = async () => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/exam`);
@@ -51,7 +52,7 @@ const CoursesPurchasesExam = () => {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/examprice`, {
         examid: parseInt(examid)
       });
-
+      setExamPriceId(response.data.id)
       setExamDescription(response.data.description)
       setExamPrice(response.data.examprice * currencyvalue)
     } catch (error) {
@@ -67,6 +68,8 @@ const CoursesPurchasesExam = () => {
   // GET ALL ACCOMODATIONS
   const [accomodation, setAccomodation] = useState([]);
   const [accoid, setAccoId] = useState();
+  const [accopriceid, setAccoPriceId] = useState();
+
   const [accoprice, setAccoPrice] = useState();
   const getAccomodaion = async () => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/accomodations`);
@@ -80,6 +83,7 @@ const CoursesPurchasesExam = () => {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/accomodationprice`, {
         accoid: parseInt(accoid)
       });
+      setAccoPriceId(response.data.id)
       setAccoDescription(response.data.description)
       setAccoPrice(response.data.accomodationprice * currencyvalue)
     } catch (error) {
@@ -95,6 +99,7 @@ const CoursesPurchasesExam = () => {
     // GET ALL Other Fee
     const [otherfee, setOtherFee] = useState([]);
     const [otherFeeId, setOtherFeeId] = useState();
+    const [otherFeePriceId, setOtherFeePriceId] = useState()
     const [otherfeeprice, setOtherFeeprice] = useState();
     const getOtherFee = async () => {
       const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/otherfee`);
@@ -108,6 +113,7 @@ const CoursesPurchasesExam = () => {
         const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/otherfeeprice`, {
           otherFeeId: parseInt(otherFeeId)
         });
+        setOtherFeePriceId(response.data.id)
         setOtherFeeDescription(response.data.description)
         setOtherFeeprice(response.data.feeprice * currencyvalue)
       } catch (error) {
@@ -122,6 +128,7 @@ const CoursesPurchasesExam = () => {
   // GET ALL ITEMS
   const [item, setItems] = useState([]);
   const [purchaseid, setPurchaseId] = useState();
+  const [purchasepriceid, setPurchasePriceId] = useState();
   const [purchaseprice, setPurchasePrice] = useState();
   const getItems = async () => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/purchases`);
@@ -135,6 +142,7 @@ const CoursesPurchasesExam = () => {
       const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/purchaseprice`, {
         purchaseid: parseInt(purchaseid)
       });
+      setPurchasePriceId(response.data.id)
       setPurchaseDescription(response.data.description)
       setPurchasePrice(response.data.purchaseprice * currencyvalue)
     } catch (error) {
@@ -147,9 +155,12 @@ const CoursesPurchasesExam = () => {
 
   const [registrationprice, setRegistrationprice] = useState(0);
   const [registrationname, setRegistrationname] = useState();
+  const [registrationid, setRegistrationid] = useState();
+
   
 const getRegistration = async () => {
 const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration`);
+    setRegistrationid(response.data[0].id) 
     setRegistrationprice(response.data[0].registrationprice )
     setRegistrationname(response.data[0].registrationname)
 
@@ -190,6 +201,10 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   }
   // GET ALL COURSES
   const [price, setPrice] = useState();
+  const [priceid, setPriceId] = useState();
+  const [startdate, enddate] = useState();
+  const [enddtae, setEndDate] = useState()
+
 
   const getCoursesPrice = async (e) => {
 
@@ -199,6 +214,7 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
         subcourseid: parseInt(optionid),
         duration: parseInt(laduration)
       });
+      response.data.response ?  setPriceId(response.data.response.id) : setPriceId(response.data.id)
       response.data.response ?  setPrice(response.data.response.price * currencyvalue) : setPrice(response.data.fullprice * currencyvalue)
       response.data.fullprice &&  setPrice(response.data.fullprice * currencyvalue)
       response.data.fullduration && setLaDuration(response.data.fullduration)
@@ -213,7 +229,7 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   }
   const [programId, setProgramId] = useState(null)
 
-
+console.log(priceid)
 
   /*    useEffect(() => { // useEffect hook
        setTimeout(() => { // simulate a delay
@@ -359,7 +375,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       coursedescription,
       regir,
       registrationname,
-      uuid
+      uuid,
+      priceid
     }
     const uuidd = 22
     let registration = {
@@ -387,7 +404,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       examprice,
       lecurrency,
       examdescription,
-      uuid
+      uuid,
+      exampriceid
     }
     setExamList([...examList, anexam]);
   }
@@ -401,7 +419,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       accodescription,
       lecurrency,
       acotimes,
-      uuid
+      uuid,
+      accopriceid
     }
     setAccoList([...accoList, anacco]);
   }
@@ -413,7 +432,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       purchaseprice,
       lecurrency,
       purchasedescription,
-      uuid
+      uuid,
+      purchasepriceid
     }
     setPurchaseList([...purchaseList, apurchase]);
   }
@@ -426,7 +446,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       otherfeeprice,
       lecurrency,
       otherfeedescription,
-      uuid
+      uuid,
+      otherFeePriceId
     }
     setOtherFeeList([...otherFeeList, afee]);
   }
@@ -578,6 +599,7 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
 
   let total; 
   let subtotal;
+  let discount;
   let fee;
   let table = []
   let sum;
@@ -602,11 +624,13 @@ else {
 }
 subtotal = sumCoursePrice + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice;
 
+
 useEffect(() => {
   localStorage.setItem('total', JSON.stringify(total));
   localStorage.setItem('subtotal', JSON.stringify(subtotal));
+  localStorage.setItem('sum', JSON.stringify(sum));
 
-}, [total, subtotal])
+}, [total, subtotal, sum])
 
 
 
@@ -646,7 +670,7 @@ useEffect(() => {
  */
 
 useEffect(() => {
-  setStudentData({...studentData,courseList, examList, accoList,purchaseList, otherFeeList, total, subtotal, registrationList, currency})
+  setStudentData({...studentData,courseList, examList, accoList,purchaseList, otherFeeList, total, subtotal, sum, registrationList, currency})
 }, [])
 useEffect(() => {
   setStudentData({...studentData,examList, courseList})
@@ -676,9 +700,13 @@ useEffect(() => {
   setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal})
 }, [subtotal])
 
+useEffect(() => {
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal, sum})
+}, [sum])
+
 
 useEffect(() => {
-  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal, registrationList, })
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal, sum, registrationList, })
 }, [registrationList])
 
 useEffect(() => {
@@ -786,7 +814,26 @@ function separator(numb) {
 
 
 
-
+      {view && courseList.length !== 0 &&
+        <div className=' ml-6 mt-4 flex flex-row items-center'>
+          <div className='flex items-center'>
+              <p className='font-medium text-lg'>Start date</p>
+              <input type="date" className=" border-gray-700 border ml-2 w-40 p-2 border-none" 
+                onChange={handleChangee}
+                name="startdate"
+                value={studentData["startdate"] || ""}
+              />
+          </div>
+          <div className='flex ml-3 items-center'>
+              <p className='font-medium text-lg'>Start date</p>
+              <input type="date" className="ml-2 w-40 p-2 border-none"
+                onChange={handleChangee}
+                name="enddate"
+                value={studentData["enddate"] || ""}
+              />
+          </div>
+        </div>
+      }
 
 
 

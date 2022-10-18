@@ -14,11 +14,19 @@ const Students = db.define('students', {
             notEmpty: true
         }
     },
+    studentid:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: "EVLI",
+        validate: {
+            notEmpty: false
+        }
+    },
     surnameg:{
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         validate:{
-            notEmpty: true,
+            notEmpty: false,
             len: [3, 100]
         }
     },
@@ -103,7 +111,7 @@ const Students = db.define('students', {
         }
     },
     passportidg:{
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: true,
         validate:{
             notEmpty: false,
@@ -127,7 +135,7 @@ const Students = db.define('students', {
         }
     },
     passportphotographg:{
-        type: DataTypes.JSON,
+        type: DataTypes.STRING,
         allowNull: true,
         validate:{
             notEmpty: false
@@ -135,7 +143,7 @@ const Students = db.define('students', {
         required: false
     },
     idscang:{
-        type: DataTypes.JSON,
+        type: DataTypes.STRING,
         allowNull: true,
         validate:{
             notEmpty: false
@@ -332,6 +340,27 @@ const Students = db.define('students', {
         validate:{
             notEmpty: false,
             len: [3, 100]
+        }
+    },
+    isstudent:{
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        validate:{
+            notEmpty: false,
+        }
+    },
+    startdate:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate:{
+            notEmpty: false,
+        }
+    },
+    enddate:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate:{
+            notEmpty: false,
         }
     },
     

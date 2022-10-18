@@ -63,7 +63,7 @@ const GuardianStudInfo = () => {
             <div class="grid gap-3 mb-6 lg:grid-cols-2">
               <div>
                 <label for="surnamep" class="block mb-2 text-sm font-medium text-gray-900 ">Surname</label>
-                <input type="text" id="surnamep" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="John" required 
+                <input type="text" id="surnamep" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="surnamep"
                   value={studentData["surnamep"] || ""}
@@ -71,7 +71,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="forenamesp" class="block mb-2 text-sm font-medium text-gray-900   ">Forenames</label>
-                <input type="text" id="forenamesp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Doe" required 
+                <input type="text" id="forenamesp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="forenamesp"
                   value={studentData["forenamesp"] || ""}
@@ -92,7 +92,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="relationshipp" class="block mb-2 text-sm font-medium text-gray-900">Relationship</label>
-                <input type="text" id="relationshipp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="relationship" required 
+                <input type="text" id="relationshipp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="relationshipp"
                   value={studentData["relationshipp"] || ""}
@@ -100,7 +100,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="occupationp" class="block mb-2 text-sm font-medium text-gray-900">Occupation</label>
-                <input type="text" id="occupationp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Occupation" required 
+                <input type="text" id="occupationp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="occupationp"
                   value={studentData["occupationp"] || ""}
@@ -108,7 +108,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="emailp" class="block mb-2 text-sm font-medium text-gray-900   ">Email addess</label>
-                <input type="email" id="emailp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="johndoe@mail.com" required 
+                <input type="email" id="emailp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="emailp"
                   value={studentData["emailp"] || ""}
@@ -116,7 +116,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="tel1p" class="block mb-2 text-sm font-medium text-gray-900 ">Tel 1</label>
-                <input type="text" id="tel1p" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Cotonou" required 
+                <input type="text" id="tel1p" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="tel1p"
                   value={studentData["tel1p"] || ""}
@@ -124,7 +124,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="tel2p" class="block mb-2 text-sm font-medium text-gray-900   ">Tel 2</label>
-                <input type="text" id="tel2p" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="123-456" required 
+                <input type="text" id="tel2p" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="tel2p"
                   value={studentData["tel2p"] || ""}
@@ -132,7 +132,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="addressp" class="block mb-2 text-sm font-medium text-gray-900">Address</label>
-                <input type="text" id="addressp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  " placeholder="johndoe@mail.com" required 
+                <input type="text" id="addressp" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  " placeholder="" required 
                   onChange={handleChangee}
                   name="addressp"
                   value={studentData["addressp"] || ""}
@@ -150,7 +150,7 @@ const GuardianStudInfo = () => {
             <div class="grid gap-3 mb-6 lg:grid-cols-2">
               <div>
                 <label for="nameo" class="block mb-2 text-sm font-medium text-gray-900 ">Name</label>
-                <input type="text" id="nameo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="John" required 
+                <input type="text" id="nameo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="nameo"
                   value={studentData["nameo"] || ""}
@@ -158,7 +158,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="adresso" class="block mb-2 text-sm font-medium text-gray-900">Address</label>
-                <input type="text" id="adresso" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Adress" required 
+                <input type="text" id="adresso" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="addresso"
                   value={studentData["addresso"] || ""}
@@ -166,7 +166,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="telo" class="block mb-2 text-sm font-medium text-gray-900">Tel</label>
-                <input type="text" id="telo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  " placeholder="123-456" required 
+                <input type="text" id="telo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  " placeholder="" required 
                   onChange={handleChangee}
                   name="tel1o"
                   value={studentData["tel1o"] || ""}
@@ -174,7 +174,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="emailo" class="block mb-2 text-sm font-medium text-gray-900   ">Email Address</label>
-                <input type="email" id="emailo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="johndoe@mail.com" required 
+                <input type="email" id="emailo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="emailo"
                   value={studentData["emailo"] || ""}
@@ -182,7 +182,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="contacto" class="block mb-2 text-sm font-medium text-gray-900   ">Contact Person</label>
-                <input type="text" id="contacto" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Contact person" required 
+                <input type="text" id="contacto" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="contacto"
                   value={studentData["contacto"] || ""}
@@ -190,7 +190,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="visitors" class="block mb-2 text-sm font-medium text-gray-900   ">Tel</label>
-                <input type="phone" id="visitors" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="123-456" required 
+                <input type="phone" id="visitors" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="tel2o"
                   value={studentData["tel2o"] || ""}
@@ -205,7 +205,7 @@ const GuardianStudInfo = () => {
             <div class="grid gap-3 mb-6 lg:grid-cols-2">
               <div>
                 <label for="surnamee" class="block mb-2 text-sm font-medium text-gray-900 ">Surname</label>
-                <input type="text" id="surnamee" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="John" required 
+                <input type="text" id="surnamee" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                    onChange={handleChangee}
                    name="surnamee"
                    value={studentData["surnamee"] || ""}
@@ -213,7 +213,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900   ">Forenames</label>
-                <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Doe" required 
+                <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="forenamese"
                   value={studentData["forenamese"] || ""}
@@ -234,7 +234,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="relationshipe" class="block mb-2 text-sm font-medium text-gray-900">Relationship</label>
-                <input type="text" id="relationshipe" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="relationship" required 
+                <input type="text" id="relationshipe" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="relationshipe"
                   value={studentData["relationshipe"] || ""}
@@ -242,7 +242,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="occupatione" class="block mb-2 text-sm font-medium text-gray-900">Occupation</label>
-                <input type="text" id="occupatione" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Occupation" required 
+                <input type="text" id="occupatione" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="occupatione"
                   value={studentData["occupatione"] || ""}
@@ -250,7 +250,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="emaile" class="block mb-2 text-sm font-medium text-gray-900">Email addess</label>
-                <input type="email" id="emaile" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="johndoe@mail.com" required 
+                <input type="email" id="emaile" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="emaile"
                   value={studentData["emaile"] || ""}
@@ -258,7 +258,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="tel1e" class="block mb-2 text-sm font-medium text-gray-900 ">Tel 1</label>
-                <input type="text" id="tel1e" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="Cotonou" required 
+                <input type="text" id="tel1e" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="tel1e"
                   value={studentData["tel1e"] || ""}
@@ -266,7 +266,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="tel2e" class="block mb-2 text-sm font-medium text-gray-900   ">Tel 2</label>
-                <input type="text" id="tel2e" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="123-456" required 
+                <input type="text" id="tel2e" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required 
                   onChange={handleChangee}
                   name="tel2e"
                   value={studentData["tel2e"] || ""}
@@ -274,7 +274,7 @@ const GuardianStudInfo = () => {
               </div>
               <div>
                 <label for="addresse" class="block mb-2 text-sm font-medium text-gray-900">Address</label>
-                <input type="text" id="addresse" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  " placeholder="johndoe@mail.com" required 
+                <input type="text" id="addresse" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  " placeholder="" required 
                   onChange={handleChangee}
                   name="addresse"
                   value={studentData["addresse"] || ""}

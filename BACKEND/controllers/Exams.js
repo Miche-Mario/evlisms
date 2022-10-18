@@ -33,7 +33,7 @@ export const getExamPrice = async(req,res) => {
 
     try {
         const response = await Exam.findOne({
-            attributes: ['examprice', 'description'],
+            attributes: ['id', 'examprice', 'description'],
             where: {
                 id: examid
             }

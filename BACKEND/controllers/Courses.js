@@ -61,7 +61,7 @@ export const getCourseWithSubcourse = async (req,res) => {
             if (courses.fullprice > 0)  {
                 try {
                     const response = await Courses.findOne({
-                        attributes: ['fullduration', 'fullprice', 'description'],
+                        attributes: ['id','fullduration', 'fullprice', 'description'],
                        where: {
                         course_courseid: courseid,
                         subcourse_subcourseid: subcourseid
@@ -77,7 +77,7 @@ export const getCourseWithSubcourse = async (req,res) => {
                 try {
 
                     const response = await Prices.findOne({
-                        attributes: ['price'],
+                        attributes: ['id','price'],
                        where: {
                          courses_coursesid: courses.id,
                          times_timesid: duration

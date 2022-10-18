@@ -275,7 +275,7 @@ function separator(numb) {
                                     <Text >{currency.lecurrency} {separator(subtotal)}</Text>
                                 </View>  
                                 <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', backgroundColor: "#AED8E6", paddingTop: 5,paddingBottom: 5,   width: 115}}>                      
-                                    <Text>{(courseList.length - 1)* 10}%</Text> 
+                                    <Text>{courseList.length !== 0 ? (courseList.length - 1)* 10 : "0,00"}%</Text> 
                                 </View>      
                                 <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', backgroundColor: "#03BFFF", paddingTop: 5,paddingBottom: 5,   width: 115}}>                      
                                     <Text>{currency.lecurrency} 0.00</Text>           
