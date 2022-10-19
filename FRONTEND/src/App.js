@@ -33,6 +33,7 @@ import OtherFee from './pages/OtherFee';
 import Complete from './components/Students/Steps/Complete';
 import EditOtherFee from './pages/EditOtherFee';
 import Payment from './pages/Payment';
+import StudentProfile from './components/StudentProfile';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -68,8 +69,8 @@ function App() {
             <Route path="/exams" element={<Exams/>}/>
             <Route path="/invoice" element={<Complete/>}/>
             <Route path="/otherfee" element={<OtherFee/>}/>
-
             <Route path="/payment" element={<Payment/>}/>
+            <Route path='/studentprofile/:id' element={<StudentProfile/>}/>
 
 
 

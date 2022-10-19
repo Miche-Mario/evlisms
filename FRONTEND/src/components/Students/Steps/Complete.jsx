@@ -31,7 +31,7 @@ const Complete = () => {
         telhomeg: studentData.telhomeg && studentData.telhomeg,
         telghanag: studentData.telghanag && studentData.telghanag,
         addresshomeg: studentData.addresshomeg && studentData.addresshomeg,
-        addressghana: studentData.addresshomeg && studentData.addresshomeg,
+        addressghanag: studentData.addresshomeg && studentData.addresshomeg,
         maritalg: studentData.maritalg && studentData.maritalg,
         passportidg: studentData.passportidg &&  studentData.passportidg,
         academiclevelg: studentData.academiclevelg && studentData.academiclevelg,

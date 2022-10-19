@@ -83,7 +83,6 @@ const Students = db.define('students', {
         allowNull: true,
         validate:{
             notEmpty: false,
-            len: [3, 100]
         }
     },
     telhomeg:{
@@ -91,7 +90,6 @@ const Students = db.define('students', {
         allowNull: true,
         validate:{
             notEmpty: false,
-            len: [3, 100]
         }
     },
     telghanag:{
@@ -99,7 +97,20 @@ const Students = db.define('students', {
         allowNull: true,
         validate:{
             notEmpty: false,
-            len: [3, 100]
+        }
+    },
+    addresshomeg:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate:{
+            notEmpty: false,
+        }
+    },
+    addressghanag:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate:{
+            notEmpty: false,
         }
     },
     maritalg:{
@@ -107,7 +118,6 @@ const Students = db.define('students', {
         allowNull: true,
         validate:{
             notEmpty: false,
-            len: [3, 100]
         }
     },
     passportidg:{

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import Layout from '../components/Screens/Layout'
 import { TiUserAdd } from 'react-icons/ti'
 import Box from '@mui/material/Box';
@@ -50,74 +50,7 @@ const Students = () => {
     };
     return (
         <Layout>
-            <Modal
-                open={open}
-                onClose={handleClose}
-            >
-                <Box className="center-col" sx={style1}>
-                    <div className=' text-center bg-dark-purple p-2 text-white text-xl font-medium'>{code.studentid}</div>
-                    <div className='flex flex-row items-start'>
-                        <div className='flex flex-col'>
-                            <img className='w-[22rem]' src={code.idscang && code.idscang} />
-                            <img className='w-[22rem] mt-6' src={code.passportphotographg && code.passportphotographg} />
-                        </div>
-                        <div className='flex flex-col w-full'>
-                            <p className=' bg-dark-purple w-full text-white font-bold text-2xl p-1 m-1'> General Information</p>
-                            <div className='flex flex-row justify-between'>
-                                <div className='flex flex-row items-center'>
-                                    <div className='flex flex-col'>
-                                        <p className='text-xl'>Surname:</p>
-                                        <p className='text-xl'>Foresname:</p>
-                                    </div>
-                                    <div className='flex flex-col'>
-                                        <p className='font-bold text-xl'>{code.forenamesg}</p>
-                                        <p className='font-bold text-xl'>{code.surnameg}</p>
-                                    </div>
-                                </div>
-                                <div className='flex flex-row items-center mr-4'>
-                                    <div className='flex flex-col'>
-                                        <p className='text-xl'>Date of Birth:</p>
-                                        <p className='text-xl'>Citizenshipg:</p>
-                                    </div>
-                                    <div className='flex flex-col items-center'>
-                                        <p className='font-bold text-xl'>{code.citizenshipg}</p>
-                                        <p className='font-bold text-xl'>{code.dateofbirthg}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className=' flex flex-row justify-around'>
-                                <div className='flex flex-row items-center'>
-                                    <div className='flex flex-col'>
-                                        <p className='text-xl'>Occupation:</p>
-                                        <p className='text-xl'>Email:</p>
-                                    </div>
-                                    <div className='flex flex-col'>
-                                        <p className='font-bold text-xl'>{code.occupationg}</p>
-                                        <p className='font-bold text-xl'>{code.emailg}</p>
-                                    </div>
-                                </div>
-                                <div className='flex flex-row items-center'>
-                                    <div className='flex flex-col'>
-                                        <p className='text-xl'>Tel Ghana:</p>
-                                        <p className='text-xl'>Tel Home:</p>
-                                    </div>
-                                    <div className='flex flex-col items-center'>
-                                        <p className='font-bold text-xl'>{code.telhomeg}</p>
-                                        <p className='font-bold text-xl'>{code.telghanag}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-
-                    </div>
-                    <div className='flex justify-end mt-3 mb-3'>
-                        <button onClick={handleClose} className='bg-blue-600 rounded mr-20 text-gray-100 font-medium w-32 h-10 flex items-center justify-center'>
-                            Ok
-                        </button>
-                    </div>
-                </Box>
-            </Modal>
+         
             <div>
                 <div className='shadow-lg flex h-20 w-full flex-row bg-white border border-gray-300 rounded'>
                     <div className='bg-blue-400 w-40 flex items-center justify-center text-3xl font-semibold text-center text-white'>{count}</div>
@@ -231,15 +164,15 @@ const Students = () => {
                                                     </td>
                                                     <td className=" py-3 px-3 text-center">
                                                         <div className="flex item-center justify-center">
-                                                            <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
-                                                                onClick={() => { handleOpen(stud) }}
-
-                                                            >
+                                                            <Link to={`/studentprofile/${stud.uuid}`}>
+                                                            
+                                                            <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                                 </svg>
                                                             </div>
+                                                            </Link>
                                                             <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                                 <NavLink to="/addStudents">
                                                                     <a>

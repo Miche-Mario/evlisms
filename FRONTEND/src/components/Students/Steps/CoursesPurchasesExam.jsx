@@ -838,24 +838,7 @@ function separator(numb) {
 
 
 
-        {view && <div className='m-5'>
-          <p className='text-lg font-medium text-gray-600 '>Would you like to book additional one-on-one classes?</p>
-          <input type="checkbox" className="w-5 h-5 mt-3"
-          />
-
-        </div>}
-
-        {oneOnOne && <div className='m-5'>
-          <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
-        focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 dark:placeholder-gray-400
-         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-           
-          >
-            {times.map((option) => (
-              <option value={option.id}>{option} Private lesson</option>
-            ))}
-          </select>
-        </div>}
+       
 
         {view && <div className='m-5'>
 
@@ -991,22 +974,35 @@ function separator(numb) {
 
 
       <div className='ml-10 mt-12 w-full'>
-        <div>
-          <p className='text-lg font-medium text-gray-600 mb-1 '>Choose Currency</p>
-          <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
-          focus:border-blue-500 block  dark:bg-gray-700 w-[22rem] dark:border-gray-600 
-          dark:placeholder-gray-400
-          dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-3"
-              onChange={(e) => {setCurrencyValue( e.target.value); handleChangeCurency(); getRegistration();}}
-              id='lecurrency'
-              onClick={addCurency}
-          >    
-            <option value="1" select>XOF</option>
-            <option value="0.015">GHC</option>
-            <option value="0.015">$</option>
+        <div className="flex flex-row">
+          <div>
+            <p className='text-lg font-medium text-gray-600 mb-1 '>Choose Currency</p>
+            <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
+            focus:border-blue-500 block  dark:bg-gray-700 w-[22rem] dark:border-gray-600 
+            dark:placeholder-gray-400
+            dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-3"
+                onChange={(e) => {setCurrencyValue( e.target.value); handleChangeCurency(); getRegistration();}}
+                id='lecurrency'
+                onClick={addCurency}
+            >    
+              <option value="1" select>XOF</option>
+              <option value="0.015">GHC</option>
+              <option value="0.015">$</option>
 
 
-          </select>
+            </select>
+          </div>
+          <div className="ml-2">
+            <p className='text-lg font-medium text-gray-600 mb-1 '>Discount Code</p>
+            <input type="text" class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
+            focus:border-blue-500 block  dark:bg-gray-700 w-[22rem] dark:border-gray-600 
+            dark:placeholder-gray-400
+            dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-3"
+                /* onChange={handleChangee}
+                name="startdate"
+                value={studentData["startdate"] || ""} */
+              />
+          </div>
         </div>
         <div className=' bg-dark-purple w-full p-1'>
             <div className='flex justify-end items-center'>
