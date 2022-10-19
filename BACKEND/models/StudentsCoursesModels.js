@@ -21,41 +21,13 @@ const StudentsCourses = db.define('studentscourses', {
             notEmpty: true
         }
     },
-    total: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
     duration:{
         type: DataTypes.INTEGER,
         allowNull: true,
         validate: {
             notEmpty: false
         }
-    },
-    startdate:{
-        type: DataTypes.DATE,
-        allowNull: true,
-        validate: {
-            notEmpty: false
-        }
-    },
-    enddate:{
-        type: DataTypes.DATE,
-        allowNull: true,
-        validate: {
-            notEmpty: false
-        }
-    },
-    enrollementdate:{
-        type: DataTypes.DATE,
-        allowNull: true,
-        validate: {
-            notEmpty: false
-        }
-    },
+    }
 },{
     freezeTableName: true
 })

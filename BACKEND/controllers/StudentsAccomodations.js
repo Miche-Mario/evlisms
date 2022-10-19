@@ -8,7 +8,7 @@ import path from "path"
 export const getStudentsAccomodations = async (req,res) => {
     try {
         const response = await StudentsAccomodations.findAll({
-            attributes: ['id','total', 'students_stuid', 'accos_accosid'],
+            attributes: ['id', 'students_stuid', 'accos_accosid'],
         });
         res.status(200).json(response);
     } catch (error) {
@@ -57,10 +57,9 @@ export const getStudentsAccomodations = async (req,res) => {
 }
  */
 export const createStudentsAccomodations = async(req,res) => {
-    const {total, students_stuid, accos_accosid} = req.body;
+    const { students_stuid, accos_accosid} = req.body;
     try {
         await StudentsAccomodations.create({
-            total: total,
             students_stuid: students_stuid,
             accos_accosid: accos_accosid
         });

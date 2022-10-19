@@ -1,14 +1,14 @@
-import StudentsPurchases from "../models/StudentsPurchasesModels.js"
+import StudentsOtherFee from "../models/StudentsOtherFeeModels.js"
 import { Model, Sequelize } from "sequelize";
 import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
 
 
-export const getStudentsPurchases = async (req,res) => {
+export const getStudentsOtherFee = async (req,res) => {
     try {
-        const response = await StudentsPurchases.findAll({
-            attributes: ['id', 'students_stuid', 'purchases_purid'],
+        const response = await StudentsOtherFee.findAll({
+            attributes: ['id', 'students_stuid', 'otherfee_otherfeeid'],
         });
         res.status(200).json(response);
     } catch (error) {
@@ -56,21 +56,21 @@ export const getStudentsPurchases = async (req,res) => {
         }
 }
  */
-export const createStudentsPurchases = async(req,res) => {
-    const { students_stuid, purchases_purid} = req.body;
+/* export const createStudentsExams = async(req,res) => {
+    const { students_stuid, exams_examsid} = req.body;
     try {
-        await StudentsPurchases.create({
+        await StudentsExams.create({
             students_stuid: students_stuid,
-            purchases_purid: purchases_purid
+            exams_examsid: exams_examsid
         });
-        res.status(201).json({msg: "Student Purchase Well Created"});
+        res.status(201).json({msg: "Student Exam Well Created"});
     } catch (error) {
         res.status(400).json({msg: error.message})
     }
 }
-export const updateStudentsPurchases = (req,res) => {
+export const updateStudentsExmas = (req,res) => {
     
 }
-export const deleteStudentsPurchases = (req,res) => {
+export const deleteStudentsExmas = (req,res) => {
     
-}
+} */

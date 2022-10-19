@@ -7,7 +7,7 @@ import db from '../config/Database.js';
 
 const  {DataTypes} = Sequelize;
 
-const StudentsPurchases = db.define('studentspurchases', {
+const StudentsOtherFee = db.define('studentotherfee', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -32,4 +32,4 @@ const StudentsPurchases = db.define('studentspurchases', {
 
 
 
-export default StudentsPurchases
+export default StudentsOtherFee

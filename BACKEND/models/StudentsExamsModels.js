@@ -21,13 +21,6 @@ const StudentsExams = db.define('studentsexmas', {
         validate: {
             notEmpty: true
         }
-    },
-    total: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-            notEmpty: false
-        }
     }
 },{
     freezeTableName: true

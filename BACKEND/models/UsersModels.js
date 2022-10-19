@@ -9,6 +9,8 @@ import StudentsCourses from "./StudentsCoursesModels.js";
 import StudentsExams from "./StudentsExamsModels.js";
 import Students from "./StudentsModels.js";
 import StudentsPurchases from "./StudentsPurchasesModels.js";
+import OtherFee from "./OtherFeeModels.js"
+import StudentsOtherFee from "./StudentsOtherFeeModels.js";
 
 const  {DataTypes} = Sequelize;
 
@@ -88,6 +90,13 @@ Students.hasMany(StudentsExams,{foreignKey: 'students_stuid' });
 StudentsExams.belongsTo(Students,{foreignKey: 'students_stuid' });
 Exam.hasMany(StudentsExams, {foreignKey: 'exams_examsid' });
 StudentsExams.belongsTo(Exam, {foreignKey: 'exams_examsid' });
+
+Students.belongsToMany(OtherFee, { as: 'Otherfees', through: StudentsOtherFee, foreignKey: 'students_stuid' });
+OtherFee.belongsToMany(Students, {  as: 'Studentss', through: StudentsOtherFee, foreignKey: 'otherfee_otherfeeid' });
+Students.hasMany(StudentsOtherFee,{foreignKey: 'students_stuid' });
+StudentsOtherFee.belongsTo(Students,{foreignKey: 'students_stuid' });
+OtherFee.hasMany(StudentsOtherFee, {foreignKey: 'otherfee_otherfeeid' });
+StudentsOtherFee.belongsTo(OtherFee, {foreignKey: 'otherfee_otherfeeid' });
 
 
 export default Users

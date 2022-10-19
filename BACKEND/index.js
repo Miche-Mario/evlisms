@@ -30,6 +30,11 @@ import AccomodationRoute from "./routes/AccomodationRoute.js"
 import CoursesRoute from "./routes/CoursesRoute.js"
 import RegistrationRoute from "./routes/RegistrationRoute.js"
 
+import PaymentRoute from "./routes/Payment.js"
+import DiscountRoute from './routes/DiscountRoute.js'
+import InvoiceRoute from './routes/Invoice.js'
+import StudentOtherFeeRoute from "./routes/StudentsOtherFee.js"
+import CurrencyRoute from './routes/CurrencyRoute.js'
 
 dotenv.config();
 
@@ -84,6 +89,12 @@ app.use(StudentsExams);
 app.use(PaymentMethodRoute);
 app.use(OtherFeeRooute);
 app.use(RegistrationRoute);
+app.use(PaymentRoute);
+app.use(InvoiceRoute);
+app.use(DiscountRoute);
+app.use(StudentOtherFeeRoute);
+app.use(CurrencyRoute)
+
 
 
 // Static Images Folder

@@ -280,7 +280,7 @@ POST http://localhost:5000/timee
 Content-Type:  application/json
 
 {
-    "time": 4
+    "time": 3
 }
 
 ###

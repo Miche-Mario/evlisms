@@ -21,13 +21,6 @@ const StudentsAccomodations = db.define('studentsacco', {
         validate: {
             notEmpty: true
         }
-    },
-    total: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-            notEmpty: false
-        }
     }
 },{
     freezeTableName: true

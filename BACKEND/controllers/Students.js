@@ -83,7 +83,7 @@ export const createStudent = async(req,res) => {
             telhomeg: telhomeg,
             telghanag: telghanag,
             addresshomeg: addresshomeg,
-            addressghana: addresshomeg,
+            addressghanag: addresshomeg,
             maritalg: maritalg,
             passportidg: passportidg,
             academiclevelg: academiclevelg,

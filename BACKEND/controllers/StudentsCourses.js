@@ -8,7 +8,7 @@ import path from "path"
 export const getStudentsCourses = async (req,res) => {
     try {
         const response = await StudentsCourses.findAll({
-            attributes: ['id','uuid', 'courses_coursesid', 'students_studentsid', 'total', 'duration', 'startdate', 'enddate', 'enrollementdate'],
+            attributes: ['id','uuid', 'courses_coursesid', 'students_studentsid', 'duration'],
    
         });
         res.status(200).json(response);
@@ -42,14 +42,10 @@ export const getSubCourses =async (req,res) => {
 } */
 
 export const createStudentsCourses = async(req,res) => {
-    const { total, duration, startdate, enddate, enrollementdate, courses_coursesid, students_studentsid  } = req.body;
+    const { duration, courses_coursesid, students_studentsid  } = req.body;
     try {
         await StudentsCourses.create({
-            total: total,
             duration: duration,
-            startdate: startdate,
-            enddate: enddate,
-            enrollementdate: enrollementdate,
             courses_coursesid: courses_coursesid,
             students_studentsid: students_studentsid,
         });
