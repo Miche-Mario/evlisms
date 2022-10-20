@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 const ToolsButton = () => {
   return (
     <div className="group inline-block text-light-dark ml-2 text-10">
@@ -61,7 +61,7 @@ const ToolsButton = () => {
               <li className="rounded-sm px-3  py-1  pl-6 cursor-pointer">Languages</li>
             </a>        
         </NavLink> 
-        <NavLink to="/studentsDiscounts">
+        <NavLink to="/discount">
             <a>
               <li className="rounded-sm px-3  py-1  pl-6 cursor-pointer">Students discounts</li>
             </a>        
@@ -78,7 +78,9 @@ const ToolsButton = () => {
         </NavLink> 
         <li className="rounded-sm px-3 py-1 hover:bg-gray pl-6 cursor-pointer ">Expenses categories</li>
         <hr className='ml-2 mr-2 mb-2 mt-2'/>
+        <Link to="/options">
         <li className="rounded-sm px-3 py-1 hover:bg-gray pl-6 cursor-pointer ">Options</li>
+        </Link>
       </ul>
     </div>
   )

@@ -34,6 +34,10 @@ import Complete from './components/Students/Steps/Complete';
 import EditOtherFee from './pages/EditOtherFee';
 import Payment from './pages/Payment';
 import StudentProfile from './components/StudentProfile';
+import Options from './pages/Options';
+import EditCurrency from './pages/EditCurrency';
+import EditAbout from './pages/EditAbout';
+import StudentsDiscounts from './pages/StudentsDiscounts';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -70,6 +74,12 @@ function App() {
             <Route path="/invoice" element={<Complete/>}/>
             <Route path="/otherfee" element={<OtherFee/>}/>
             <Route path="/payment" element={<Payment/>}/>
+            <Route path="/options" element={<Options/>}/>
+            <Route path="/discount" element={<StudentsDiscounts/>}/>
+
+            <Route path='/currency/edit/:id' element={<EditCurrency/>}/>
+            <Route path='/survey/edit/:id' element={<EditAbout/>}/>
+
             <Route path='/studentprofile/:id' element={<StudentProfile/>}/>
 
 

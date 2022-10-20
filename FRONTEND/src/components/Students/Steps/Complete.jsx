@@ -64,7 +64,7 @@ const Complete = () => {
         contacto: studentData.contacto && studentData.contacto,
         tel2o: studentData.tel2o && studentData.tel2o,
         isstudent: studentData && false,
-        about_aboutid: studentData.about_aboutid && studentData.about_aboutid,
+        about_aboutid: studentData.aboutidg && studentData.aboutidg,
         startdate: studentData.startdate && studentData.startdate,
         enddate: studentData.enddate && studentData.enddate,
 

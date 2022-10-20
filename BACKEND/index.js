@@ -35,6 +35,7 @@ import DiscountRoute from './routes/DiscountRoute.js'
 import InvoiceRoute from './routes/Invoice.js'
 import StudentOtherFeeRoute from "./routes/StudentsOtherFee.js"
 import CurrencyRoute from './routes/CurrencyRoute.js'
+import GroupDiscountRoute from './routes/GroupDiscountRoute.js'
 
 dotenv.config();
 
@@ -94,6 +95,7 @@ app.use(InvoiceRoute);
 app.use(DiscountRoute);
 app.use(StudentOtherFeeRoute);
 app.use(CurrencyRoute)
+app.use(GroupDiscountRoute)
 
 
 

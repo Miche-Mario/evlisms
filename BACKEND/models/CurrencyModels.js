@@ -21,14 +21,14 @@ const Currency = db.define('currency', {
                 }
     },
     symbol:{
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false,
         validate:{
             notEmpty: true,
         }
     },
     value:{
-        type: DataTypes.DECIMAL(11, 2),
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: true,
         validate:{
             notEmpty: false,

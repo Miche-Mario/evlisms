@@ -5,33 +5,86 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  width: 500,
-  transform: 'translate(-50%, -50%)',
-  bgcolor: 'background.paper',
-  border: '2px solid darkblue',
-  boxShadow: 24,
-  p: 0,
-  m: 0,
-  height: 'auto'
-};
-const studentsDiscounts = () => {
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, Link } from 'react-router-dom'
+import { getMe } from '../features/auth/authSlice'
+import { BiEdit } from 'react-icons/bi'
+import { MdDeleteSweep } from 'react-icons/md'
+import axios from "axios"
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    width: 500,
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    border: '2px solid darkblue',
+    boxShadow: 24,
+    p: 0,
+    m: 0,
+    height: 'auto'
   };
-  const handleClose = () => {
-    setOpen(false);
+const StudentsDiscounts = () => {
+  const navigate = useNavigate();
+  const [msg, setMsg] = useState("");
+
+  const [groupdiscounts, setGroupDiscount] = useState([]);
+
+  const getGroupDiscounts = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/groupdiscount`);
+    setGroupDiscount(response.data)
+  }
+
+  
+
+
+  const [groupname, setGroupname] = useState("");
+  const [grouppourcentage, setGrouppourcentage] = useState("");
+
+
+  const saveGroupDiscount = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/groupdiscount`, {
+        name: groupname,
+        pourcentage: grouppourcentage,
+      });
+      navigate(0);
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
+  }
+
+  useEffect(() => {
+    getGroupDiscounts();
+  }, [])
+
+  const [openGd, setOpenGd] = useState(false);
+  const handleOpenGd = () => {
+    setOpenGd(true);
+  };
+  const handleCloseGd = () => {
+    setOpenGd(false);
+  };
+
+  const [open1Gd, setOpen1Gd] = useState(false);
+  const [vaGd, setVaGd] = useState("");
+
+  const handleOpen1Gd = (uuid) => {
+    setOpen1Gd(true);
+    setVaGd(uuid)
+  };
+  const handleClose1Gd = () => {
+    setOpen1Gd(false);
   };
   return (
     <Layout >
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={openGd}
+        onClose={handleCloseGd}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -41,12 +94,12 @@ const studentsDiscounts = () => {
             <div className='flex flex-row m-3 justify-around items-center'>
               <div className=''>
                 <label for="first_name" class="block mb-6 text-base font-medium text-gray-900 p-1">Name</label>
-                <label for="first_name" class="block mb-6 text-base font-medium text-gray-900 p-1">Amount</label>
+                <label for="first_name" class="block mb-6 text-base font-medium text-gray-900 p-1">Value[1%]</label>
 
               </div>
               <div >
               <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="name" />
-              <input type="number" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="00" />
+              <input type="tex" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="00" />
 
               </div>
             </div>
@@ -54,7 +107,7 @@ const studentsDiscounts = () => {
               <button className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
                 Ok
               </button>
-              <button onClick={handleClose} className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
+              <button onClick={handleCloseGd} className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
                 Cancel
               </button>
             </div>
@@ -72,121 +125,70 @@ const studentsDiscounts = () => {
           <legend className='p-1 ml-3 text-xl text-blue-700'>DISCOUNT GROUPS</legend>
         
         
+          <div className='w-5/12 h-4/12 ml-3 shadow-xl p-3'>
+        <div className='m-3'>
+        <div>
             <div className='flex'>
-          
-       
-
-           
-            <button onClick={handleOpen} className='bg-blue-600 rounded ml-3 text-gray-100 font-medium w-48 h-10 p-3 flex items-center justify-center' type="submit" name='Add'>
+            <button onClick={handleOpenGd} className='bg-blue-600 rounded ml-3 text-gray-100 font-medium w-48 h-10 p-3 flex items-center justify-center' type="submit" name='Add'>
               Add
             </button>
-           
           </div>
-
-          <fieldset className='m-3 mb-0 h-52 border border-dark-purple'>
-            <table className="w-full   ">
+          <div className='m-3 mb-0 '>
+            <table className="w-[40rem]">
               <thead>
-                <tr className="bg-gray-200  text-gray-600 uppercase text-sm leading-normal">
-                  <th className=" py-3 px-3 text-center">N</th>
-                  <th className=" py-3 px-3 text-center">Name</th>
-                  <th className=" py-3 px-3 text-center">Discount [%]</th>
-
-                  <th className=" py-3 px-3 text-center">Action</th>
+                <tr className=" border border-dark-purple bg-gray-200  text-gray-600 uppercase text-sm leading-normal">
+                  <th className=" border border-dark-purple py-3 px-3 text-center">N</th>
+                  <th className=" border border-dark-purple py-3 px-3 text-center">Value [1%]</th>
+                  <th className=" border border-dark-purple py-3 px-3 text-center">Action</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600  text-sm font-light">
-                <tr className=" border-gray-400  hover:bg-gray-100 border-b-2">
-                  <td className="p-0">
+                {groupdiscounts.map((gdis, index) => ( 
+                <tr key={gdis.uuid} className=" border-gray-400  hover:bg-gray-100 border-b-2">
+                  <td className="p-0  border border-dark-purple">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">1</span>
+                      <span className="font-medium uppercase">{index + 1}</span>
                     </div>
                   </td>
-                  <td className=" py-3 px-3 text-center">
+                  <td className=" py-3 px-3 text-center  border border-dark-purple">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium">Gratis</span>
+                      <span className="font-medium uppercase">{gdis.name}</span>
                     </div>
                   </td>
+                  
+                  <td className=" py-3 px-3 text-center  border border-dark-purple">
+                  <div className="flex item-center justify-center">
+                          <div>
+                            <Link
+                               to={`/survey/edit/${gdis.uuid}`}
+                            >
+                              <button className='flex items-center p-1 bg-green-600 text-white text-[1rem]'>
+                                <BiEdit />Edit
+                              </button>
+                            </Link>
 
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">100</span>
-                    </div>
+                          </div>
+                        {/*   <div className='ml-3'>
+
+                            <button
+                              className='flex items-center p-1 bg-red text-white text-[1rem]'
+                                onClick={() => handleOpen1Gd(gdis.uuid)}
+                            >
+                              <MdDeleteSweep size={20} />Delete
+                            </button>
+                          </div> */}
+                        </div>
                   </td>
-                 
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex item-center justify-center">
-                      
-                      <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                      </div>
-                      <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </div>
-                    </div>
-                  </td>
-
-
-                </tr>
-
-
-
-
-                <tr className=" border-gray-400  hover:bg-gray-100 border-b-2">
-                  <td className="p-0">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">2</span>
-                    </div>
-                  </td>
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">Friends with 20%</span>
-                    </div>
-                  </td>
-
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">20</span>
-                    </div>
-                  </td>
-                 
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex item-center justify-center">
-                      
-                      <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                      </div>
-                      <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </div>
-                    </div>
-                  </td>
-
-
-                </tr>
-
-
-
-                
-                
-
-
-
+                </tr>))}
               </tbody>
             </table>
-          </fieldset>
-          <div className='m-6 flex justify-end'>
-
-  
-         
           </div>
+          <div className='m-6 flex justify-end'>       
+          </div>
+        </div>
+      </div>
+        </div>
+        
         </fieldset>
       </div>
 
@@ -216,4 +218,4 @@ const studentsDiscounts = () => {
   )
 }
 
-export default studentsDiscounts
+export default StudentsDiscounts

@@ -732,6 +732,17 @@ function separator(numb) {
 }
 
 
+
+const [currencies, setCurrencies] = useState([]);
+
+const getCurrencies = async () => {
+  const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/currency`);
+  setCurrencies(response.data)
+}
+
+useEffect(() => {
+  getCurrencies()
+})
   return (
     <div className='flex flex-row w-full'>
       <div>
@@ -984,10 +995,14 @@ function separator(numb) {
                 onChange={(e) => {setCurrencyValue( e.target.value); handleChangeCurency(); getRegistration();}}
                 id='lecurrency'
                 onClick={addCurency}
-            >    
-              <option value="1" select>XOF</option>
-              <option value="0.015">GHC</option>
-              <option value="0.015">$</option>
+            >  
+            <option></option>  
+              {
+                currencies.map((currency, index) => (
+                  <option value={currency.value}>{currency.symbol}</option>
+                ))
+              }
+             
 
 
             </select>

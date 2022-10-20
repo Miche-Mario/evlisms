@@ -5,8 +5,9 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Avatar from '../../../assets/avatar.png'
 import Idscan from '../../../assets/idscan.jpg'
-
+import axios from 'axios';
 import { RiImageAddFill } from 'react-icons/ri'
+import { useEffect } from 'react';
 
 const GeneralStudInfo = () => {
   const { studentData, setStudentData } = useContext(StepperContext)
@@ -36,19 +37,28 @@ const GeneralStudInfo = () => {
     setStudentData({ ...studentData, idscang: e.target.files[0] })
   };
 
-  console.log(studentData)
+  const [abouts, setAbouts] = useState([]);
+
+  const getAbouts = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/abouts`);
+    setAbouts(response.data)
+  }
+
+  useEffect(() => {
+    getAbouts()
+  }, [])
   return (
     <div className='flex flex-row  w-full'>
       <div class=" bg-white w-[65rem]  border border-blue-300 p-3 pb-0">
 
         <form>
           <div class="grid gap-6 mb-6 lg:grid-cols-4">
-            <div>
+           {/*  <div>
               <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900">Student ID</label>
               <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required
                 name="studentId"
               />
-            </div>
+            </div> */}
             <div>
               <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900   ">Surname</label>
               <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="" required
@@ -190,14 +200,11 @@ const GeneralStudInfo = () => {
                 value={studentData["aboutidg"] || ""}
               >
                 <option></option>
-                <option value="Facebook">Facebook</option>
-                <option value="Instagram">Instagram</option>
-                <option value="Internet Search">Internet Search</option>
-                <option value="Twitter">Twitter</option>
-                <option value="Flyer">Flyer</option>
-                <option value="School Sign">School Sign</option>
-                <option value="Friend">Friend</option>
-                <option value="Agent">Agent</option>
+                {
+                  abouts.map((about, index) => (
+                    <option value={about.id}>{about.aboutname}</option>
+                  ))
+                }
               </select>
             </div>
           </div>
