@@ -7,13 +7,94 @@ import Discount from "../models/DiscountModels.js";
 export const getDiscount = async (req,res) => {
     try {
         const response = await Discount.findAll({
-            attributes: ['uuid', 'code','pourcentage', 'used', 'createAt']
+            attributes: ['uuid', 'code','pourcentage', 'used', 'createdAt']
         });
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({msg: error.message});
     }
 }
+export const getDiscountByCode = async(req,res) => {
+    const {code} = req.body;
+
+    try {
+        const response = await Discount.findOne({
+            attributes: ['uuid', 'code', 'pourcentage'],
+            where: {
+                code: code,
+                used: false
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
+export const createDiscount = async(req,res) => {
+    const {code, pourcentage} = req.body;
+
+    const codee = await Discount.findOne({
+        where: {
+            code: code
+        }
+    });
+    if(codee) return res.status(404).json({msg: "Ce code Existe déjà" });
+    try {
+        await Discount.create({
+            code: "EVLI" + code,
+            pourcentage: pourcentage,
+            used: false
+        });
+        res.status(201).json({msg: " Discount Well Created"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+}
+
+export const deleteDiscount = async(req,res) => {
+    const dis = await Discount.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!dis) return res.status(404).json({msg: "Discount doesn't not exist" });
+    try {
+        await Discount.destroy({
+            where: {
+                id: dis.id
+            }
+        });
+        res.status(201).json({msg: "Discount Deleted"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+}
+
+/*  */
+/* export const updateDiscount = async(req,res) => {
+    const gdis = await Discount.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!gdis) return res.status(404).json({msg: "Group Discount doesn't not exist" });
+    const {name, pourcentage} = req.body;
+    
+    try {
+        await GroupDiscount.update({
+            name: name,
+            pourcentage: pourcentage,
+        }, {
+            where: {
+                id: gdis.id
+            }
+        });
+        res.status(200).json({msg: "Group Discount  updated"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+} */
 /* 
 export const getExamById = async(req,res) => {
     try {
@@ -80,22 +161,6 @@ export const updateExam = async(req,res) => {
         res.status(400).json({msg: error.message})
     }
 }
-export const deleteExam = async(req,res) => {
-    const exam = await Exam.findOne({
-        where: {
-            uuid: req.params.id
-        }
-    });
-    if(!exam) return res.status(404).json({msg: "Exam doesn't not exist" });
-    try {
-        await Exam.destroy({
-            where: {
-                id: exam.id
-            }
-        });
-        res.status(201).json({msg: "Exam Deleted"});
-    } catch (error) {
-        res.status(400).json({msg: error.message})
-    }
+
 
 } */

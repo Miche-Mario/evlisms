@@ -23,8 +23,8 @@ const Payment = () => {
   }
 
   
-  const getSumFromLS = () => {
-    const data = localStorage.getItem('sum');
+  const getDiscountFromLS = () => {
+    const data = localStorage.getItem('discount');
     if (data) {
       return JSON.parse(data)
     } else {
@@ -94,7 +94,7 @@ const Payment = () => {
   }
   const [total, setTotal] = useState(getTotalFromLS())
   const [subtotal, setSubTotal] = useState(getSubTotalFromLS())
-  const [sum, setSum] = useState(getSumFromLS())
+  const [discount, setDiscount] = useState(getDiscountFromLS())
 
   const [currency, setCurrencty] = useState(getCurrencyFromLS())
 
@@ -249,7 +249,7 @@ console.log(currency)
                     </tr>
                     <tr>
                         <td colspan="3" class="text-right">Discount:</td>
-                        <td className='font-bold'> {currency.lecurrency} {sum}</td>
+                        <td className='font-bold'> {currency.lecurrency} {discount}</td>
                     </tr>
                     <tr>
                         <td colspan="3" class="text-right">Total:</td>
