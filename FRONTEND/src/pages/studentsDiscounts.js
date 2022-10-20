@@ -90,7 +90,7 @@ const StudentsDiscounts = () => {
       >
         <Box sx={style} >
           <p class="text-white text-xl p-3  bg-dark-purple w-full">DISCOUNT GROUP DETAILS</p>
-          <form>
+          <form onSubmit={saveGroupDiscount}>
             <div className='flex flex-row m-3 justify-around items-center'>
               <div className=''>
                 <label for="first_name" class="block mb-6 text-base font-medium text-gray-900 p-1">Name</label>
@@ -98,8 +98,14 @@ const StudentsDiscounts = () => {
 
               </div>
               <div >
-              <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="name" />
-              <input type="tex" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="00" />
+              <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="name" 
+                value={groupname}
+                onChange={(e) => setGroupname(e.target.value)}  
+              />
+              <input type="tex" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="00" 
+                value={grouppourcentage}
+                onChange={(e) => setGrouppourcentage(e.target.value)}  
+              />
 
               </div>
             </div>
@@ -120,8 +126,8 @@ const StudentsDiscounts = () => {
 
 
 
-      <div className='m-3'>
-        <fieldset className='border  rounded border-dark-purple'>
+      <div className='m-3 '>
+        <fieldset className='border w-auto  rounded border-dark-purple'>
           <legend className='p-1 ml-3 text-xl text-blue-700'>DISCOUNT GROUPS</legend>
         
         
@@ -138,6 +144,7 @@ const StudentsDiscounts = () => {
               <thead>
                 <tr className=" border border-dark-purple bg-gray-200  text-gray-600 uppercase text-sm leading-normal">
                   <th className=" border border-dark-purple py-3 px-3 text-center">N</th>
+                  <th className=" border border-dark-purple py-3 px-3 text-center">Name</th>
                   <th className=" border border-dark-purple py-3 px-3 text-center">Value [1%]</th>
                   <th className=" border border-dark-purple py-3 px-3 text-center">Action</th>
                 </tr>
@@ -155,12 +162,17 @@ const StudentsDiscounts = () => {
                       <span className="font-medium uppercase">{gdis.name}</span>
                     </div>
                   </td>
+                  <td className=" py-3 px-3 text-center  border border-dark-purple">
+                    <div className="flex items-center justify-center">
+                      <span className="font-medium uppercase">{gdis.pourcentage}</span>
+                    </div>
+                  </td>
                   
                   <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex item-center justify-center">
                           <div>
                             <Link
-                               to={`/survey/edit/${gdis.uuid}`}
+                               to={`/groupdiscount/edit/${gdis.uuid}`}
                             >
                               <button className='flex items-center p-1 bg-green-600 text-white text-[1rem]'>
                                 <BiEdit />Edit

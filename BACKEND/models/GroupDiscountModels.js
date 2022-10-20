@@ -5,7 +5,7 @@ import Students from "./StudentsModels.js";
 
 const  {DataTypes} = Sequelize;
 
-const Discount = db.define('discount', {
+const GroupDiscount = db.define('groupdiscount', {
     uuid:{
         type: DataTypes.STRING,
         defaultValue: DataTypes.UUIDV4,
@@ -33,4 +33,4 @@ const Discount = db.define('discount', {
 })
 
 
-export default Discount
+export default GroupDiscount

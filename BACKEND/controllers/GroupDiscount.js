@@ -18,7 +18,7 @@ export const getGroupDiscount = async (req,res) => {
 export const createGroupDiscount = async(req,res) => {
     const {name, pourcentage} = req.body;
     try {
-        await Exam.create({
+        await GroupDiscount.create({
             name: name,
             pourcentage: pourcentage,
                 });
@@ -27,10 +27,10 @@ export const createGroupDiscount = async(req,res) => {
         res.status(400).json({msg: error.message})
     }
 }
-export const getExamById = async(req,res) => {
+export const getDiscountGroupById = async(req,res) => {
     try {
-        const response = await Exam.findOne({
-            attributes: ['uuid', 'examname', 'examprice', 'description'],
+        const response = await GroupDiscount.findOne({
+            attributes: ['uuid', 'name', 'pourcentage'],
             where: {
                 uuid: req.params.id
             }
@@ -38,6 +38,29 @@ export const getExamById = async(req,res) => {
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({msg: error.message});
+    }
+}
+export const updateDiscountGroup = async(req,res) => {
+    const gdis = await GroupDiscount.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!gdis) return res.status(404).json({msg: "Group Discount doesn't not exist" });
+    const {name, pourcentage} = req.body;
+    
+    try {
+        await GroupDiscount.update({
+            name: name,
+            pourcentage: pourcentage,
+        }, {
+            where: {
+                id: gdis.id
+            }
+        });
+        res.status(200).json({msg: "Group Discount  updated"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
     }
 }
 /* 
