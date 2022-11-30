@@ -3,11 +3,15 @@ import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
 import Discount from "../models/DiscountModels.js";
+import Students from "../models/StudentsModels.js";
 
 export const getDiscount = async (req,res) => {
     try {
         const response = await Discount.findAll({
-            attributes: ['uuid', 'code','pourcentage', 'used', 'createdAt']
+            attributes: ['uuid','id', 'code','pourcentage', 'used', 'createdAt'],
+            include: [{
+                model: Students
+            }]
         });
         res.status(200).json(response);
     } catch (error) {
@@ -19,7 +23,7 @@ export const getDiscountByCode = async(req,res) => {
 
     try {
         const response = await Discount.findOne({
-            attributes: ['uuid', 'code', 'pourcentage'],
+            attributes: ['uuid','id', 'code', 'pourcentage'],
             where: {
                 code: code,
                 used: false

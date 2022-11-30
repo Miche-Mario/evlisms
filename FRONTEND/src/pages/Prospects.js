@@ -8,6 +8,7 @@ import Modal from '@mui/material/Modal';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getMe } from '../features/auth/authSlice'
+import axios from 'axios'
 
 
 const style = {
@@ -52,6 +53,64 @@ const Prospects = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+
+  /////////////////////////////////////////GET PROSPECTS//////////////////////////////*
+
+
+
+  const [prospectdata, setProspectData] = useState()
+
+
+  const getProspect = async () => {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/prospects`);
+      setProspectData(response.data.rows)
+  }
+
+
+  useEffect(() => {
+    getProspect()
+  }, [])
+
+
+  ///////////////////////////////////////SAVE PROSPECT////////////////////////////
+  const [surnameg, setSurnameg] = useState()
+  const [forenamesg, setForenamesg] = useState()
+  const [genderg, setGenderg] = useState()
+  const [citizenshipg, setCitizenship] = useState()
+  const [emailg, setEmailg] = useState()
+  const [telhomeg, setTelhomeg] = useState()
+  const [aboutidg, setAboutidg] = useState()
+  const [startdate, setStartdate] = useState()
+  const [passportidg, setPassportIdg] = useState()
+
+  const [msg, setMsg] = useState()
+
+  const saveProspect =  (e) => {
+    e.preventDefault();
+    try {
+       axios.post(`${process.env.REACT_APP_BASE_URL}/prospects`, {
+        prospectid:  passportidg &&   passportidg,
+        surnameg: surnameg && surnameg,
+        forenamesg:  forenamesg &&  forenamesg,
+        genderg:  genderg &&   genderg,
+        citizenshipg:  citizenshipg &&   citizenshipg,
+        emailg:  emailg &&  emailg,
+        telhomeg:  telhomeg &&  telhomeg,
+        isstudent:  false,
+        about_aboutid:  aboutidg &&  aboutidg,
+        startdate:  startdate &&  startdate,
+      });
+      console.log("ok")
+
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+      }
+    }
+  }
+
+  console.log(prospectdata)
   return (
     <Layout >
       <Modal
@@ -161,58 +220,58 @@ const Prospects = () => {
                   <th className=" py-3 px-3 text-center">Email</th>
                   <th className=" py-3 px-3 text-center">Phone</th>
                   <th className=" py-3 px-3 text-center">Course</th>
-                  <th className=" py-3 px-3 text-center">Marketing</th>
+                  <th className=" py-3 px-3 text-center">Survey</th>
                   <th className=" py-3 px-3 text-center">Start</th>
                   <th className=" py-3 px-3 text-center">Action</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600  text-sm font-light">
-                <tr className="border-b border-gray-200  hover:bg-gray-100">
+                {prospectdata && prospectdata.map((prospect, index) => (
+                  <tr className="border-b border-gray-200  hover:bg-gray-100">
                   <td className="p-0">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">Mario</span>
+                      <span className="font-medium uppercase">{prospect.surnameg}</span>
                     </div>
                   </td>
 
                   <td className="p-0">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium uppercase">Miche</span>
+                      <span className="font-medium uppercase">{prospect.forenamesg}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium">Male</span>
+                      <span className="font-medium">{prospect.genderg}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium">Cotonou</span>
+                      <span className="font-medium">{prospect.citizenshipg}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium">03 Jun 2022</span>
+                      <span className="font-medium">{prospect.startdate}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium">michemario@mail.com</span>
+                      <span className="font-medium">{prospect.emailg}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium">+229 96421088</span>
-                    </div>
-                  </td>
-
-                  <td className=" py-3 px-3 text-center">
-                    <div className="flex items-center justify-center">
-                      <span className="font-medium">General English</span>
+                      <span className="font-medium">{prospect.telhomeg}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center">
                     <div className="flex items-center justify-center">
-                      <span className="font-medium">Social Network</span>
+                      <span className="font-medium"></span>
+                    </div>
+                  </td>
+                  <td className=" py-3 px-3 text-center">
+                    <div className="flex items-center justify-center">
+                      <span className="font-medium">{prospect.about.aboutname}</span>
                     </div>
                   </td>
                   <td className=" py-3 px-3 text-center">
@@ -244,6 +303,7 @@ const Prospects = () => {
 
 
                 </tr>
+                ))}
 
 
 

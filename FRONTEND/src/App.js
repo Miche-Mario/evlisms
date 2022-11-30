@@ -32,13 +32,14 @@ import OtherFee from './pages/OtherFee';
 
 import Complete from './components/Students/Steps/Complete';
 import EditOtherFee from './pages/EditOtherFee';
-import Payment from './pages/Payment';
 import StudentProfile from './components/StudentProfile';
 import Options from './pages/Options';
 import EditCurrency from './pages/EditCurrency';
 import EditAbout from './pages/EditAbout';
 import StudentsDiscounts from './pages/StudentsDiscounts';
 import EditGroupDiscount from './pages/EditGroupDiscount';
+import AddPayment from './pages/AddPayment';
+import EditStudent from './pages/EditStudent';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -74,7 +75,7 @@ function App() {
             <Route path="/exams" element={<Exams/>}/>
             <Route path="/invoice" element={<Complete/>}/>
             <Route path="/otherfee" element={<OtherFee/>}/>
-            <Route path="/payment" element={<Payment/>}/>
+            <Route path="/payment" element={<AddPayment/>}/>
             <Route path="/options" element={<Options/>}/>
             <Route path="/discount" element={<StudentsDiscounts/>}/>
 
@@ -82,6 +83,8 @@ function App() {
             <Route path='/groupdiscount/edit/:id' element={<EditGroupDiscount/>}/>
 
             <Route path='/survey/edit/:id' element={<EditAbout/>}/>
+            <Route path='/editstudent/:id' element={<EditStudent/>}/>
+
 
             <Route path='/studentprofile/:id' element={<StudentProfile/>}/>
 

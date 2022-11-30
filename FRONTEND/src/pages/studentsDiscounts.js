@@ -26,9 +26,21 @@ const style = {
     height: 'auto'
   };
 const StudentsDiscounts = () => {
-
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch])
+
+  useEffect(() => {
+    if(isError) {
+      navigate("/")
+    }
+  }, [isError, navigate
+  ])
+
   const [msg, setMsg] = useState("");
 
   const [groupdiscounts, setGroupDiscount] = useState([]);
@@ -142,7 +154,7 @@ const deleteDiscount = async (userId) => {
   getStudentDiscount();
   navigate(0);
 }
-
+console.log(studentdiscounts)
   return (
     <Layout >
       <Modal
@@ -199,15 +211,12 @@ const deleteDiscount = async (userId) => {
           <form onSubmit={saveStudentDiscount}>
             <div className='flex flex-row m-3 justify-around items-center'>
               <div className=''>
-                <label for="first_name" class="block mb-6 text-base font-medium text-gray-900 p-1">Code</label>
                 <label for="first_name" class="block mb-6 text-base font-medium text-gray-900 p-1">Value[1%]</label>
                 
 
               </div>
               <div >
-              <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="name" 
-                value={code}
-              />
+             
               <input type="tex" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="00" 
                 value={pourcentage}
                 onChange={(e) => setPourcentage(e.target.value)}  
@@ -254,7 +263,7 @@ const deleteDiscount = async (userId) => {
 
 
       <div className=' flex flex-col m-3 '>
-        <div className='w-5/12 h-4/12 ml-3 shadow-xl p-3'>
+        <div className='w-8/12 h-4/12 ml-3 shadow-xl p-3'>
         <legend className='p-1 ml-3 text-xl text-blue-700'>DISCOUNT GROUPS</legend>
         
         
@@ -329,7 +338,7 @@ const deleteDiscount = async (userId) => {
       </div>
         </div>
 
-        <div className='w-5/12 h-4/12 ml-3 shadow-xl p-3'>
+        <div className='w-8/12 h-4/12 ml-3 shadow-xl p-3'>
         <legend className='p-1 ml-3 text-xl text-blue-700'>STUDENT DISCOUNT</legend>
         
         
@@ -364,7 +373,7 @@ const deleteDiscount = async (userId) => {
                 </td>
                 <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex items-center justify-center">
-                    <span className={`rounded-full p-2 m-1 ${dis.used === false ? "bg-green-500" : "bg-red"}`} ></span>
+                    <span className={`rounded-full p-2 m-1 ${!dis.used  ? "bg-green-500" : "bg-red"}`} ></span>
                     <span className="font-medium uppercase">{dis.code}</span>
                   </div>
                 </td>
@@ -375,12 +384,12 @@ const deleteDiscount = async (userId) => {
                 </td>
                 <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex items-center justify-center">
-                    <span className="font-medium uppercase"></span>
+                    <span className="font-medium uppercase">{dis.student && dis.student.studentid}</span>
                   </div>
                 </td>
                 <td className=" py-3 px-3 text-center  border border-dark-purple">
                   <div className="flex items-center justify-center">
-                    <span className="font-medium uppercase"></span>
+                    <span className="font-medium uppercase">{dis.student && dis.student.surnameg}</span>
                   </div>
                 </td>
                 

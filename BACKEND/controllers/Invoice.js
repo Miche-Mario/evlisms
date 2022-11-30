@@ -5,13 +5,44 @@ import path from "path"
 import Invoice from "../models/InvoiceModels.js";
 
 export const getInvoice = async (req,res) => {
+    const { invoicecode } = req.body
     try {
         const response = await Invoice.findAll({
-            attributes: ['uuid', 'courselist','examlist', 'purchaselist','accolist','currency', 'total', 'subtotal', 'discount', 'payed', 'student_studentid', 'discount']
+            attributes: ['uuid','id', 'invoicecode','otherlist', 'courselist','examlist', 'purchaselist','accolist','currency', 'total', 'subtotal', 'discount', 'payed', 'student_studentid', 'studdiscount', 'registration'],
+            where: {
+                invoicecode : invoicecode,
+                payed: false
+            }
         });
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({msg: error.message});
+    }
+}
+
+export const createInvoice = async(req,res) => {
+            const {courselist, examlist, purchaselist, accolist, currency, total, subtotal,registration, studdiscount,discount,
+            invoicecode, otherlist } = req.body;
+    try {
+        await Invoice.create({
+            courselist: courselist ,
+            examlist: examlist,
+            purchaselist: purchaselist,
+            accolist: accolist,
+            currency: currency,
+            total: total,
+            subtotal: subtotal,
+            discount: discount,
+            otherlist: otherlist,
+            payed: false,
+            registration: registration,
+            studdiscount: studdiscount,
+            invoicecode: "EVLI" + invoicecode
+
+        });
+        res.status(201).json({msg: "Invoice Well Created"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
     }
 }
 /* 

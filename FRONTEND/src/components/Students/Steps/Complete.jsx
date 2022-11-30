@@ -1,25 +1,29 @@
 import React, { useState, useEffect, useContext } from 'react'
-import Invoice from '../../Invoice/Invoice'
-import {PDFViewer }  from '@react-pdf/renderer';
+import Invoice from '../../PDF/Invoice'
+import {PDFViewer, PDFDownloadLink }  from '@react-pdf/renderer';
 import { BsPrinter } from "react-icons/bs"
 import {MdOutlineMarkEmailUnread} from 'react-icons/md'
 import { StepperContext } from '../../../contexts/stepperContext'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 const Complete = () => {
   const { studentData, setStudentData } = useContext(StepperContext)
 
+
   const navigate = useNavigate();
   const [msg, setMsg] = useState()
 
 
-  const saveStudent =  (e) => {
+  const saveProspect =  (e) => {
     e.preventDefault();
     try {
-       axios.post(`${process.env.REACT_APP_BASE_URL}/students`, {
+       axios.post(`${process.env.REACT_APP_BASE_URL}/prospects`, {
+        prospectid: studentData.passportidg &&  studentData.passportidg,
         surnameg: studentData.surnameg && studentData.surnameg,
         forenamesg: studentData.forenamesg && studentData.forenamesg,
         genderg: studentData.genderg &&  studentData.genderg,
@@ -71,7 +75,7 @@ const Complete = () => {
       },{   
         headers: { "Content-Type": "multipart/form-data" } 
 });
-      console.log(studentData)
+      console.log("ok")
 
     } catch (error) {
       if (error.response) {
@@ -79,6 +83,33 @@ const Complete = () => {
       }
     }
   }
+
+  const saveInvoice =  (e) => {
+    e.preventDefault();
+    try {
+       axios.post(`${process.env.REACT_APP_BASE_URL}/invoice`, {
+        courselist: studentData.courseList.length > 0 ? studentData.courseList : {},
+        examlist: studentData.examList.length > 0 ? studentData.examList : {},
+        purchaselist:  studentData.purchaseList.length > 0 ? studentData.purchaseList : {},
+        accolist: studentData.accoList.length > 0 ? studentData.accoList : {},
+        otherlist: studentData.otherFeeList.length > 0 ? studentData.otherFeeList : {},
+        registration: studentData.registrationList.length > 0 ? studentData.registrationList : {},
+        currency: studentData.currency && studentData.currency,
+        discount: studentData.discount && studentData.discount,
+        total: studentData.total && studentData.total,
+        subtotal: studentData.subtotal && studentData.subtotal,
+        studdiscount: studentData.studdiscount && studentData.studdiscount,
+        invoicecode: studentData.passportidg &&  studentData.passportidg,
+      });
+      toast.success("Invoice Well Saved")
+    } catch (error) {
+      if (error.response) {
+        setMsg(error.response.data.msg);
+        toast.error("Something Wrong happen")
+      }
+    }
+  }
+
 
 
   console.log(studentData)
@@ -89,12 +120,15 @@ const Complete = () => {
     
   <div className='mt-1'>
     <div className='flex flex-row item-center justify-end mr-10 mb-2'>
-      <div className='flex bg-primary items-center shadow-2xl w-24 justify-center rounded-lg p-2'>
+    <ToastContainer style={{fontSize: 20}} position="top-right"/>
+
+      <div className='flex bg-primary items-center shadow-2xl w-auto justify-center rounded-lg p-2'>
       <BsPrinter style={{color: "white", fontSize: 20, marginRight: 5}} />
        <button className=' text-white'
-        onClick={saveStudent}
-       >Save & Print</button>
+        onClick={(e) => {saveProspect(e); saveInvoice(e)}}
+       >Save</button>
       </div>
+     
       <div className='flex ml-4 w-32 items-center bg-primary shadow-2xl rounded-lg p-2'>
       <MdOutlineMarkEmailUnread style={{color: "white", fontSize: 20, marginRight: 5}} />
        <button className=' text-white'>Send Email</button>
@@ -108,6 +142,7 @@ const Complete = () => {
             backgroundColor: "white"
       
           }}
+        
         >
         <Invoice studentData={studentData}/>
 

@@ -1,34 +1,62 @@
-import React, {useEffect, useState} from 'react'
-import  { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Layout from './Screens/Layout'
 import { FaCamera } from 'react-icons/fa'
 import ModalImage from "react-modal-image";
 import { TiInfoOutline } from 'react-icons/ti'
 import { GiTakeMyMoney } from 'react-icons/gi'
+import { MdOutlinePayments } from "react-icons/md"
+import invoice from './PaymentSteps/data/invoice'
 
 const StudentProfile = () => {
 
     const { id } = useParams();
-    const [ student, setStudent] = useState()
-
+    const [student, setStudent] = useState()
+    ////////////////////////// GET STUDENT DATA ////////////////////////////////////////////////////////////////////
     const getStudent = async () => {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/students/${id}`);
         setStudent(response.data)
     }
 
-    
+    ///////////////////////////GET STUDENT PAYMENT INFO /////////////////////////////////////////////////////////////////////   
+    const [paymentdata, setPaymentData] = useState()
+    const [invoicedata, setInvoiceData] = useState()
+
+
+    const getPayment = async () => {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/payment`);
+        setPaymentData(response.data[0])
+        setInvoiceData(response.data[0].invoice)
+    }
+
+
+console.log(paymentdata)
+
+
+
+
+
+
+
+
+
+
+
     const [showall, setShowAll] = useState()
     const [hideShowAll, setHideShowAll] = useState(false)
 
     useEffect(() => {
         getStudent();
         setShowAll(false)
+        getPayment()
     }, [])
 
-
-    console.log(student)
-
+    function separator(numb) {
+        var str = numb.toString().split(".");
+        str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return str.join(".");
+      }
 
     return (
         <Layout>
@@ -76,7 +104,7 @@ const StudentProfile = () => {
                                 <div class="bg-white p-3 hover:shadow">
                                     <div class="flex items-center space-x-3 font-semibold text-gray-900 text-xl leading-8">
                                         <span class="text-green-500">
-                                            <FaCamera style={{fontSize: 45,}}/>
+                                            <FaCamera style={{ fontSize: 45, }} />
                                         </span>
                                         <span>Passport Photograph</span>
                                     </div>
@@ -101,7 +129,7 @@ const StudentProfile = () => {
                                 {/* About Section */}
                                 <div class="bg-white p-3 shadow-sm rounded-sm">
                                     <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-                                       <TiInfoOutline style={{fontSize: 35}} />
+                                        <TiInfoOutline style={{ fontSize: 35 }} />
                                         <span class="tracking-wide font-bold text-xl">General Information</span>
                                     </div>
                                     <div class="text-gray-700">
@@ -171,219 +199,294 @@ const StudentProfile = () => {
                                         </div>
                                     </div>
 
-                                    {  !showall &&
+                                    {!showall &&
                                         <button
-                                        onClick={() => setShowAll(true)}
-                                        class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Show
-                                        Full Information</button>}
-                                        
-                                        
-                                  
-                                  
-                                  { showall && <>  
-                                  
+                                            onClick={() => setShowAll(true)}
+                                            class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Show
+                                            Full Information</button>}
+
+
+
+
+                                    {showall && <>
+
                                         <button
-                                    onClick={() => setShowAll(false)}
-                                        class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Hide Source of Funding</button>
-                                  
-                                  <div class="flex items-center spac
+                                            onClick={() => setShowAll(false)}
+                                            class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Hide Source of Funding</button>
+
+                                        <div class="flex items-center spac
                                     e-x-2 font-semibold text-gray-900 mt-4 leading-8">
-                                        <GiTakeMyMoney style={{fontSize: 35}} />
-                                        <span class="tracking-wide font-bold text-xl">Source of Funding</span>
-                                    </div>
-                                    <p className='mt-5 ml-3 text-lg font-semibold'>Emergency</p>
-                                    <div class="text-gray-700">
-                                        <div class="grid md:grid-cols-2 text-sm">
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Surname</div>
-                                                <div class="px-4 py-2">{student && student.surnamee}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Firstname</div>
-                                                <div class="px-4 py-2">{student && student.forenamese}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Gender</div>
-                                                <div class="px-4 py-2">{student && student.gendere}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Relationship</div>
-                                                <div class="px-4 py-2">{student && student.relationshipe}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Occupation</div>
-                                                <div class="px-4 py-2">{student && student.occupatione}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Email</div>
-                                                <div class="px-4 py-2">{student && student.emaile}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Tel 1.</div>
-                                                <div class="px-4 py-2">{student && student.tel1e}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Tel 2.</div>
-                                                <div class="px-4 py-2">{student && student.tel2e}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Address</div>
-                                                <div class="px-4 py-2">{student && student.addresse}</div>
-                                            </div>
+                                            <GiTakeMyMoney style={{ fontSize: 35 }} />
+                                            <span class="tracking-wide font-bold text-xl">Source of Funding</span>
                                         </div>
-                                        
-                                    </div>
-                                    <p className='mt-5 ml-3 text-lg font-semibold'>Parent / Guardian</p>
-                                    <div class="text-gray-700">
-                                        <div class="grid md:grid-cols-2 text-sm">
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Surname</div>
-                                                <div class="px-4 py-2">{student && student.surnamep}</div>
+                                        <p className='mt-5 ml-3 text-lg font-semibold'>Emergency</p>
+                                        <div class="text-gray-700">
+                                            <div class="grid md:grid-cols-2 text-sm">
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Surname</div>
+                                                    <div class="px-4 py-2">{student && student.surnamee}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Firstname</div>
+                                                    <div class="px-4 py-2">{student && student.forenamese}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Gender</div>
+                                                    <div class="px-4 py-2">{student && student.gendere}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Relationship</div>
+                                                    <div class="px-4 py-2">{student && student.relationshipe}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Occupation</div>
+                                                    <div class="px-4 py-2">{student && student.occupatione}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Email</div>
+                                                    <div class="px-4 py-2">{student && student.emaile}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Tel 1.</div>
+                                                    <div class="px-4 py-2">{student && student.tel1e}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Tel 2.</div>
+                                                    <div class="px-4 py-2">{student && student.tel2e}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Address</div>
+                                                    <div class="px-4 py-2">{student && student.addresse}</div>
+                                                </div>
                                             </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Firstname</div>
-                                                <div class="px-4 py-2">{student && student.forenamesp}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Gender</div>
-                                                <div class="px-4 py-2">{student && student.genderp}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Relationship</div>
-                                                <div class="px-4 py-2">{student && student.relationshipp}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Occupation</div>
-                                                <div class="px-4 py-2">{student && student.occupationp}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Email</div>
-                                                <div class="px-4 py-2">{student && student.emailp}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Tel 1.</div>
-                                                <div class="px-4 py-2">{student && student.tel1p}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Tel 2.</div>
-                                                <div class="px-4 py-2">{student && student.tel2p}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Address</div>
-                                                <div class="px-4 py-2">{student && student.addressp}</div>
-                                            </div>
+
                                         </div>
+                                        <p className='mt-5 ml-3 text-lg font-semibold'>Parent / Guardian</p>
+                                        <div class="text-gray-700">
+                                            <div class="grid md:grid-cols-2 text-sm">
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Surname</div>
+                                                    <div class="px-4 py-2">{student && student.surnamep}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Firstname</div>
+                                                    <div class="px-4 py-2">{student && student.forenamesp}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Gender</div>
+                                                    <div class="px-4 py-2">{student && student.genderp}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Relationship</div>
+                                                    <div class="px-4 py-2">{student && student.relationshipp}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Occupation</div>
+                                                    <div class="px-4 py-2">{student && student.occupationp}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Email</div>
+                                                    <div class="px-4 py-2">{student && student.emailp}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Tel 1.</div>
+                                                    <div class="px-4 py-2">{student && student.tel1p}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Tel 2.</div>
+                                                    <div class="px-4 py-2">{student && student.tel2p}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Address</div>
+                                                    <div class="px-4 py-2">{student && student.addressp}</div>
+                                                </div>
+                                            </div>
 
 
-                                        
-                                        
-                                    </div>
 
-                                    <p className='mt-5 ml-3 text-lg font-semibold'>Organisation</p>
-                                    <div class="text-gray-700">
-                                        <div class="grid md:grid-cols-2 text-sm">
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Name</div>
-                                                <div class="px-4 py-2">{student && student.nameo}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Email</div>
-                                                <div class="px-4 py-2">{student && student.emailo}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Contact.</div>
-                                                <div class="px-4 py-2">{student && student.contacto}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Tel 1.</div>
-                                                <div class="px-4 py-2">{student && student.tel1o}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Tel 2.</div>
-                                                <div class="px-4 py-2">{student && student.tel2o}</div>
-                                            </div>
-                                            <div class="grid grid-cols-2">
-                                                <div class="px-4 py-2 font-semibold">Address</div>
-                                                <div class="px-4 py-2">{student && student.addresso}</div>
-                                            </div>
+
                                         </div>
 
+                                        <p className='mt-5 ml-3 text-lg font-semibold'>Organisation</p>
+                                        <div class="text-gray-700">
+                                            <div class="grid md:grid-cols-2 text-sm">
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Name</div>
+                                                    <div class="px-4 py-2">{student && student.nameo}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Email</div>
+                                                    <div class="px-4 py-2">{student && student.emailo}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Contact.</div>
+                                                    <div class="px-4 py-2">{student && student.contacto}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Tel 1.</div>
+                                                    <div class="px-4 py-2">{student && student.tel1o}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Tel 2.</div>
+                                                    <div class="px-4 py-2">{student && student.tel2o}</div>
+                                                </div>
+                                                <div class="grid grid-cols-2">
+                                                    <div class="px-4 py-2 font-semibold">Address</div>
+                                                    <div class="px-4 py-2">{student && student.addresso}</div>
+                                                </div>
+                                            </div>
 
-                                        
-                                        
-                                    </div></>}
 
 
-                                    
-                                  
+
+                                        </div></>}
+
+
+
+
                                 </div>
                                 {/* End of about section */}
 
                                 <div class="my-4"></div>
-
-                                {/* Experience and education */}
+                                {/* About Section */}
                                 <div class="bg-white p-3 shadow-sm rounded-sm">
-
-                                    <div class="grid grid-cols-2">
-                                        <div>
-                                            <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                                                <span clas="text-green-500">
-                                                    <svg class="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                        stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                    </svg>
-                                                </span>
-                                                <span class="tracking-wide">Experience</span>
-                                            </div>
-                                            <ul class="list-inside space-y-2">
-                                                <li>
-                                                    <div class="text-teal-600">Owner at Her Company Inc.</div>
-                                                    <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                                </li>
-                                                <li>
-                                                    <div class="text-teal-600">Owner at Her Company Inc.</div>
-                                                    <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                                </li>
-                                                <li>
-                                                    <div class="text-teal-600">Owner at Her Company Inc.</div>
-                                                    <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                                </li>
-                                                <li>
-                                                    <div class="text-teal-600">Owner at Her Company Inc.</div>
-                                                    <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div>
-                                            <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                                                <span clas="text-green-500">
-                                                    <svg class="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                        stroke="currentColor">
-                                                        <path fill="#fff" d="M12 14l9-5-9-5-9 5 9 5z" />
-                                                        <path fill="#fff"
-                                                            d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                            d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-                                                    </svg>
-                                                </span>
-                                                <span class="tracking-wide">Education</span>
-                                            </div>
-                                            <ul class="list-inside space-y-2">
-                                                <li>
-                                                    <div class="text-teal-600">Masters Degree in Oxford</div>
-                                                    <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                                </li>
-                                                <li>
-                                                    <div class="text-teal-600">Bachelors Degreen in LPU</div>
-                                                    <div class="text-gray-500 text-xs">March 2020 - Now</div>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
+                                        <MdOutlinePayments style={{ fontSize: 35 }} />
+                                        <span class="tracking-wide font-bold text-xl">Student Courses and Payment</span>
                                     </div>
-                                    {/* End of Experience and education grid */}
+                                    <div class="text-gray-700">
+                                    { invoicedata && <table className="table-bordered">
+                  <thead>
+                    <tr>
+                      <th className="ww-20">Quantity</th>
+                      <th className="ww-32">Description</th>
+                      <th className="ww-20">Unit Price</th>
+                      <th className="ww-20">Line Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      invoicedata && invoicedata.registration.length > 0 && invoicedata.registration.map((regis, index) => (
+                        <tr key={index * (Math.random() * 3)}>
+                          <td>1</td>
+                          <td className="ww-32">{regis.registrationname}</td>
+                          <td>{regis.lecurrency} {separator(regis.regir)}</td>
+                          <td>{regis.lecurrency} {separator(regis.regir)}</td>
+                        </tr>
+                      ))
+
+                    }
+
+                    {
+                      invoice && invoicedata.courselist.length > 0 && invoicedata.courselist.map((course, index) => (
+                        <tr key={index * (Math.random() * 3)}>
+                          <td>1</td>
+                          <td>{course.coursedescription}</td>
+                          <td>{course.lecurrency} {separator(course.price)}</td>
+                          <td>{course.lecurrency} {separator(course.price)}</td>
+                        </tr>
+                      ))
+
+                    }
+
+                    {
+                invoice && invoicedata.examlist.length > 0 && invoicedata.examlist.map((exam, index) => (
+                        <tr key={index * (Math.random() * 3)}>
+                          <td>1</td>
+                          <td>{exam.examdescription}</td>
+                          <td>{exam.lecurrency} {separator(exam.examprice)}</td>
+                          <td>{exam.lecurrency} {separator(exam.examprice)}</td>
+                        </tr>
+                      ))
+
+                    }
+
+                    {
+                      invoicedata && invoicedata.purchaselist.length > 0 && invoicedata.purchaselist.map((pur, index) => (
+                        <tr key={index * (Math.random() * 3)}>
+                          <td>1</td>
+                          <td>{pur.purchasedescription}</td>
+                          <td>{pur.lecurrency} {separator(pur.purchaseprice)}</td>
+                          <td>{pur.lecurrency} {separator(pur.purchaseprice)}</td>
+                        </tr>
+                      ))
+
+                    }
+                    {
+                invoice && invoicedata.accolist.length > 0 && invoicedata.accolist.map((acco, index) => (
+                        <tr key={index * (Math.random() * 3)}>
+                          <td>{acco.acotimes}</td>
+                          <td>{acco.accodescription}</td>
+                          <td>{acco.lecurrency} {separator(acco.accoprice)}</td>
+                          <td>{acco.lecurrency} {separator(acco.acotimes * acco.accoprice)}</td>
+                        </tr>
+                      ))
+
+                    }
+
+                    {
+                    invoice && invoicedata.otherlist.length > 0 && invoicedata.otherlist.map((other, index) => (
+                        <tr key={index * (Math.random() * 3)}>
+                          <td>1</td>
+                          <td>{other.otherfeedescription}</td>
+                          <td>{other.lecurrency} {separator(other.otherfeeprice)}</td>
+                          <td>{other.lecurrency} {separator(other.otherfeeprice)}</td>
+                        </tr>
+                      ))
+
+                    }
+
+                    <tr>
+                      <td colspan="3" className="text-right">Subtotal:</td>
+                      <td className='font-bold'> {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency} {invoicedata.subtotal && separator(invoicedata.subtotal)}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" className="text-right">Discount:</td>
+                      <td className='font-bold'> {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency} {invoicedata.discount && invoicedata.discount}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" className="text-right">Total:</td>
+                      <td className='font-bold'> {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency} {invoicedata.total && separator(invoicedata.total)}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="3" className="text-right">Amount Paid 1st:</td>
+                      <td className='font-bold flex justify-center items-center'>
+                        {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency}
+                        {paymentdata && paymentdata.first && paymentdata.first}
+                      </td>
+                    </tr>
+                    { paymentdata && paymentdata.second !== null && <tr>
+                    <td colspan="3" className="text-right">Amount Paid 2nd:</td>
+                     <td className='font-bold flex justify-center items-center'>
+                        {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency}
+                        {paymentdata.second}
+                    </td>
+                  </tr>}
+                  <tr>
+                    <td colspan="3" className="text-right">Balance:</td>
+                    <td className='font-bold flex justify-center items-center'>
+                        {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency}
+                        {paymentdata.balance}
+                    </td>
+                  </tr>
+                  
+                  </tbody>
+                                </table> }
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
                                 </div>
-                                {/* End of profile tab */}
+                                {/* End of about section */}
+
                             </div>
                         </div>
                     </div>

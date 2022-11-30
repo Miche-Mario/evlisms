@@ -5,6 +5,11 @@ import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
 import About from "../models/AboutModels.js";
+import Prospect from "../models/ProspectModels.js";
+import Payment from "../models/PaymentModels.js";
+import Invoice from "../models/InvoiceModels.js";
+import Discount from "../models/DiscountModels.js";
+
 
 export const getStudents = async (req,res) => {
     try {
@@ -19,15 +24,31 @@ export const getStudents = async (req,res) => {
         res.status(500).json({msg: error.message});
     }
 }
-export const getUserByName = async(req,res) => {
+export const getStudentByName = async(req,res) => {
     const { search } = await req.body;
     try {
-        const response = await Users.findAndCountAll({
-            attributes: ['startdate','enddate','id','uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
+        const response = await Students.findAndCountAll({
+            attributes: ['studentid','startdate','enddate','id','uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
             where: {
                 forenamesg: {
                     [Op.like]: `%${search}%`
                   }
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
+
+export const getStudentByPassportId = async(req,res) => {
+    const { passportidg } = await req.body;
+    try {
+        const response = await Students.findOne({
+            attributes: [ 'surnameg', 'forenamesg', 'id', 'studentid'],
+            where: {
+                passportidg: passportidg
             }
         });
         res.status(200).json(response);
@@ -48,30 +69,118 @@ export const getStudentById =async (req,res) => {
     }
 }
 
-export const getStudentByName =async (req,res) => {
-    let { name } = req.body;
 
-    name = name.toLowerCase();
-    try {
-        const response = await Students.findAll({
-        where: {
-            forenamesg: {
-                [Op.like]: '%' + name + '%'
-            }
-        }
-    });
-    res.status(200).json(response)
-    } catch(error) {
-        res.status(500).json({msg: error.message});
-    }
-}
 export const createStudent = async(req,res) => {
-    const url = req.protocol + '://' + req.get('host')
 
-    const {surnameg, forenamesg, genderg, dateofbirthg, placeofbirthg, citizenshipg,occupationg, emailg, telhomeg, telghanag,addresshomeg, addressghanag, maritalg, passportidg,academiclevelg, noteg, aboutidg, surnamee, forenamese, gendere, relationshipe,occupatione, emaile, tel1e, tel2e, addresse, surnamep, forenamesp, genderp, relationshipp, occupationp, emailp, tel1p, tel2p, addressp, nameo, addresso, tel1o, emailo, contacto, tel2o, about_aboutid, startdate, enddate } = req.body;
+    const {surnameg, forenamesg, genderg, dateofbirthg, placeofbirthg, citizenshipg,occupationg, emailg, telhomeg, telghanag,addresshomeg, addressghanag, maritalg, passportidg,academiclevelg, noteg, aboutidg, surnamee, forenamese, gendere, relationshipe,occupatione, emaile, tel1e, tel2e, addresse, surnamep, forenamesp, genderp, relationshipp, occupationp, emailp, tel1p, tel2p, addressp, nameo, addresso, tel1o, emailo, contacto, tel2o, about_aboutid, startdate, enddate, passportphotographg, idscang, prospectid, code } = req.body;
     
     try {
-        await Students.create({
+       const student = await Students.create({
+            surnameg: surnameg,
+            forenamesg: forenamesg,
+            genderg: genderg,
+            dateofbirthg: dateofbirthg,
+            placeofbirthg: placeofbirthg,
+            citizenshipg: citizenshipg,
+            occupationg: occupationg,
+            emailg: emailg,
+            telhomeg: telhomeg,
+            telghanag: telghanag,
+            addresshomeg: addresshomeg,
+            addressghanag: addresshomeg,
+            maritalg: maritalg,
+            passportidg: passportidg,
+            academiclevelg: academiclevelg,
+            noteg: noteg,
+            aboutidg: aboutidg,
+            passportphotographg: passportphotographg,
+            idscang: idscang ,
+            surnamee: surnamee,
+            forenamese: forenamese,
+            gendere: gendere,
+            relationshipe: relationshipe,
+            occupatione: occupatione,
+            emaile: emaile,
+            tel1e: tel1e,
+            tel2e: tel2e,
+            addresse: addresse,
+            surnamep: surnamep,
+            forenamesp: forenamesp,
+            genderp: genderp,
+            relationshipp: relationshipp,
+            occupationp: occupationp,
+            emailp: emailp,
+            tel1p: tel1p,
+            tel2p: tel2p,
+            addressp: addressp,
+            nameo: nameo,
+            addresso: addresso,
+            tel1o: tel1o,
+            emailo: emailo,
+            contacto: contacto,
+            tel2o: tel2o,
+            about_aboutid: about_aboutid,
+            startdate: startdate,
+            enddate: enddate,
+
+        });
+////////////////////////UPDATE PROSPECT AS STUDENT////////////////////////////////////////////////
+        const prospect = await Prospect.findOne({
+            where: {
+                prospectid: prospectid
+            }
+        });
+            await Prospect.update({
+                isstudent: true
+            }, {
+                where: {
+                    id: prospect.id
+                }
+            });
+            
+////////////////////////UPDATE DISCOUNT////////////////////////////////////////////////
+        const discount = await Discount.findOne({
+            where: {
+                code: code
+            }
+        });
+            await Discount.update({
+                student_studentid: student.id,
+                used: true
+            }, {
+                where: {
+                    id: discount.id
+                }
+            });
+/////////////////////////////////SAVE PAYMENT//////////////////////////////////////////////////////////////////////////
+            const {total, first, balance, invoiceid} = req.body;
+
+        await Payment.create({
+            total: total,
+            first: first,
+            balance: balance,
+            student_studentid: student.id,
+            invoice_invoiceid: invoiceid
+        });
+        
+        res.status(200).json({msg: "Student well created"})
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+}
+export const updateStudent = async(req,res) => {
+    const stud = await Students.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!stud) return res.status(404).json({msg: "Student doesn't not exist" });
+    const url = req.protocol + '://' + req.get('host')
+
+    const {surnameg, forenamesg, genderg, dateofbirthg, placeofbirthg, citizenshipg,occupationg, emailg, telhomeg, telghanag,addresshomeg, addressghanag, maritalg, passportidg,academiclevelg, noteg, aboutidg, surnamee, forenamese, gendere, relationshipe,occupatione, emaile, tel1e, tel2e, addresse, surnamep, forenamesp, genderp, relationshipp, occupationp, emailp, tel1p, tel2p, addressp, nameo, addresso, tel1o, emailo, contacto, tel2o, about_aboutid, startdate, enddate, passportphotographg, idscang, prospectid, code } = req.body;
+    
+    try {
+        await Students.update({
             surnameg: surnameg,
             forenamesg: forenamesg,
             genderg: genderg,
@@ -117,24 +226,21 @@ export const createStudent = async(req,res) => {
             tel2o: tel2o,
             about_aboutid: about_aboutid,
             startdate: startdate,
-            enddate: enddate
+            enddate: enddate,
 
-        },{   
-            headers: { "Content-Type": "multipart/form-data" } 
-    });
-        res.status(200).json({msg: "Student well created"})
+        }, {
+            where: {
+                id: stud.id
+            }
+        });
+        res.status(200).json({msg: "Student well Updated"})
     } catch (error) {
         res.status(400).json({msg: error.message})
     }
 }
-export const updateStudent = (req,res) => {
-    
-}
 export const deleteStudent = (req,res) => {
     
 }
-
-
 
 
 

@@ -36,6 +36,7 @@ import InvoiceRoute from './routes/Invoice.js'
 import StudentOtherFeeRoute from "./routes/StudentsOtherFee.js"
 import CurrencyRoute from './routes/CurrencyRoute.js'
 import GroupDiscountRoute from './routes/GroupDiscountRoute.js'
+import ProspectRoute from "./routes/ProspectsRoute.js";
 
 dotenv.config();
 
@@ -53,9 +54,9 @@ const store = new sessionStore({
     db: db
 });
 
-/* (async()=> {
+(async()=> {
     await db.sync();
-})() */
+})()
 app.use(cors({origin:true,credentials: true}));
 
 app.use(express.json());
@@ -96,6 +97,7 @@ app.use(DiscountRoute);
 app.use(StudentOtherFeeRoute);
 app.use(CurrencyRoute)
 app.use(GroupDiscountRoute)
+app.use(ProspectRoute)
 
 
 

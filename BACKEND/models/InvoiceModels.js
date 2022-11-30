@@ -64,8 +64,22 @@ const Invoice = db.define('invoice', {
             notEmpty: false        
         }
     },
-    discount:{
+    registration:{
         type: DataTypes.JSON,
+        allowNull: true,
+        validate:{
+            notEmpty: false        
+        }
+    },
+    studdiscount:{
+        type: DataTypes.JSON,
+        allowNull: true,
+        validate:{
+            notEmpty: false        
+        }
+    },
+    discount:{
+        type: DataTypes.INTEGER,
         allowNull: true,
         validate:{
             notEmpty: false        

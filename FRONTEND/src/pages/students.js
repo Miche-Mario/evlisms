@@ -24,15 +24,26 @@ const Students = () => {
 
     const [students, setStudents] = useState([]);
     const [count, setCount] = useState();
+    const [search, setSearch] = useState();
 
 
-    const getUsers = async () => {
+
+    const getStudents = async () => {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/students`);
         setStudents(response.data.rows)
         setCount(response.data.count)
     }
+
+    const getStudentsByName = async (e) => {
+        e.preventDefault()
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/studentbyname`, {
+            search: search
+        });
+        setStudents(response.data.rows)
+        setCount(response.data.count)
+    }
     useEffect(() => {
-        getUsers();
+        getStudents();
     }, [])
 
     console.log(students)
@@ -59,10 +70,13 @@ const Students = () => {
                         <div class="flex items-center px-8 mt-2 max-w-md mx-auto bg-white rounded " x-data="{ search: '' }">
                             <div class="w-full">
                                 <input type="search" class="w-full border-gray-200 border-2 h-8 px-4 py-1 text-gray-800 bg-gray focus:outline-none"
-                                    placeholder="search" x-model="search" />
+                                    placeholder="search" x-model="search" 
+                                    onChange={(e) => setSearch(e.target.value)}
+                                    onKeyUpCapture={getStudentsByName}
+                                />
                             </div>
                             <div>
-                                <button type="submit" class="flex items-center bg-blue-500 justify-center w-8 h-8 text-white rounded-r-lg"
+                                <button onClick={getStudentsByName} class="flex items-center bg-blue-500 justify-center w-8 h-8 text-white rounded-r-lg"
                                 >
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -91,6 +105,7 @@ const Students = () => {
                                 <table className="min-w-max w-full ">
                                     <thead>
                                         <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                                        <th className="py-3 px-3 text-center">Student ID</th>
                                             <th className="py-3 px-3 text-center">Surname</th>
                                             <th className="py-3 px-3 text-center">First name </th>
                                             <th className="py-3 px-3 text-center">Date of Birth</th>
@@ -109,13 +124,17 @@ const Students = () => {
                                         {
                                             students.map((stud, index) => (
                                                 <tr key={stud.uuid} className="border-b border-gray-200  hover:bg-gray-100">
-
+ <td className=" py-3 px-3 text-center whitespace-nowrap">
+                                                        <div className="flex items-center justify-center">
+                                                            <span className="font-medium text-center">{stud.studentid}</span>
+                                                        </div>
+                                                    </td>
                                                     <td className=" py-3 px-3 text-center">
                                                         <div className="flex items-center justify-center">
                                                             {stud.idscang && <div className="mr-2">
                                                                 <img className="w-6 h-6 rounded-full" src={stud.idscang} />
                                                             </div>}
-                                                            <span className="font-medium uppercase">{stud.forenamesg}</span>
+                                                            <span className="font-medium uppercase">{stud.surnameg}</span>
 
                                                         </div>
                                                     </td>
@@ -174,7 +193,7 @@ const Students = () => {
                                                             </div>
                                                             </Link>
                                                             <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                                <NavLink to="/addStudents">
+                                                                <NavLink to={`/editstudent/${stud.uuid}`}>
                                                                     <a>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />

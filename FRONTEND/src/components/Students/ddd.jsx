@@ -1,4 +1,105 @@
 
+  const getTotalFromLS = () => {
+    const data = localStorage.getItem('total');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
+
+  const getSubTotalFromLS = () => {
+    const data = localStorage.getItem('subtotal');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
+
+
+  const getDiscountFromLS = () => {
+    const data = localStorage.getItem('discount');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
+
+  const getCurrencyFromLS = () => {
+    const data = localStorage.getItem('currency');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
+
+  const getCourseDataFromLS = () => {
+    const data = localStorage.getItem('courseList');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
+  const getExamDataFromLS = () => {
+    const data = localStorage.getItem('examList');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
+  const getPurchaseDataFromLS = () => {
+    const data = localStorage.getItem('purchaseList');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
+  const getAccoDataFromLS = () => {
+    const data = localStorage.getItem('accoList');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
+
+  const getOtherFeeDataFromLS = () => {
+    const data = localStorage.getItem('otherFeeList');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
+
+
+  const getRegistrationDataFromLS = () => {
+    const data = localStorage.getItem('registration');
+    if (data) {
+      return JSON.parse(data)
+    } else {
+      return []
+    }
+  }
+  const [total, setTotal] = useState(getTotalFromLS())
+  const [subtotal, setSubTotal] = useState(getSubTotalFromLS())
+  const [discount, setDiscount] = useState(getDiscountFromLS())
+
+  const [currency, setCurrencty] = useState(getCurrencyFromLS())
+
+  const [courseList, setCourseList] = useState(getCourseDataFromLS())
+  const [examList, setExamList] = useState(getExamDataFromLS())
+  const [purchaseList, setPurchaseList] = useState(getPurchaseDataFromLS())
+  const [accoList, setAccoList] = useState(getAccoDataFromLS())
+  const [otherFeeList, setOtherFeeList] = useState(getOtherFeeDataFromLS())
+  const [registrationList, setRegistrationList] = useState(getRegistrationDataFromLS)
+  
  <div class="flex items-start mb-6">
             <div class="flex items-center h-5">
               <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required />

@@ -174,9 +174,16 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   const getCourse = async () => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/course`);
     setCourse(response.data)
+    const surnameg = surnameg;
+
+
   }
+  const surnameg = studentData.surnameg;
+  const forenamesg = studentData.forenamesg
+  const studInfo = {surnameg, forenamesg}
+  localStorage.setItem('studInfo', JSON.stringify(studInfo))
 
-
+  
   const [options, setOptions] = useState(null);
   const [optionid, setOptionId] = useState(null);
   const getCourseSubcourse = async (e) => {
@@ -452,6 +459,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
     setOtherFeeList([...otherFeeList, afee]);
   }
 
+
+
   useEffect(() => {
     localStorage.setItem('courseList', JSON.stringify(courseList))
   }, [courseList])
@@ -612,6 +621,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   }
 
   const [studentdiscount, setStudentDiscount] = useState(1);
+  const [studentdiscountid, setStudentDiscountid] = useState('');
+
   const [lecode, setLecode] = useState('')
 
 const getStudentDiscount = async (e) => {
@@ -620,11 +631,14 @@ const getStudentDiscount = async (e) => {
     code: lecode
   });
   response.data && response.data.pourcentage ? setStudentDiscount(response.data.pourcentage) : setStudentDiscount(1)
-  console.log(studentdiscount)
+  response.data && response.data.id ? setStudentDiscountid(response.data.id) : setStudentDiscountid('')
+
 }
 
 
-
+useEffect(() => {
+  getGroupDiscount()
+},[])
 
 
 
@@ -633,19 +647,20 @@ const getStudentDiscount = async (e) => {
   const fixfee = courseList.length !== 0 ? registrationprice * currencyvalue : 0;
 
  if(NumberOfCourse <= 1 ) {
-  total = sumCoursePrice + sumExamPrice + sumAccoPrice + sumPurchasePrice + fixfee;
+  total = (sumCoursePrice + sumExamPrice + sumAccoPrice + sumPurchasePrice + fixfee) * (studentdiscount);
  }
 else {
   for(let i=1; i<NumberOfCourse; i++) {
-      fee = courseList[i].price * (groupdiscount + studentdiscount);
+      fee = groupdiscount !== 1 ? (courseList[i].price * groupdiscount)/100 : courseList[i].price;
     
      table[i] = fee
      discount = table.reduce((a, b) => a + b, 0)
   }
- 
-  total =  (courseList[0].price + (sumCoursePrice - courseList[0].price) - discount) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee;
+
+  total = studentdiscount === 1 ?  (courseList[0].price + (sumCoursePrice - courseList[0].price) - discount) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee : (sumCoursePrice - (sumCoursePrice * studentdiscount)/100) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee ;
 }
-subtotal = sumCoursePrice + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice;
+console.log(groupdiscount)
+subtotal = sumCoursePrice + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee;
 
 
 useEffect(() => {
@@ -660,6 +675,30 @@ useEffect(() => {
 useEffect(() => {
   addCurency()
 }, [])
+
+const getStudentDiscountFromLS = () => {
+  const data = localStorage.getItem('studdiscount');
+  if (data) {
+    return JSON.parse(data)
+  } else {
+    return []
+  }
+}
+const [studdiscount, setStudDiscount] = useState(getStudentDiscountFromLS())
+
+const addStudDiscount = (e) => {
+ 
+  setStudDiscount({lecode,studentdiscountid, groupdiscount});
+}
+
+
+useEffect(() => {
+  addStudDiscount()
+}, [groupdiscount])
+
+useEffect(() => {
+  localStorage.setItem('studdiscount', JSON.stringify(studdiscount))
+}, [studdiscount])
 
 
 /* 
@@ -693,7 +732,7 @@ useEffect(() => {
  */
 
 useEffect(() => {
-  setStudentData({...studentData,courseList, examList, accoList,purchaseList, otherFeeList, total, subtotal, discount, registrationList, currency})
+  setStudentData({...studentData,courseList, examList, accoList,purchaseList, otherFeeList, total, subtotal, discount, registrationList, currency, studdiscount})
 }, [])
 useEffect(() => {
   setStudentData({...studentData,examList, courseList})
@@ -735,6 +774,10 @@ useEffect(() => {
 useEffect(() => {
   setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal, registrationList, currency })
 }, [currency])
+
+useEffect(() => {
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal, registrationList, currency,studdiscount })
+}, [studdiscount])
 
 
 /*
@@ -1037,7 +1080,8 @@ useEffect(() => {
             dark:placeholder-gray-400
             dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-3"
          
-                onKeyUpCapture={(e) => {getStudentDiscount(e);setLecode(e.target.value)}}
+                onKeyUpCapture={(e) => {getStudentDiscount(e);setLecode(e.target.value); addStudDiscount()}}
+        
               />
           </div>
         </div>

@@ -1,11 +1,13 @@
 import express from 'express'
 import {
-  getInvoice
+  getInvoice,
+  createInvoice
 } from "../controllers/Invoice.js"
 
 const router = express.Router();
 
-router.get('/invoice', getInvoice);
+router.post('/getinvoice', getInvoice);
+router.post('/invoice', createInvoice);
 
 
 

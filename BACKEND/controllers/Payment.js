@@ -3,15 +3,37 @@ import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
 import Payment from "../models/PaymentModels.js";
+import Students from "../models/StudentsModels.js";
+import Invoice from "../models/InvoiceModels.js";
 
 export const getPayment = async (req,res) => {
     try {
         const response = await Payment.findAll({
-            attributes: ['uuid', 'total','first', 'second','balance','invoice_invoiceid', 'createAt']
+            attributes: ['uuid', 'total','first', 'second','balance', 'createdAt'],
+            include: [{
+                model: Students,
+                model: Invoice
+            }]
         });
         res.status(200).json(response);
     } catch (error) {
         res.status(500).json({msg: error.message});
+    }
+}
+
+export const createPayment = async(req,res) => {
+    const {total, first, balance, studentid, invoiceid} = req.body;
+    try {
+        await Exam.create({
+            total: total,
+            first: first,
+            balance: balance,
+            student_studentid: studentid,
+            invoice_invoiceid: invoiceid
+        });
+        res.status(201).json({msg: "Payment Well Created"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
     }
 }
 /* 
@@ -43,19 +65,7 @@ export const getExamPrice = async(req,res) => {
         res.status(500).json({msg: error.message});
     }
 }
-export const createExam = async(req,res) => {
-    const {examname, examprice, description} = req.body;
-    try {
-        await Exam.create({
-            examname: examname,
-            examprice: examprice,
-            description: description
-        });
-        res.status(201).json({msg: "Exam Well Created"});
-    } catch (error) {
-        res.status(400).json({msg: error.message})
-    }
-}
+
 export const updateExam = async(req,res) => {
     const exam = await Exam.findOne({
         where: {
