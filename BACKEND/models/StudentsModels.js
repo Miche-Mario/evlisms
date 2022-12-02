@@ -18,93 +18,54 @@ const Students = db.define('students', {
         type: DataTypes.STRING,
         allowNull: true,
         defaultValue: "EVLI",
-        validate: {
-            notEmpty: false
-        }
     },
     surnameg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     forenamesg:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     genderg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     dateofbirthg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100] 
-        }
     },
     placeofbirthg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     citizenshipg:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     occupationg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     emailg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-        }
+       
     },
     telhomeg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-        }
+        
     },
     telghanag:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-        }
+      
     },
     addresshomeg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-        }
+       
     },
     addressghanag:{
         type: DataTypes.STRING,
@@ -116,262 +77,136 @@ const Students = db.define('students', {
     maritalg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-        }
     },
     passportidg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     academicg:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     noteg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     passportphotographg:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false
-        },
         required: false
     },
     idscang:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false
-        },
         required: false
     },
     surnamee:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     forenamese:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     gendere:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     relationshipe:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     occupatione:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     emaile:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     tel1e:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     tel2e:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     addresse:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     surnamep:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     forenamesp:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     genderp:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     relationshipp:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     occupationp:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     emailp:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     tel1p:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     tel2p:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     addressp:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     nameo:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     addresso:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     tel1o:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     emailo:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     contacto:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
     },
     tel2o:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-            len: [3, 100]
-        }
+        allowNull: true
     },
     isstudent:{
         type: DataTypes.BOOLEAN,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-        }
+        allowNull: true
     },
     startdate:{
         type: DataTypes.STRING,
-        allowNull: true,
-        validate:{
-            notEmpty: false,
-        }
+        allowNull: true
     },
     enddate:{
         type: DataTypes.STRING,
         allowNull: true,
-        validate:{
-            notEmpty: false,
-        }
     },
     
 },{

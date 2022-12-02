@@ -2,6 +2,7 @@
 import { Sequelize } from "sequelize";
 import db from '../config/Database.js';
 import Invoice from "./InvoiceModels.js";
+import PaymentMethods from "./PaymentMethodModels.js";
 import Students from "./StudentsModels.js";
 
 const  {DataTypes} = Sequelize;
@@ -50,6 +51,9 @@ const Payment = db.define('payment', {
 
 Payment.belongsTo(Students, {foreignKey: 'student_studentid'});
 Payment.belongsTo(Invoice, {foreignKey: 'invoice_invoiceid'});
+
+Payment.belongsTo(PaymentMethods, {foreignKey: 'paymth_paymtid'});
+
 
 
 export default Payment

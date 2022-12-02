@@ -144,6 +144,7 @@ export const createStudent = async(req,res) => {
                 code: code
             }
         });
+        discount  &&
             await Discount.update({
                 student_studentid: student.id,
                 used: true
@@ -153,16 +154,31 @@ export const createStudent = async(req,res) => {
                 }
             });
 /////////////////////////////////SAVE PAYMENT//////////////////////////////////////////////////////////////////////////
-            const {total, first, balance, invoiceid} = req.body;
+            const {total, first, balance, invoiceid, paymentmethod} = req.body;
 
         await Payment.create({
             total: total,
             first: first,
             balance: balance,
             student_studentid: student.id,
-            invoice_invoiceid: invoiceid
+            invoice_invoiceid: invoiceid,
+            paymth_paymtid: paymentmethod
         });
-        
+        /////////////////////////////////UPDATE INVOICE /////////////
+        const invoice = await Invoice.findOne({
+            where: {
+                id: invoiceid
+            }
+        });
+        invoice  &&
+            await Invoice.update({
+                student_studentid: student.id,
+                payed: true
+            }, {
+                where: {
+                    id: invoice.id
+                }
+            });
         res.status(200).json({msg: "Student well created"})
     } catch (error) {
         res.status(400).json({msg: error.message})

@@ -7,7 +7,7 @@ import path from "path"
 export const getPaymentMethods = async (req,res) => {
     try {
         const response = await PaymentMethods.findAll({
-            attributes: ['uuid', 'paymentname']
+            attributes: ['id','uuid', 'paymentname']
         });
         res.status(200).json(response);
     } catch (error) {

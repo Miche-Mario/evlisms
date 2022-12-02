@@ -8,12 +8,12 @@ import Invoice from "../models/InvoiceModels.js";
 
 export const getPayment = async (req,res) => {
     try {
-        const response = await Payment.findAll({
-            attributes: ['uuid', 'total','first', 'second','balance', 'createdAt'],
-            include: [{
-                model: Students,
-                model: Invoice
-            }]
+        const response = await Payment.findAndCountAll({
+            attributes: ['uuid', 'total','first', 'second','balance', 'createdAt', 'updatedAt'],
+            include: [
+                {model: Students},
+                {model: Invoice}
+            ]
         });
         res.status(200).json(response);
     } catch (error) {
@@ -24,7 +24,7 @@ export const getPayment = async (req,res) => {
 export const createPayment = async(req,res) => {
     const {total, first, balance, studentid, invoiceid} = req.body;
     try {
-        await Exam.create({
+        await Payment.create({
             total: total,
             first: first,
             balance: balance,
@@ -36,13 +36,22 @@ export const createPayment = async(req,res) => {
         res.status(400).json({msg: error.message})
     }
 }
-/* 
-export const getExamById = async(req,res) => {
+
+export const getPaymentById = async(req,res) => {
+    const stud = await Students.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
     try {
-        const response = await Exam.findOne({
-            attributes: ['uuid', 'examname', 'examprice', 'description'],
+        const response = await Payment.findOne({
+            attributes: ['uuid', 'total','first', 'second','balance', 'createdAt'],
+            include: [{
+                model: Students,
+                model: Invoice
+            }],
             where: {
-                uuid: req.params.id
+                student_studentid: stud.id
             }
         });
         res.status(200).json(response);
@@ -50,6 +59,10 @@ export const getExamById = async(req,res) => {
         res.status(500).json({msg: error.message});
     }
 }
+
+
+
+/* 
 export const getExamPrice = async(req,res) => {
     const {examid} = req.body;
 

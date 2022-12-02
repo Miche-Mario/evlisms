@@ -42,11 +42,6 @@ const AddPaymentStep1 = ({ click }) => {
 
   //////////////////////////////////SEND DATA //////////////////////////////
 
-
-
-
-
-
   const { studentData, setStudentData } = useContext(StepperContext)
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,6 +54,7 @@ const AddPaymentStep1 = ({ click }) => {
   }, [invoicedata, prospectdata])
 ////////////////////////////////////////////SAVE STUDENT DATA/////////////////////////////////////////////////////////:
 
+const [paymentmethodd, setPaymentmethod] = useState('')
 const saveStudent =  (e) => {
 
   try {
@@ -112,10 +108,11 @@ const saveStudent =  (e) => {
       enddate: studentData.prospectdata.enddate && studentData.prospectdata.enddate,
       prospectid: invoicecode,
       total: invoicedata && invoicedata[0].total,
-      first: studentData.firstpayed !== 0 || studentData.firstpayed !== null && studentData.firstpayed,
+      first: studentData.firstpayed !== 0 && studentData.firstpayed,
       balance: invoicedata && invoicedata[0].total === parseInt(studentData.firstpayed) ? 0 : (invoicedata[0].total - studentData.firstpayed),
       invoiceid: invoicedata && invoicedata[0].id,
       code: invoicedata &&  invoicedata[0].studdiscount.lecode !== "" && invoicedata[0].studdiscount.lecode,
+      paymentmethod: paymentmethodd
     });
     console.log("ok")
 
@@ -126,8 +123,31 @@ const saveStudent =  (e) => {
   }
 }
 
+console.log(studentData.firstpayed)
+  /////////////////////////////////////////////////////////////GET PAYMENT METHOD/////////////////////////////////////
 
-console.log(studentData)
+
+
+  
+
+  const [paymentmethod, setPaymentMethod] = useState([]);
+
+  const getPaymentMethods = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/paymentmethod`);
+    setPaymentMethod(response.data)
+  }
+
+
+
+
+ useEffect(() => {
+  getPaymentMethods()
+ }, [])
+
+
+
+
+  /////////////////////////////////////////////////////////////
   function separator(numb) {
     var str = numb.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -304,14 +324,12 @@ console.log(studentData)
                   <h3 className="heading">Payment Mode:</h3>
                   <select id="countries" className="ml-3 3bg-gray-50 mb-4   text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-48 p-2.5"
                     required
+                    onClick={(e)=> setPaymentmethod(e.target.value)}
                   >
                     <option></option>
-                    <option value="US">Cash</option>
-                    <option value="US">Mobile Money</option>
-                    <option value="US">Bank Transfer</option>
-                    <option value="US">Online Payment</option>
-
-
+                    {paymentmethod.map((pm, index) => (
+                        <option value={pm.id}>{pm.paymentname}</option>
+                    ))}
                   </select>
 
 

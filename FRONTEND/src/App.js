@@ -40,6 +40,8 @@ import StudentsDiscounts from './pages/StudentsDiscounts';
 import EditGroupDiscount from './pages/EditGroupDiscount';
 import AddPayment from './pages/AddPayment';
 import EditStudent from './pages/EditStudent';
+import StudentPayment from './pages/StudentPayment';
+import EditPayment from './pages/EditPayment';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -84,9 +86,11 @@ function App() {
 
             <Route path='/survey/edit/:id' element={<EditAbout/>}/>
             <Route path='/editstudent/:id' element={<EditStudent/>}/>
+            <Route path='/editpayment/:id' element={<EditPayment/>}/>
 
 
             <Route path='/studentprofile/:id' element={<StudentProfile/>}/>
+            <Route path="/studentpayment" element={<StudentPayment/>}/>
 
 
 

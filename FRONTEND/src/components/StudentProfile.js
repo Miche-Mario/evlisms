@@ -7,8 +7,6 @@ import ModalImage from "react-modal-image";
 import { TiInfoOutline } from 'react-icons/ti'
 import { GiTakeMyMoney } from 'react-icons/gi'
 import { MdOutlinePayments } from "react-icons/md"
-import invoice from './PaymentSteps/data/invoice'
-
 const StudentProfile = () => {
 
     const { id } = useParams();
@@ -25,9 +23,9 @@ const StudentProfile = () => {
 
 
     const getPayment = async () => {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/payment`);
-        setPaymentData(response.data[0])
-        setInvoiceData(response.data[0].invoice)
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/paymentbyid/${id}`);
+        setPaymentData(response.data)
+        setInvoiceData(response.data.invoice)
     }
 
 
@@ -378,7 +376,7 @@ console.log(paymentdata)
                     }
 
                     {
-                      invoice && invoicedata.courselist.length > 0 && invoicedata.courselist.map((course, index) => (
+                      invoicedata && invoicedata.courselist.length > 0 && invoicedata.courselist.map((course, index) => (
                         <tr key={index * (Math.random() * 3)}>
                           <td>1</td>
                           <td>{course.coursedescription}</td>
@@ -390,7 +388,7 @@ console.log(paymentdata)
                     }
 
                     {
-                invoice && invoicedata.examlist.length > 0 && invoicedata.examlist.map((exam, index) => (
+                invoicedata && invoicedata.examlist.length > 0 && invoicedata.examlist.map((exam, index) => (
                         <tr key={index * (Math.random() * 3)}>
                           <td>1</td>
                           <td>{exam.examdescription}</td>
@@ -413,7 +411,7 @@ console.log(paymentdata)
 
                     }
                     {
-                invoice && invoicedata.accolist.length > 0 && invoicedata.accolist.map((acco, index) => (
+                invoicedata && invoicedata.accolist.length > 0 && invoicedata.accolist.map((acco, index) => (
                         <tr key={index * (Math.random() * 3)}>
                           <td>{acco.acotimes}</td>
                           <td>{acco.accodescription}</td>
@@ -425,7 +423,7 @@ console.log(paymentdata)
                     }
 
                     {
-                    invoice && invoicedata.otherlist.length > 0 && invoicedata.otherlist.map((other, index) => (
+                    invoicedata && invoicedata.otherlist.length > 0 && invoicedata.otherlist.map((other, index) => (
                         <tr key={index * (Math.random() * 3)}>
                           <td>1</td>
                           <td>{other.otherfeedescription}</td>
