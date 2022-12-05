@@ -8,24 +8,6 @@ const AddPaymentStep1 = ({ click }) => {
   const [msg, setMsg] = useState("");
 
 
-
-  /////////////////////////////////////////////////////////////GET INVOICE/////////////////////////////////////
-
-  const [invoicedata, setInvoiceData] = useState()
-  const [invoicecode, setInvoicecode] = useState()
-  const [invoicedatatrue, setInvoicedatatrue] = useState(false)
-
-
-  const { id } = useParams();
-
-  const getPayment = async () => {
-    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/paymentbyid/${id}`);
-      response.data && setInvoiceData(response.data.invoice)
-    
-}
-
-console.log(invoicedata)
-
   //////////////////////////////////SEND DATA //////////////////////////////
 
   const { studentData, setStudentData } = useContext(StepperContext)
@@ -38,6 +20,70 @@ console.log(invoicedata)
   useEffect(() => {
     setStudentData({ ...studentData, invoicedata: invoicedata[0], prospectdata: prospectdata })
   }, [invoicedata, prospectdata]) */
+
+
+
+  /////////////////////////////////////////////////////////////GET INVOICE/////////////////////////////////////
+
+  const [invoicedata, setInvoiceData] = useState()
+  const [paymentdata, setPaymentData] = useState()
+  const [balance, setBalance] = useState();
+  const [first, setFirst] = useState();
+  const [second, setSecond] = useState();
+  const [timepayment, setTimePayment] = useState();
+
+
+
+  
+  const [invoicecode, setInvoicecode] = useState()
+  const [invoicedatatrue, setInvoicedatatrue] = useState(false)
+
+
+  const { id } = useParams();
+
+  const getPayment = async () => {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/paymentbyid/${id}`);
+      response.data && setInvoiceData(response.data.invoice)
+      response.data && setPaymentData(response.data)
+      response.data && setBalance(response.data.balance)
+      response.data && setFirst(response.data.first)
+      response.data && setSecond(response.data.second ? response.data.second : 0)
+      response.data && setTimePayment(response.data.timepayment)
+      console.log(timepayment)
+
+}
+
+
+////////////////////////////////////////////////UPDATE PAYMENT///////////////////////////////
+var currentDate = new Date();
+
+var month = currentDate.getMonth()+1;
+if (month < 10) month = "0" + month;
+var dateOfMonth = currentDate.getDate();
+if (dateOfMonth < 10) dateOfMonth = "0" + dateOfMonth;
+var year = currentDate.getFullYear();
+var formattedDate = dateOfMonth + "/" + month + "/" + year + " " + currentDate.toLocaleTimeString(); 
+
+
+const [paymentmethodd, setPaymentmethodd] = useState('')
+
+const updatePayment = async (e) => {
+  e.preventDefault();
+  try {
+    await axios.patch(`${process.env.REACT_APP_BASE_URL}/payment/${id}`, {
+      balance: balance - studentData.paying,
+      fisrt: first + second,
+      second: studentData.paying,
+      timepayment: [...timepayment, {date: formattedDate, amount: studentData.paying}]
+    });
+  console.log("OKKK")
+  } catch (error) {
+    if(error.response) {
+      setMsg(error.response.data.msg);
+    }
+  }
+}
+
 
   /////////////////////////////////////////////////////////////GET PAYMENT METHOD/////////////////////////////////////
 
@@ -59,7 +105,6 @@ console.log(invoicedata)
   getPaymentMethods()
   getPayment()
  }, [])
-
 
 
 
@@ -199,23 +244,38 @@ console.log(invoicedata)
 
                     <tr>
                       <td colspan="3" className="text-right">Subtotal:</td>
-                      <td className='font-bold'> { invoicedata.currency.lecurrency} { separator(invoicedata && invoicedata.subtotal)}</td>
+                      <td className='font-bold'> {invoicedata && invoicedata.currency.lecurrency} {invoicedata && separator(invoicedata.subtotal)}</td>
                     </tr>
                     <tr>
                       <td colspan="3" className="text-right">Discount:</td>
-                      <td className='font-bold'> { invoicedata.currency.lecurrency} { !invoicedata.discount ?  invoicedata.discount  : "0,00"}</td>
+                      <td className='font-bold'> {invoicedata && invoicedata.currency.lecurrency} {invoicedata &&  invoicedata.discount ?  invoicedata.discount  : "0,00"}</td>
                     </tr>
                     <tr>
                       <td colspan="3" className="text-right">Total:</td>
-                      <td className='font-bold'> { invoicedata.currency.lecurrency} { separator(invoicedata && invoicedata.total)}</td>
+                      <td className='font-bold'> {invoicedata && invoicedata.currency.lecurrency} { invoicedata &&  separator(invoicedata.total)}</td>
                     </tr>
+                    {paymentdata &&
+                        paymentdata.timepayment.map((timep, index) => (
+                            <tr>
+                                <td colspan="3" className="text-right"> Amount Paid {index + 1}:<span className='ml-3 text-sm'>( {timep.date} )</span></td>
+                                <td className='font-bold flex justify-center items-center'>
+                                {invoicedata && invoicedata.currency.lecurrency} {separator(timep.amount)}
+                                </td>
+                            </tr>
+                        ))
+                    }
                     <tr>
-                      <td colspan="3" className="text-right">Amount Paid 1st:</td>
-                      <td className='font-bold flex justify-center items-center'>{invoicedatatrue && invoicedata.currency.lecurrency}
+                      <td colspan="3" className="text-right">Balance:</td>
+                      <td className='font-bold'> {invoicedata && invoicedata.currency.lecurrency} { paymentdata &&  separator(paymentdata.balance)}</td>
+                    </tr>
+                  
+                    <tr>
+                      <td colspan="3" className="text-right">Amount Paying:</td>
+                      <td className='font-bold flex justify-center items-center'>{invoicedata && invoicedata.currency.lecurrency}
                         <input type="number" className='p-1 border ml-1 border-red text-red w-28 text-center text-bold'
                           onChange={handleChange}
-                          name="firstpayed"
-                          value={studentData["firstpayed"] || ""}
+                          name="paying"
+                          value={studentData["paying"] || ""}
                           required
                         />
 
@@ -240,10 +300,10 @@ console.log(invoicedata)
                   <h3 className="heading">Payment Mode:</h3>
                   <select id="countries" className="ml-3 3bg-gray-50 mb-4   text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-48 p-2.5"
                     required
-                    onClick={(e)=> setPaymentMethod(e.target.value)}
+                    onClick={(e)=> setPaymentmethodd(e.target.value)}
                   >
                     <option></option>
-                    {paymentmethod.map((pm, index) => (
+                    {paymentmethod && paymentmethod.map((pm, index) => (
                         <option value={pm.id}>{pm.paymentname}</option>
                     ))}
                   </select>
@@ -253,7 +313,7 @@ console.log(invoicedata)
                 <div className='flex justify-end'>
                   <button
 
-                    //  onClick={(e) => saveStudent(e)}
+                     onClick={(e) => updatePayment(e)}
                     className=' w-48 bg-blue-400 text-white  uppercase py-2 px-4
                                 rounded-xl font-semibold cursor-pointer  
                               hover:bg-blue-600 hover:text-white transition duration-200 ease-in-out '

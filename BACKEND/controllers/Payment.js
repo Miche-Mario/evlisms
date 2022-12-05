@@ -9,7 +9,7 @@ import Invoice from "../models/InvoiceModels.js";
 export const getPayment = async (req,res) => {
     try {
         const response = await Payment.findAndCountAll({
-            attributes: ['uuid', 'total','first', 'second','balance', 'createdAt', 'updatedAt'],
+            attributes: ['uuid', 'total','first', 'second','balance','timepayment', 'createdAt', 'updatedAt'],
             include: [
                 {model: Students},
                 {model: Invoice}
@@ -38,20 +38,16 @@ export const createPayment = async(req,res) => {
 }
 
 export const getPaymentById = async(req,res) => {
-    const stud = await Students.findOne({
-        where: {
-            uuid: req.params.id
-        }
-    });
+
     try {
         const response = await Payment.findOne({
-            attributes: ['uuid', 'total','first', 'second','balance', 'createdAt'],
-            include: [{
-                model: Students,
-                model: Invoice
-            }],
+            attributes: ['uuid', 'total','first', 'second','balance','timepayment', 'createdAt'],
+            include: [
+                {model: Students},
+                {model: Invoice}
+            ],
             where: {
-                student_studentid: stud.id
+                uuid: req.params.id
             }
         });
         res.status(200).json(response);
@@ -60,6 +56,33 @@ export const getPaymentById = async(req,res) => {
     }
 }
 
+
+
+export const updatePayment = async(req,res) => {
+    const pay = await Payment.findOne({
+        where: {
+            uuid: req.params.id
+        }
+    });
+    if(!pay) return res.status(404).json({msg: "Payment doesn't not exist" });
+    const {paying, timepayment, first, balance} = req.body;
+    
+    try {
+        await Payment.update({
+            first: first,
+            second: paying,
+            balance: balance,
+            timepayment: timepayment,
+        }, {
+            where: {
+                id: pay.id
+            }
+        });
+        res.status(200).json({msg: "Payment  updated"});
+    } catch (error) {
+        res.status(400).json({msg: error.message})
+    }
+}
 
 
 /* 

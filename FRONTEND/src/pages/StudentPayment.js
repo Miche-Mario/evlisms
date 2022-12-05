@@ -185,28 +185,27 @@ const StudentPayment = () => {
                     </tr>
                     <tr>
                       <td colspan="3" className="text-right">Discount:</td>
-                      <td className='font-bold'> {code.invoice && code.invoice.discount && code.invoice.currency.lecurrency} {code.invoice.discount && code.invoice.discount}</td>
+                      <td className='font-bold'> {code.invoice && code.invoice.currency.lecurrency && code.invoice.currency.lecurrency} {code.invoice.discount ? code.invoice.discount : "0,00"}</td>
                     </tr>
                     <tr>
                       <td colspan="3" className="text-right">Total:</td>
                       <td className='font-bold'> {code.invoice && code.invoice.currency.lecurrency && code.invoice.currency.lecurrency} {code.invoice.total && separator(code.invoice.total)}</td>
                     </tr>
-                    <tr>
-                      <td colspan="3" className="text-right">Amount Paid 1st:</td>
-                      <td className='font-bold flex justify-center items-center'>
-                        {code.invoice && code.invoice.currency.lecurrency} {code.invoice && code.first}
-                      </td>
-                    </tr>
-                    { code.invoice && code.second !== null && <tr>
-                    <td colspan="3" className="text-right">Amount Paid 2nd:</td>
-                     <td className='font-bold flex justify-center items-center'>
-                     {code.invoice && code.invoice.currency.lecurrency} {code.invoice && code.second}
-                    </td>
-                  </tr>}
+                    {code.invoice &&
+                        code.timepayment.map((timep, index) => (
+                            <tr>
+                                <td colspan="3" className="text-right"> Amount Paid {index + 1}:<span className='ml-3 text-sm'>( {timep.date} )</span></td>
+                                <td className='font-bold flex justify-center items-center'>
+                                {code.invoice && code.invoice.currency.lecurrency && code.invoice.currency.lecurrency} {separator(timep.amount)}
+                                </td>
+                            </tr>
+                        ))
+                    }
+                   
                   <tr>
                     <td colspan="3" className="text-right">Balance:</td>
                     <td className='font-bold flex justify-center items-center'>
-                    {code.invoice && code.invoice.currency.lecurrency} {code.invoice && code.balance}
+                    {code.invoice && code.invoice.currency.lecurrency} {code.invoice && separator(code.balance)}
                     </td>
                   </tr>
                    
@@ -360,7 +359,7 @@ const StudentPayment = () => {
                                                             </div>
                                                       
                                                             <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                                <NavLink to={`/editpayment/${pay.student.uuid}`}>
+                                                                <NavLink to={`/editpayment/${pay.uuid}`}>
                                                                     <a>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />

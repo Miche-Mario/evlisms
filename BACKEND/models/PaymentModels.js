@@ -43,6 +43,13 @@ const Payment = db.define('payment', {
         validate:{
             notEmpty: false        
         }
+    },
+    timepayment:{
+        type: DataTypes.JSON,
+        allowNull: true,
+        validate:{
+            notEmpty: false        
+        }
     }
    
 },{

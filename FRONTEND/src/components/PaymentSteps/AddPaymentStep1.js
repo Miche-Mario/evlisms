@@ -54,7 +54,17 @@ const AddPaymentStep1 = ({ click }) => {
   }, [invoicedata, prospectdata])
 ////////////////////////////////////////////SAVE STUDENT DATA/////////////////////////////////////////////////////////:
 
-const [paymentmethodd, setPaymentmethod] = useState('')
+const [paymentmethodd, setPaymentmethodd] = useState('')
+var currentDate = new Date();
+
+var month = currentDate.getMonth()+1;
+if (month < 10) month = "0" + month;
+var dateOfMonth = currentDate.getDate();
+if (dateOfMonth < 10) dateOfMonth = "0" + dateOfMonth;
+var year = currentDate.getFullYear();
+var formattedDate = dateOfMonth + "/" + month + "/" + year + " " + currentDate.toLocaleTimeString();
+console.log(formattedDate);
+
 const saveStudent =  (e) => {
 
   try {
@@ -112,7 +122,8 @@ const saveStudent =  (e) => {
       balance: invoicedata && invoicedata[0].total === parseInt(studentData.firstpayed) ? 0 : (invoicedata[0].total - studentData.firstpayed),
       invoiceid: invoicedata && invoicedata[0].id,
       code: invoicedata &&  invoicedata[0].studdiscount.lecode !== "" && invoicedata[0].studdiscount.lecode,
-      paymentmethod: paymentmethodd
+      paymentmethod: paymentmethodd,
+      timepayment: [{date : formattedDate, amount:  studentData.firstpayed !== 0 && studentData.firstpayed}]
     });
     console.log("ok")
 
@@ -324,7 +335,7 @@ console.log(studentData.firstpayed)
                   <h3 className="heading">Payment Mode:</h3>
                   <select id="countries" className="ml-3 3bg-gray-50 mb-4   text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-48 p-2.5"
                     required
-                    onClick={(e)=> setPaymentmethod(e.target.value)}
+                    onClick={(e)=> setPaymentmethodd(e.target.value)}
                   >
                     <option></option>
                     {paymentmethod.map((pm, index) => (
