@@ -261,7 +261,7 @@ const StudentPayment = () => {
                     </div>
                     <div className='flex mt-2 ml-[50] items-center justify-center'>
 
-                        <NavLink to="/addStudents">
+                        <NavLink to="/addstudentpayment">
                             <a>
                                 <button className='bg-blue-600 rounded text-gray-100 font-medium w-32 h-10 flex items-center justify-center' type="submit" name='Add'>
                                     Add<TiUserAdd className='text-2xl   ' />
@@ -315,28 +315,28 @@ const StudentPayment = () => {
                                                     </td>
                                                     <td className=" py-3 px-3 text-center">
                                                         <div className="flex items-center justify-center">
-                                                            <span className="font-medium">{pay.invoice.currency.lecurrency} {pay.total}</span>
+                                                            <span className={`font-medium rounded-lg p-1 text-white ${pay.balance == 0 ? " bg-green-600" : " bg-red"}`}>{pay.invoice.currency.lecurrency} {separator(pay.total)}</span>
                                                         </div>
                                                     </td>
                                                    
                                                     <td className=" py-3 px-3 text-center">
                                                         <div className="flex items-center justify-center">
-                                                            <span className="font-medium">{pay.invoice.currency.lecurrency} {pay.first}</span>
+                                                            <span className={`font-medium rounded-lg p-1 text-white ${pay.balance == 0 ? " bg-green-600" : " bg-red"}`}>{pay.invoice.currency.lecurrency} {separator(pay.first)}</span>
                                                         </div>
                                                     </td>
                                                     <td className=" py-3 px-3 text-center">
                                                         <div className="flex items-center justify-center">
-                                                        {pay.second &&  <span className="font-medium">{pay.invoice.currency.lecurrency} {pay.second}</span>}
+                                                        {pay.second &&  <span className={`font-medium rounded-lg p-1 text-white ${pay.balance == 0 ? " bg-green-600" : " bg-red"}`}>{pay.invoice.currency.lecurrency} {separator(pay.second)}</span>}
                                                         </div>
                                                     </td>
                                                     <td className=" py-3 px-3 text-center">
                                                         <div className="flex items-center justify-center">
-                                                            <span className="font-medium">{pay.invoice.currency.lecurrency} {pay.balance}</span>
+                                                            <span className={`font-medium rounded-lg p-1 text-white ${pay.balance == 0 ? " bg-green-600" : " bg-red"}`}>{pay.invoice.currency.lecurrency} {separator(pay.balance)}</span>
                                                         </div>
                                                     </td>
                                                     <td className=" py-3 px-3 text-center">
                                                         <div className="flex items-center justify-center">
-                                                            <span className="font-medium">Cash</span>
+                                                            <span className="font-medium">{pay.paymentmethod.paymentname}</span>
                                                         </div>
                                                     </td>
                                                     <td className=" py-3 px-3 text-center">
@@ -358,7 +358,7 @@ const StudentPayment = () => {
                                                                 </svg>
                                                             </div>
                                                       
-                                                            <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                            { pay.balance !== 0 && <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                                 <NavLink to={`/editpayment/${pay.uuid}`}>
                                                                     <a>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -366,12 +366,12 @@ const StudentPayment = () => {
                                                                         </svg>
                                                                     </a>
                                                                 </NavLink>
-                                                            </div>
-                                                            <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                            </div>}
+                                                           {/*  <div className="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                                 </svg>
-                                                            </div>
+                                                            </div> */}
                                                         </div>
                                                     </td>
                                                 </tr>

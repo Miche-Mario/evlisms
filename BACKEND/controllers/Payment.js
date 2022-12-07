@@ -5,6 +5,7 @@ import path from "path"
 import Payment from "../models/PaymentModels.js";
 import Students from "../models/StudentsModels.js";
 import Invoice from "../models/InvoiceModels.js";
+import PaymentMethods from "../models/PaymentMethodModels.js";
 
 export const getPayment = async (req,res) => {
     try {
@@ -12,7 +13,8 @@ export const getPayment = async (req,res) => {
             attributes: ['uuid', 'total','first', 'second','balance','timepayment', 'createdAt', 'updatedAt'],
             include: [
                 {model: Students},
-                {model: Invoice}
+                {model: Invoice},
+                {model: PaymentMethods}
             ]
         });
         res.status(200).json(response);
@@ -44,7 +46,8 @@ export const getPaymentById = async(req,res) => {
             attributes: ['uuid', 'total','first', 'second','balance','timepayment', 'createdAt'],
             include: [
                 {model: Students},
-                {model: Invoice}
+                {model: Invoice},
+                {model: PaymentMethods}
             ],
             where: {
                 uuid: req.params.id

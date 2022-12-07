@@ -72,8 +72,8 @@ const updatePayment = async (e) => {
   try {
     await axios.patch(`${process.env.REACT_APP_BASE_URL}/payment/${id}`, {
       balance: balance - studentData.paying,
-      fisrt: first + second,
-      second: studentData.paying,
+      first: first + second,
+      paying: studentData.paying,
       timepayment: [...timepayment, {date: formattedDate, amount: studentData.paying}]
     });
   console.log("OKKK")

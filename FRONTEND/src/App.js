@@ -42,6 +42,7 @@ import AddPayment from './pages/AddPayment';
 import EditStudent from './pages/EditStudent';
 import StudentPayment from './pages/StudentPayment';
 import EditPayment from './pages/EditPayment';
+import AddPaymentByStudentId from './pages/AddPaymentByStudentId';
 axios.defaults.withCredentials = true;
 
 function App() {
@@ -91,6 +92,7 @@ function App() {
 
             <Route path='/studentprofile/:id' element={<StudentProfile/>}/>
             <Route path="/studentpayment" element={<StudentPayment/>}/>
+            <Route path="/addstudentpayment" element={<AddPaymentByStudentId/>}/>
 
 
 
