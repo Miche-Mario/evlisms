@@ -69,6 +69,20 @@ export const getStudentById =async (req,res) => {
     }
 }
 
+export const getStudentByStudentId =async (req,res) => {
+    const { studentid } = await req.body
+    try {
+        const response = await Students.findOne({
+            where: {
+                studentid: studentid
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({msg: error.message});
+    }
+}
+
 
 export const createStudent = async(req,res) => {
 

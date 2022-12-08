@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Layout from '../components/Screens/Layout'
 import Stepper from '../components/PaymentSteps/Stepper'
-import StepperControl from '../components/PaymentSteps/StepperControl'
+import StepperControl from '../components/PaymentSteps/AddPaymentByStudentId.js/StepperControl'
 
 import { StepperContext } from '../contexts/stepperContext'
 

@@ -12,35 +12,9 @@ const PaymentByStudentId = ({ click }) => {
 
   const [invoicedata, setInvoiceData] = useState([])
   const [invoicecode, setInvoicecode] = useState()
-  const [invoicedatatrue, setInvoicedatatrue] = useState(false)
 
   const [prospectdata, setProspectData] = useState([])
 
-
-  const getInvoiceData = async (e) => {
-
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/getinvoice`, {
-        invoicecode: invoicecode
-      });
-      response.data && setInvoiceData(response.data)
-      response.data.length > 0 ? setInvoicedatatrue(true) : setInvoicedatatrue(false)
-
-      const responsee = await axios.post(`${process.env.REACT_APP_BASE_URL}/prospectbyid`, {
-        prospectid: invoicecode
-      });
-      responsee.data && setProspectData(responsee.data)
-
-    } catch (error) {
-      if (error.response) {
-        setMsg(error.response.data.msg);
-        console.log(msg)
-        setInvoicedatatrue(false)
-      }
-    }
-  }
-
-  //////////////////////////////////SEND DATA //////////////////////////////
 
   const { studentData, setStudentData } = useContext(StepperContext)
   const handleChange = (e) => {
@@ -49,10 +23,6 @@ const PaymentByStudentId = ({ click }) => {
   }
 
 
-  useEffect(() => {
-    setStudentData({ ...studentData, invoicedata: invoicedata[0], prospectdata: prospectdata })
-  }, [invoicedata, prospectdata])
-////////////////////////////////////////////SAVE STUDENT DATA/////////////////////////////////////////////////////////:
 
 const [paymentmethodd, setPaymentmethodd] = useState('')
 var currentDate = new Date();
@@ -65,81 +35,22 @@ var year = currentDate.getFullYear();
 var formattedDate = dateOfMonth + "/" + month + "/" + year + " " + currentDate.toLocaleTimeString();
 console.log(formattedDate);
 
-const saveStudent =  (e) => {
+  /////////////////////////////////////////////////////////////GET STUDENT DATA/////////////////////////////////////
 
-  try {
-     axios.post(`${process.env.REACT_APP_BASE_URL}/students`, {
-      surnameg: studentData.prospectdata.surnameg && studentData.prospectdata.surnameg,
-      forenamesg: studentData.prospectdata.forenamesg && studentData.prospectdata.forenamesg,
-      genderg: studentData.prospectdata.genderg &&  studentData.prospectdata.genderg,
-      dateofbirthg: studentData.dateofbirthg && studentData.prospectdata.dateofbirthg,
-      placeofbirthg: studentData.prospectdata.placeofbirthg && studentData.prospectdata.placeofbirthg,
-      citizenshipg: studentData.prospectdata.citizenshipg &&  studentData.prospectdata.citizenshipg,
-      occupationg: studentData.prospectdata.occupationg && studentData.prospectdata.occupationg,
-      emailg: studentData.prospectdata.emailg && studentData.prospectdata.emailg,
-      telhomeg: studentData.telhomeg && studentData.prospectdata.telhomeg,
-      telghanag: studentData.prospectdata.telghanag && studentData.prospectdata.telghanag,
-      addresshomeg: studentData.prospectdata.addresshomeg && studentData.prospectdata.addresshomeg,
-      addressghanag: studentData.prospectdata.addresshomeg && studentData.prospectdata.addresshomeg,
-      maritalg: studentData.prospectdata.maritalg && studentData.prospectdata.maritalg,
-      passportidg: studentData.prospectdata.passportidg &&  studentData.prospectdata.passportidg,
-      academiclevelg: studentData.prospectdata.academiclevelg && studentData.prospectdata.academiclevelg,
-      noteg: studentData.prospectdata.noteg && studentData.prospectdata.noteg,
-      aboutidg: studentData.prospectdata.aboutidg && studentData.prospectdata.aboutidg,
-      passportphotographg: studentData.prospectdata.passportphotographg,
-      idscang: studentData.prospectdata.idscang && studentData.prospectdata.idscang,
-      surnamee: studentData.prospectdata.surnamee && studentData.prospectdata.surnamee,
-      forenamese: studentData.prospectdata.forenamese && studentData.prospectdata.forenamese,
-      gendere: studentData.prospectdata.gendere && studentData.prospectdata.gendere,
-      relationshipe: studentData.prospectdata.relationshipe && studentData.prospectdata.relationshipe,
-      occupatione: studentData.prospectdata.occupatione && studentData.prospectdata.occupatione,
-      emaile: studentData.prospectdata.emaile && studentData.prospectdata.emaile,
-      tel1e: studentData.prospectdata.tel1e && studentData.prospectdata.tel1e,
-      tel2e: studentData.prospectdata.tel2e && studentData.prospectdata.tel2e,
-      addresse: studentData.prospectdata.addresse && studentData.prospectdata.addresse,
-      surnamep: studentData.prospectdata.surnamep && studentData.prospectdata.surnamep,
-      forenamesp: studentData.prospectdata.forenamesp && studentData.prospectdata.forenamesp,
-      genderp: studentData.prospectdata.genderp && studentData.prospectdata.genderp,
-      relationshipp: studentData.prospectdata.relationshipp && studentData.prospectdata.relationshipp,
-      occupationp: studentData.prospectdata.occupationp && studentData.prospectdata.occupationp,
-      emailp: studentData.prospectdata.emailp && studentData.prospectdata.emailp,
-      tel1p: studentData.prospectdata.tel1p && studentData.prospectdata.tel1p,
-      tel2p: studentData.prospectdata.tel2p && studentData.prospectdata.tel2p,
-      addressp: studentData.prospectdata.addressp && studentData.prospectdata.addressp,
-      nameo: studentData.prospectdata.nameo && studentData.prospectdata.nameo,
-      addresso: studentData.prospectdata.addresso && studentData.prospectdata.addresso,
-      tel1o: studentData.prospectdata.tel1o && studentData.prospectdata.tel1o,
-      emailo: studentData.prospectdata.emailo && studentData.prospectdata.emailo,
-      contacto: studentData.prospectdata.contacto && studentData.prospectdata.contacto,
-      tel2o: studentData.prospectdata.tel2o && studentData.prospectdata.tel2o,
-      isstudent: studentData && true,
-      about_aboutid: studentData.prospectdata.aboutidg && studentData.prospectdata.aboutidg,
-      startdate: studentData.prospectdata.startdate && studentData.prospectdata.startdate,
-      enddate: studentData.prospectdata.enddate && studentData.prospectdata.enddate,
-      prospectid: invoicecode,
-      total: invoicedata && invoicedata[0].total,
-      first: studentData.firstpayed !== 0 && studentData.firstpayed,
-      balance: invoicedata && invoicedata[0].total === parseInt(studentData.firstpayed) ? 0 : (invoicedata[0].total - studentData.firstpayed),
-      invoiceid: invoicedata && invoicedata[0].id,
-      code: invoicedata &&  invoicedata[0].studdiscount.lecode !== "" && invoicedata[0].studdiscount.lecode,
-      paymentmethod: paymentmethodd,
-      timepayment: [{date : formattedDate, amount:  studentData.firstpayed !== 0 && studentData.firstpayed}]
+  const [student, setStudent] = useState([]);
+  const [studentid, setStudentId] = useState([]);
+
+
+  const getStudent = async () => {
+    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/studentbystudentid`, {
+      studentid: studentid
     });
-    console.log("ok")
-
-  } catch (error) {
-    if (error.response) {
-      setMsg(error.response.data.msg);
-    }
+    setStudent(response.data)
   }
-}
 
-console.log(studentData.firstpayed)
+console.log(studentData)
   /////////////////////////////////////////////////////////////GET PAYMENT METHOD/////////////////////////////////////
 
-
-
-  
 
   const [paymentmethod, setPaymentMethod] = useState([]);
 
@@ -174,10 +85,10 @@ console.log(studentData.firstpayed)
       <div className='mt-3 h-full'>
         <div className=' ml-32 '>
           <div className='flex items-center ml-4 ' >
-            <p className={`text-xl font-medium ${invoicedatatrue == true && "text-green-500"}`}>INVOICE ID</p>
-            <input type='text' className={`ml-4 w-48 p-2 border ${invoicedatatrue == true && " text-2xl focus:border-green-500 border-green-500"} `}
+            <p className={`text-xl font-medium ${student && "text-green-500"}`}>STUDENT ID</p>
+            <input type='text' className={`ml-4 w-48 p-2 border ${student && " text-2xl focus:border-green-500 border-green-500"} `}
 
-              onKeyUpCapture={(e) => { getInvoiceData(e); setInvoicecode(e.target.value) }}
+              onKeyUpCapture={(e) => { getStudent(e); setStudentId(e.target.value) }}
             />
           </div>
         </div>
@@ -187,13 +98,13 @@ console.log(studentData.firstpayed)
           <div className="containerr mt-3">
 
             <div className="body-sectionn">
-              {invoicedatatrue && <div className='mt-3'>
+              <div className='mt-3'>
                 <div className='flex flex-row '>
-                  <div className='text-xl font-medium'>Received from:</div>
-                  <div className='ml-4 font-bold text-xl uppercase'>{prospectdata && prospectdata.forenamesg} {prospectdata && prospectdata.surnameg}</div>
+                  <div className='text-xl font-medium'>Receiving from:</div>
+                  <div className='ml-4 font-bold text-xl uppercase'>{student && student.forenamesg} {student && student.surnameg}</div>
                 </div>
                 <p className='ml-[9.5rem] text-lg uppercase'>
-                  {invoicedata && invoicedata[0].courselist.length > 0 && invoicedata[0].courselist[0].lesubcoursename}
+               {/*    {invoicedata && invoicedata[0].courselist.length > 0 && invoicedata[0].courselist[0].lesubcoursename}
                   {invoicedata && invoicedata[0].courselist.length > 0 && " ENGLISH PROGRAMS"}
                   {invoicedata && invoicedata[0].courselist.length > 1 && "WITH "}
                   {invoicedata && invoicedata[0].courselist.length > 1 && invoicedata[0].courselist[1].lesubcoursename}
@@ -204,11 +115,11 @@ console.log(studentData.firstpayed)
                   {invoicedata && invoicedata[0].accolist.length > 0 && " WITH " + invoicedata[0].accolist[0].acotimes + " WEEKS ACCOMODATION"}
 
 
-
+ */}
 
 
                 </p>
-              </div>}
+              </div>
               <br />
               <form onSubmit={click}>
                 <table className="table-bordered">
@@ -222,7 +133,7 @@ console.log(studentData.firstpayed)
                   </thead>
                   <tbody>
                     {
-                      invoicedatatrue && invoicedata[0].registration.length >= 0 && invoicedata[0].registration.map((regis, index) => (
+                      studentData && studentData.registrationList.length >= 0 && studentData.registrationList.map((regis, index) => (
                         <tr key={index * (Math.random() * 3)}>
                           <td>1</td>
                           <td className="ww-32">{regis.registrationname}</td>
@@ -233,8 +144,8 @@ console.log(studentData.firstpayed)
 
                     }
 
-                    {
-                      invoicedatatrue && invoicedata[0].courselist.length >= 0 && invoicedata[0].courselist.map((course, index) => (
+                 {
+                      studentData && studentData.courseList.length >= 0 && studentData.courseList.map((course, index) => (
                         <tr key={index * (Math.random() * 3)}>
                           <td>1</td>
                           <td>{course.coursedescription}</td>
@@ -244,9 +155,9 @@ console.log(studentData.firstpayed)
                       ))
 
                     }
-
+  
                     {
-                      invoicedatatrue && invoicedata[0].examlist.length >= 0 && invoicedata[0].examlist.map((exam, index) => (
+                      studentData && studentData.examList.length >= 0 && studentData.examList.map((exam, index) => (
                         <tr key={index * (Math.random() * 3)}>
                           <td>1</td>
                           <td>{exam.examdescription}</td>
@@ -256,9 +167,9 @@ console.log(studentData.firstpayed)
                       ))
 
                     }
-
+  
                     {
-                      invoicedatatrue && invoicedata[0].purchaselist.length >= 0 && invoicedata[0].purchaselist.map((pur, index) => (
+                      studentData && studentData.purchaseList.length >= 0 && studentData.purchaseList.map((pur, index) => (
                         <tr key={index * (Math.random() * 3)}>
                           <td>1</td>
                           <td>{pur.purchasedescription}</td>
@@ -268,8 +179,9 @@ console.log(studentData.firstpayed)
                       ))
 
                     }
+                
                     {
-                      invoicedatatrue && invoicedata[0].accolist.length >= 0 && invoicedata[0].accolist.map((acco, index) => (
+                      studentData && studentData.accoList.length >= 0 && studentData.accoList.map((acco, index) => (
                         <tr key={index * (Math.random() * 3)}>
                           <td>{acco.acotimes}</td>
                           <td>{acco.accodescription}</td>
@@ -279,9 +191,9 @@ console.log(studentData.firstpayed)
                       ))
 
                     }
-
+    
                     {
-                      invoicedatatrue && invoicedata[0].otherlist.length >= 0 && invoicedata[0].otherlist.map((other, index) => (
+                      studentData && studentData.otherFeeList.length >= 0 && studentData.otherFeeList.map((other, index) => (
                         <tr key={index * (Math.random() * 3)}>
                           <td>1</td>
                           <td>{other.otherfeedescription}</td>
@@ -291,7 +203,7 @@ console.log(studentData.firstpayed)
                       ))
 
                     }
-
+{/*
                     <tr>
                       <td colspan="3" className="text-right">Subtotal:</td>
                       <td className='font-bold'> {invoicedatatrue && invoicedata[0].currency.lecurrency} {invoicedatatrue && separator(invoicedata && invoicedata[0].subtotal)}</td>
@@ -315,19 +227,8 @@ console.log(studentData.firstpayed)
                         />
 
                       </td>
-                    </tr>
-                    {/*   <tr>
-                    <td colspan="3" className="text-right">Amount Paid 2nd:</td>
-                    <td className='font-bold flex justify-center items-center'>{invoicedatatrue && invoicedata[0].currency.lecurrency}
-                      <input type="text" className=' p-1 text-red border-red border ml-1 w-28 text-center text-bold' 
-                      
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="3" className="text-right">Balance:</td>
-                    <td className='font-bold'> {invoicedatatrue && invoicedata[0].currency.lecurrency} 18,500</td>
-                  </tr> */}
+                    </tr> */}
+                   
                   </tbody>
                 </table>
                 <br />
@@ -348,7 +249,7 @@ console.log(studentData.firstpayed)
                 <div className='flex justify-end'>
                   <button
 
-                     onClick={(e) => saveStudent(e)}
+                    //  onClick={(e) => saveStudent(e)}
                     className=' w-48 bg-blue-400 text-white  uppercase py-2 px-4
                                 rounded-xl font-semibold cursor-pointer  
                               hover:bg-blue-600 hover:text-white transition duration-200 ease-in-out '
