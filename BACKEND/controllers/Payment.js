@@ -6,6 +6,7 @@ import Payment from "../models/PaymentModels.js";
 import Students from "../models/StudentsModels.js";
 import Invoice from "../models/InvoiceModels.js";
 import PaymentMethods from "../models/PaymentMethodModels.js";
+import Discount from "../models/DiscountModels.js";
 
 export const getPayment = async (req,res) => {
     try {
@@ -23,15 +24,54 @@ export const getPayment = async (req,res) => {
     }
 }
 
-export const createPayment = async(req,res) => {
-    const {total, first, balance, studentid, invoiceid} = req.body;
+export const createPayment = async(req,res) => {  
+    let invoice;
+    const {studentid, code, courselist, examlist, purchaselist, accolist, currency, totall, subtotal,registration, studdiscount,discount, otherlist } = req.body;
+    try {
+        invoice = await Invoice.create({
+            courselist: courselist ,
+            examlist: examlist,
+            purchaselist: purchaselist,
+            accolist: accolist,
+            currency: currency,
+            total: totall,
+            subtotal: subtotal,
+            discount: discount,
+            otherlist: otherlist,
+            payed: true,
+            registration: registration,
+            student_studentid: studentid
+    });
+    res.status(201).json({msg: "Invoice Well Created"});
+} catch (error) {
+    res.status(400).json({msg: error.message})
+}
+////////////////////////UPDATE DISCOUNT////////////////////////////////////////////////
+const discountt = await Discount.findOne({
+    where: {
+        code: code
+    }
+});
+discountt  &&
+    await Discount.update({
+        student_studentid: studentid,
+        used: true
+    }, {
+        where: {
+            id: discountt.id
+        }
+    });
+///////////////////////////ADD PAYMENT////////////////////////////////////////////////
+    const {total, first, balance, paymentmethod, timepayment} = req.body;
     try {
         await Payment.create({
             total: total,
             first: first,
             balance: balance,
             student_studentid: studentid,
-            invoice_invoiceid: invoiceid
+            invoice_invoiceid: invoice.id,
+            paymth_paymtid: paymentmethod,
+            timepayment: timepayment
         });
         res.status(201).json({msg: "Payment Well Created"});
     } catch (error) {

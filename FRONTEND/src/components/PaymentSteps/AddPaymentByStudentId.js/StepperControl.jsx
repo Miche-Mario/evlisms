@@ -1,27 +1,38 @@
 import React from 'react'
 
-const StepperControl = ({handleClick,handleProceed, currentStep, steps}) => {
+const StepperControl = ({handleClick, currentStep, steps, click, open, clickk}) => {
+const named = () => {
+  if(currentStep == steps.length -1)
+    { return "Receipt"} 
+    
+    else if (currentStep == steps.length)
+    {return "Revenir"}
+    else {
+      return "Next"
+    }
+  } 
 
+  
   return (
-    <div className='container -mt-8 flex justify-around'>
+    <div className='container mt[2rem] mb-5 m-3  flex justify-between'>
         <button 
-          onClick={()=> handleClick()}
-          className={`bg-white text-slate-400 uppercase py-2 px-4
-          rounded-xl font-semibold cursor-pointer border-2 border-slate-300
-          hover:bg-slate-700 hover:text-white transition duration-200 ease-in-out
-          ${currentStep ==1 ? "opacity-50 cursor-not-allowed"
-          : ""}`}
+          onClick={(e)=> {handleClick(); }}
+          className={`ml-32 btn btn-outline-secondary border border-black w-48 bg-gray-100 text-gray-700 
+          ${currentStep ==1 ? "p-2 cursor-not-allowed"
+          : ""} `}
         >
-            back
+            Back
         </button>
         <button 
-          onClick={()=>{ handleClick('next'); }}
-          className='bg-green-500 text-white  uppercase py-2 px-4
+          onClick={(e)=> {handleClick("next"); click(e)}}
+          className={`mr-32 bg-green-400 text-white  uppercase py-2 px-4
           rounded-xl font-semibold cursor-pointer  
-          hover:bg-blue-700 hover:text-white transition duration-200 ease-in-out '
-          id="box"
+          hover:bg-green-600 hover:text-white transition duration-200 ease-in-out
+          
+          ${!open && currentStep == steps.length -1 ? " hidden"
+          : "block"}`} 
         >
-            {currentStep == steps.length ? "Revenir" : "Next"}
+            {named()}
         </button>
     </div>
   )

@@ -4,8 +4,13 @@ import { BsFillTrashFill } from "react-icons/bs"
 import { StepperContext } from '../../../contexts/stepperContext'
 import { BiTrash } from 'react-icons/bi'
 import { MdOutlineAddToPhotos } from 'react-icons/md'
+import DatePicker from "react-datepicker";
 import axios from 'axios'
+import { addDays } from 'date-fns';
+import Moment from "moment"
+import "react-datepicker/dist/react-datepicker.css";
 
+import es from 'date-fns/locale/es';
 
 const CoursesPurchasesExam = () => {
 
@@ -209,8 +214,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   // GET ALL COURSES
   const [price, setPrice] = useState();
   const [priceid, setPriceId] = useState();
-  const [startdate, enddate] = useState();
-  const [enddtae, setEndDate] = useState()
+
+
 
 
   const getCoursesPrice = async (e) => {
@@ -390,6 +395,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       registrationname,
       regir,
       lecurrency,
+      startdate,
+      finaldate,
       uuid
 
     }
@@ -659,7 +666,7 @@ else {
 
   total = studentdiscount === 1 ?  (courseList[0].price + (sumCoursePrice - courseList[0].price) - discount) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee : (sumCoursePrice - (sumCoursePrice * studentdiscount)/100) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee ;
 }
-console.log(groupdiscount)
+
 subtotal = sumCoursePrice + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee;
 
 
@@ -780,15 +787,6 @@ useEffect(() => {
 }, [studdiscount])
 
 
-/*
-useEffect(() => {
-  setStudentData({...studentData,purchaseList})
-}, [purchaseList])
-
-useEffect(() => {
-  setStudentData({...studentData,accoList})
-}, [accoList])
- */
 
 
 function separator(numb) {
@@ -809,6 +807,31 @@ const getCurrencies = async () => {
 useEffect(() => {
   getCurrencies()
 })
+
+
+///////////////////////////////////////////DATE RANGE//////////////////////////
+
+const [startDate, setStartDate] = useState(new Date());
+const [endDate, setEndDate] = useState(null);
+const onChange = (dates) => {
+  const [start, end] = dates;
+  setStartDate(start);
+  setEndDate(end);
+};
+
+const endd = courseList.length !== 0 &&  parseInt(courseList[0].laduration)
+const [finaldate, setFinaldate] = useState()
+const [startdate, setStartdate] = useState()
+
+useEffect(() => {
+  const finaldatee = startDate && addDays(startDate, (endd * 7) - 1)
+  setFinaldate(Moment(finaldatee).format('DD-MM-YYYY'))
+}, [startDate])
+
+
+
+console.log(finaldate)
+/////////////////////////////////////////////////////////////////
   return (
     <div className='flex flex-row w-full'>
       <div>
@@ -830,13 +853,13 @@ useEffect(() => {
               >
                 <option value="33" className='text-md' >Our programme</option>
                 {course.map((course) => (
-                  <option className='text-xl' value={course.id}>{course.coursename}</option>
+                  <option className='text-xl' value={course.course_courseid}>{course.course.coursename}</option>
                 ))}
               </select>
             </div>
 
           </div>
-          {options && options.length > 1 &&
+          {options && options.length > 0 &&
             <div className='m-5'>
 
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 
@@ -893,21 +916,19 @@ useEffect(() => {
 
       {view && courseList.length !== 0 &&
         <div className=' ml-6 mt-4 flex flex-row items-center'>
-          <div className='flex items-center'>
-              <p className='font-medium text-lg'>Start date</p>
-              <input type="date" className=" border-gray-700 border ml-2 w-40 p-2 border-none" 
-                onChange={handleChangee}
-                name="startdate"
-                value={studentData["startdate"] || ""}
-              />
-          </div>
-          <div className='flex ml-3 items-center'>
-              <p className='font-medium text-lg'>Start date</p>
-              <input type="date" className="ml-2 w-40 p-2 border-none"
-                onChange={handleChangee}
-                name="enddate"
-                value={studentData["enddate"] || ""}
-              />
+          <div className='text-xl font-bold'>Start Date - End Date</div>
+          <div className='ml-3 bg-white border border-green-600 font-bold p-2 rounded-md'>
+            <DatePicker
+            selectsRange={true}
+        
+            onChange={onChange}
+            startDate={startDate}
+            endDate={addDays(startDate, (endd * 7) - 1)}
+            monthsShown={7}
+            withPortal
+            locale="en-GB"
+            showWeekNumbers
+          />
           </div>
         </div>
       }

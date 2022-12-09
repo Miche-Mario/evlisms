@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { StepperContext } from '../../../contexts/stepperContext'
+import { ToastContainer, toast } from 'react-toastify';
 
 import '../paymentstyle.css'
 import axios from 'axios'
@@ -15,26 +16,6 @@ const PaymentByStudentId = ({ click }) => {
 
   const [prospectdata, setProspectData] = useState([])
 
-
-  const { studentData, setStudentData } = useContext(StepperContext)
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setStudentData({ ...studentData, [name]: value })
-  }
-
-
-
-const [paymentmethodd, setPaymentmethodd] = useState('')
-var currentDate = new Date();
-
-var month = currentDate.getMonth()+1;
-if (month < 10) month = "0" + month;
-var dateOfMonth = currentDate.getDate();
-if (dateOfMonth < 10) dateOfMonth = "0" + dateOfMonth;
-var year = currentDate.getFullYear();
-var formattedDate = dateOfMonth + "/" + month + "/" + year + " " + currentDate.toLocaleTimeString();
-console.log(formattedDate);
-
   /////////////////////////////////////////////////////////////GET STUDENT DATA/////////////////////////////////////
 
   const [student, setStudent] = useState([]);
@@ -48,7 +29,27 @@ console.log(formattedDate);
     setStudent(response.data)
   }
 
-console.log(studentData)
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+  const { studentData, setStudentData } = useContext(StepperContext)
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setStudentData({ ...studentData,...student, [name]: value })
+  }
+  console.log(studentData)
+
+
+const [paymentmethodd, setPaymentmethodd] = useState('')
+var currentDate = new Date();
+
+var month = currentDate.getMonth()+1;
+if (month < 10) month = "0" + month;
+var dateOfMonth = currentDate.getDate();
+if (dateOfMonth < 10) dateOfMonth = "0" + dateOfMonth;
+var year = currentDate.getFullYear();
+var formattedDate = dateOfMonth + "/" + month + "/" + year + " " + currentDate.toLocaleTimeString();
+console.log(formattedDate);
+
   /////////////////////////////////////////////////////////////GET PAYMENT METHOD/////////////////////////////////////
 
 
@@ -67,6 +68,41 @@ console.log(studentData)
  }, [])
 
 
+ ///////////////////////SAVE PAYMENT///////////////////////////////////////////////////////
+
+ const savePayment =  (e) => {
+  e.preventDefault();
+  try {
+     axios.post(`${process.env.REACT_APP_BASE_URL}/createpayment`, {
+      courselist: studentData.courseList.length > 0 ? studentData.courseList : {},
+      examlist: studentData.examList.length > 0 ? studentData.examList : {},
+      purchaselist:  studentData.purchaseList.length > 0 ? studentData.purchaseList : {},
+      accolist: studentData.accoList.length > 0 ? studentData.accoList : {},
+      otherlist: studentData.otherFeeList.length > 0 ? studentData.otherFeeList : {},
+      registration: studentData.registrationList.length > 0 ? studentData.registrationList : {},
+      currency: studentData.currency && studentData.currency,
+      discount: studentData.discount && studentData.discount,
+      total: studentData.total && studentData.total,
+      subtotal: studentData.subtotal && studentData.subtotal,
+      studdiscount: studentData.studdiscount && studentData.studdiscount,
+      invoicecode: studentData.passportidg &&  studentData.passportidg,
+      first: studentData.firstpayed !== 0 && studentData.firstpayed,
+      balance: studentData && studentData.total === parseInt(studentData.firstpayed) ? 0 : (studentData.total - studentData.firstpayed),
+      studentid: student && student.id,
+      code: studentData &&  studentData.studdiscount.lecode !== "" && studentData.studdiscount.lecode,
+      paymentmethod: paymentmethodd,
+      timepayment: [{date : formattedDate, amount:  studentData.firstpayed !== 0 && studentData.firstpayed}]
+    });
+    toast.success("Payment Well Saved")
+  } catch (error) {
+    if (error.response) {
+      setMsg(error.response.data.msg);
+      toast.error("Something Wrong happen")
+    }
+  }
+}
+
+
 
 
   /////////////////////////////////////////////////////////////
@@ -83,6 +119,7 @@ console.log(studentData)
     <>
 
       <div className='mt-3 h-full'>
+      <ToastContainer style={{fontSize: 20}} position="top-right"/>
         <div className=' ml-32 '>
           <div className='flex items-center ml-4 ' >
             <p className={`text-xl font-medium ${student && "text-green-500"}`}>STUDENT ID</p>
@@ -189,11 +226,9 @@ console.log(studentData)
                           <td>{acco.lecurrency} {separator(acco.acotimes * acco.accoprice)}</td>
                         </tr>
                       ))
+                      }
 
-                    }
-    
-                    {
-                      studentData && studentData.otherFeeList.length >= 0 && studentData.otherFeeList.map((other, index) => (
+           { studentData && studentData.otherFeeList.length >= 0 && studentData.otherFeeList.map((other, index) => (
                         <tr key={index * (Math.random() * 3)}>
                           <td>1</td>
                           <td>{other.otherfeedescription}</td>
@@ -203,22 +238,22 @@ console.log(studentData)
                       ))
 
                     }
-{/*
+
                     <tr>
                       <td colspan="3" className="text-right">Subtotal:</td>
-                      <td className='font-bold'> {invoicedatatrue && invoicedata[0].currency.lecurrency} {invoicedatatrue && separator(invoicedata && invoicedata[0].subtotal)}</td>
+                      <td className='font-bold'> {studentData && studentData.currency.lecurrency} {studentData && separator(studentData && studentData.subtotal)}</td>
                     </tr>
                     <tr>
                       <td colspan="3" className="text-right">Discount:</td>
-                      <td className='font-bold'> {invoicedatatrue && invoicedata[0].currency.lecurrency} {invoicedatatrue && !invoicedata[0].discount ?  invoicedata[0].discount  : "0,00"}</td>
+                      <td className='font-bold'> {studentData && studentData.currency.lecurrency} {studentData && studentData.discount ?  studentData.discount  : "0,00"}</td>
                     </tr>
                     <tr>
                       <td colspan="3" className="text-right">Total:</td>
-                      <td className='font-bold'> {invoicedatatrue && invoicedata[0].currency.lecurrency} {invoicedatatrue && separator(invoicedata && invoicedata[0].total)}</td>
+                      <td className='font-bold'> {studentData && studentData.currency.lecurrency} {studentData && separator(studentData && studentData.total)}</td>
                     </tr>
                     <tr>
                       <td colspan="3" className="text-right">Amount Paid 1st:</td>
-                      <td className='font-bold flex justify-center items-center'>{invoicedatatrue && invoicedata[0].currency.lecurrency}
+                      <td className='font-bold flex justify-center items-center'>{studentData && studentData.currency.lecurrency}
                         <input type="number" className='p-1 border ml-1 border-red text-red w-28 text-center text-bold'
                           onChange={handleChange}
                           name="firstpayed"
@@ -227,7 +262,7 @@ console.log(studentData)
                         />
 
                       </td>
-                    </tr> */}
+                    </tr> 
                    
                   </tbody>
                 </table>
@@ -249,7 +284,7 @@ console.log(studentData)
                 <div className='flex justify-end'>
                   <button
 
-                    //  onClick={(e) => saveStudent(e)}
+                    onClick={(e) => savePayment(e)}
                     className=' w-48 bg-blue-400 text-white  uppercase py-2 px-4
                                 rounded-xl font-semibold cursor-pointer  
                               hover:bg-blue-600 hover:text-white transition duration-200 ease-in-out '

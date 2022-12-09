@@ -69,8 +69,8 @@ const Complete = () => {
         tel2o: studentData.tel2o && studentData.tel2o,
         isstudent: studentData && false,
         about_aboutid: studentData.aboutidg && studentData.aboutidg,
-        startdate: studentData.startdate && studentData.startdate,
-        enddate: studentData.enddate && studentData.enddate,
+        startdate: studentData.registrationList.length > 0 && studentData.registrationList[0].startdate,
+        enddate: studentData.registrationList.length > 0 && studentData.registrationList[0].finaldate,
 
       },{   
         headers: { "Content-Type": "multipart/form-data" } 
@@ -83,6 +83,7 @@ const Complete = () => {
       }
     }
   }
+console.log( studentData.registrationList.length > 0 && studentData.registrationList[0].finaldate)
 
   const saveInvoice =  (e) => {
     e.preventDefault();

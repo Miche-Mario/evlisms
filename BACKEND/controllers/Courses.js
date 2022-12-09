@@ -21,7 +21,8 @@ export const getCourseWithSubcourse = async (req,res) => {
                
               },
               where: {
-                course_courseid: courseid
+                course_courseid: courseid,
+                active: true
               }
            }); 
            

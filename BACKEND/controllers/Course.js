@@ -3,11 +3,20 @@ import { Sequelize } from "sequelize";
 import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
+import Courses from "../models/CoursesModels.js";
 
 export const getCourse = async (req,res) => {
     try {
-        const response = await Course.findAll({
-            attributes: ['id','uuid', 'coursename']
+        const response = await Courses.findAll({
+            attributes: ['course_courseid'],
+            include: {
+                model: Course,
+               
+              },
+               group: 'course_courseid',
+              where: {
+                active: true
+              }
         });
         res.status(200).json(response);
     } catch (error) {
