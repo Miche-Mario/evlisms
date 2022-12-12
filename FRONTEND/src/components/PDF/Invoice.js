@@ -197,7 +197,7 @@ const Invoice = (props) => {
                         purchaseList.map((item, index) => (
                             <View style={[index % 2 === 0 && styles.line2, index % 2 !== 0 && styles.line1]}>
                                 <View style={{ width: 150 }}>
-                                    <Text style={{ fontSize: 9, paddingLeft: 5 }}>1</Text>
+                                    <Text style={{ fontSize: 9, paddingLeft: 5 }}>{item.purchasetimes}</Text>
                                 </View>
                                 <View style={{ width: 280 }}>
                                     <Text style={{ fontSize: 9 }}> {item.purchasedescription}</Text>
@@ -206,7 +206,7 @@ const Invoice = (props) => {
                                     <Text style={{ fontSize: 9, fontWeight: "extralight" }}>{item.lecurrency} {separator(item.purchaseprice)}</Text>
                                 </View>
                                 <View style={{ width: 150 }}>
-                                    <Text style={{ fontSize: 9 }}>{item.lecurrency} {separator(item.purchaseprice)} </Text>
+                                    <Text style={{ fontSize: 9 }}>{item.lecurrency} {separator(item.purchaseprice * item.purchasetimes)} </Text>
                                 </View>
                             </View>
                         ))

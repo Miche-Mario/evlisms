@@ -395,8 +395,6 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       registrationname,
       regir,
       lecurrency,
-      startdate,
-      finaldate,
       uuid
 
     }
@@ -438,6 +436,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
     }
     setAccoList([...accoList, anacco]);
   }
+  const [purchasetimes, setPurchaseTimes] = useState();
+
   const addPurchase = (e) => {
     e.preventDefault(e);
     const uuid = Math.random() + 89
@@ -445,6 +445,7 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       lepurchasename,
       purchaseprice,
       lecurrency,
+      purchasetimes,
       purchasedescription,
       uuid,
       purchasepriceid
@@ -609,7 +610,7 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   }, 0);
 
   const sumPurchasePrice = purchaseList.reduce((accumulator, object) => {
-    return accumulator + object.purchaseprice;
+    return accumulator + (object.purchaseprice * object.purchasetimes);
   }, 0);
 
 
@@ -617,7 +618,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   let subtotal;
   let discount=0;
   let fee;
-  let table = []
+  let table = [];
+
 
 
   const[groupdiscount, setGroupdiscount] = useState(1)
@@ -674,9 +676,36 @@ useEffect(() => {
   localStorage.setItem('total', JSON.stringify(total));
   localStorage.setItem('subtotal', JSON.stringify(subtotal));
   localStorage.setItem('discount', JSON.stringify(discount));
-
 }, [total, subtotal, discount])
 
+
+
+///////////////////////////////////////////DATE RANGE//////////////////////////
+
+const [startDate, setStartDate] = useState(new Date());
+const [endDate, setEndDate] = useState(null);
+const onChange = (dates) => {
+  const [start, end] = dates;
+  setStartDate(start);
+  setEndDate(end);
+  finaldate = startDate && addDays(startDate, (endd * 7) - 1)
+};
+
+const endd = courseList.length !== 0 &&  parseInt(courseList[0].laduration)
+
+ let finaldate = startDate && addDays(startDate, (endd * 7) - 1)
+ let startdate = startDate;
+
+
+
+useEffect(() => {
+  localStorage.setItem('finaldate', JSON.stringify(finaldate));
+}, [finaldate])
+
+useEffect(() => {
+  localStorage.setItem('finaldate', JSON.stringify(startdate));
+}, [startdate])
+/////////////////////////////////////////////////////////////////
 
 
 useEffect(() => {
@@ -739,7 +768,7 @@ useEffect(() => {
  */
 
 useEffect(() => {
-  setStudentData({...studentData,courseList, examList, accoList,purchaseList, otherFeeList, total, subtotal, discount, registrationList, currency, studdiscount})
+  setStudentData({...studentData,courseList, examList, accoList,purchaseList, otherFeeList, total, subtotal, discount, registrationList, currency, studdiscount, finaldate, startdate})
 }, [])
 useEffect(() => {
   setStudentData({...studentData,examList, courseList})
@@ -787,6 +816,15 @@ useEffect(() => {
 }, [studdiscount])
 
 
+useEffect(() => {
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal, registrationList, currency,studdiscount, finaldate })
+}, [finaldate])
+
+useEffect(() => {
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal, registrationList, currency,studdiscount, finaldate, startdate })
+}, [startdate])
+
+
 
 
 function separator(numb) {
@@ -809,29 +847,7 @@ useEffect(() => {
 })
 
 
-///////////////////////////////////////////DATE RANGE//////////////////////////
 
-const [startDate, setStartDate] = useState(new Date());
-const [endDate, setEndDate] = useState(null);
-const onChange = (dates) => {
-  const [start, end] = dates;
-  setStartDate(start);
-  setEndDate(end);
-};
-
-const endd = courseList.length !== 0 &&  parseInt(courseList[0].laduration)
-const [finaldate, setFinaldate] = useState()
-const [startdate, setStartdate] = useState()
-
-useEffect(() => {
-  const finaldatee = startDate && addDays(startDate, (endd * 7) - 1)
-  setFinaldate(Moment(finaldatee).format('DD-MM-YYYY'))
-}, [startDate])
-
-
-
-console.log(finaldate)
-/////////////////////////////////////////////////////////////////
   return (
     <div className='flex flex-row w-full'>
       <div>
@@ -986,6 +1002,30 @@ console.log(finaldate)
             </div>
 
           </div>
+          <select class="bg-blue-100 border border-gray-300 text-gray-900 mt-3 text-xl p-2 
+        focus:ring-blue-500 
+        focus:border-blue-500 block  dark:bg-gray-700 w-[22rem] dark:border-gray-600 
+        dark:placeholder-gray-400
+         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+               
+                onChange={(e) => setPurchaseTimes(e.target.value)}
+              >
+
+                <option value="1" className='text-md'>1</option>
+                <option value="2" className='text-md'>2</option>
+                <option value="3" className='text-md'>3</option>
+                <option value="4" className='text-md'>4</option>
+                <option value="5" className='text-md'>5</option>
+                <option value="6" className='text-md'>6</option>
+                <option value="7" className='text-md'>7</option>
+                <option value="8" className='text-md'>8</option>
+                <option value="9" className='text-md'>9</option>
+                <option value="10" className='text-md'>10</option>
+                <option value="11" className='text-md'>11</option>
+                <option value="12" className='text-md'>12</option>
+
+               
+              </select>
         </div>}
 
         {view && <div className='m-5'>
@@ -1199,6 +1239,7 @@ console.log(finaldate)
                 <tr class="border border-gray-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
                   <th class=" bg-dark-purple p-2 w-10 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">N</th>
                   <th class="bg-dark-purple p-2 w-48 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Purchase </th>
+                  <th class="bg-dark-purple p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Quantity</th>
                   <th class="bg-dark-purple p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Price</th>
                   <th class="bg-dark-purple p-2 w-32 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Actions</th>
                 </tr>
@@ -1208,6 +1249,7 @@ console.log(finaldate)
                   <tr class="bg-gray-300 border-b-2 block md:table-row">
                     <td class="p-3 w-10  text-center font-medium block md:table-cell">{index + 1}</td>
                     <td class="p-3 w-48 text-center font-medium block md:table-cell">{purchase.lepurchasename}</td>
+                    <td class="p-3 w-48 text-center font-medium block md:table-cell">{purchase.purchasetimes}</td>
                     <td class="p-3 text-center font-medium block md:table-cell"> {purchase.lecurrency} {separator(purchase.purchaseprice)}</td>
                     <td class="p-3 w-32 text-center font-medium block md:table-cell">
                       <div onClick={() => deletePurchaseFromList(purchase.uuid)} className=' cursor-pointer flex items-center p-2 shadow-md bg-white rounded-md'>
