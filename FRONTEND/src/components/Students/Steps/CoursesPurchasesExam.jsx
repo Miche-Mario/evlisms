@@ -928,6 +928,7 @@ console.log(finaldate)
             withPortal
             locale="en-GB"
             showWeekNumbers
+            inline
           />
           </div>
         </div>

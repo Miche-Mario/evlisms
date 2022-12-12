@@ -45,7 +45,7 @@ const AddCourse = ({ props }) => {
   const [allCourse, setAllCourse] = useState([]);
 
   const getCourse = async () => {
-    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/course`);
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/courselist`);
     setAllCourse(response.data)
   }
 
