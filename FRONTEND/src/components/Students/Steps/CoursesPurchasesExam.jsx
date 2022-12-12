@@ -935,16 +935,20 @@ useEffect(() => {
           <div className='text-xl font-bold'>Start Date - End Date</div>
           <div className='ml-3 bg-white border border-green-600 font-bold p-2 rounded-md'>
             <DatePicker
+            withPortal
+
             selectsRange={true}
-        
+      
             onChange={onChange}
             startDate={startDate}
             endDate={addDays(startDate, (endd * 7) - 1)}
-            monthsShown={7}
-            withPortal
+            monthsShown={3}
+            showMonthDropdown
+            showYearDropdown
+            
             locale="en-GB"
             showWeekNumbers
-            inline
+            
           />
           </div>
         </div>

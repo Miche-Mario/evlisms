@@ -49,8 +49,7 @@ const AddPaymentStep1 = ({ click }) => {
       response.data && setFirst(response.data.first)
       response.data && setSecond(response.data.second ? response.data.second : 0)
       response.data && setTimePayment(response.data.timepayment)
-      console.log(timepayment)
-
+      console.log(response.data)
 }
 
 
@@ -68,7 +67,7 @@ var formattedDate = dateOfMonth + "/" + month + "/" + year + " " + currentDate.t
 const [paymentmethodd, setPaymentmethodd] = useState('')
 
 const updatePayment = async (e) => {
-  e.preventDefault();
+
   try {
     await axios.patch(`${process.env.REACT_APP_BASE_URL}/payment/${id}`, {
       balance: balance - studentData.paying,

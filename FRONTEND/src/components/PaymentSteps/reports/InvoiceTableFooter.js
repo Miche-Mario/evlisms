@@ -66,12 +66,12 @@ const InvoiceTableFooter = ({ items }) => {
             
             items.invoicedata.total === parseInt(items.firstpayed) ? 
                 <View style={styles.row}>
-                    <Text style={styles.description}>Amount Paid 2st</Text>
-                    <Text style={styles.total}>{items.invoicedata.currency.lecurrency} {separator((items.invoicedata.total).toFixed(2))}</Text>
+                    <Text style={styles.description}>Balance</Text>
+                    <Text style={styles.total}>{items.invoicedata.currency.lecurrency} O,OO</Text>
                 </View>
                 :
                 <View style={styles.row}>
-                    <Text style={styles.description}>Amount Paid 2st</Text>
+                    <Text style={styles.description}>Balance</Text>
                     <Text style={styles.total}>{items.invoicedata.currency.lecurrency} {separator((items.invoicedata.total - parseInt(items.firstpayed)).toFixed(2))}</Text>
                 </View>
             }
