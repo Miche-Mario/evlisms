@@ -19,7 +19,7 @@ const StepperControl = ({handleClick, currentStep, steps, click, open, clickk}) 
           rounded-xl font-semibold cursor-pointer  
           hover:bg-green-600 hover:text-white transition duration-200 ease-in-out
           
-          ${!open ? " hidden"
+          ${!open  && currentStep == steps.length - 1 ? " hidden"
           : "block"}`} 
         >
             {currentStep == steps.length -1  ? "Confirm" : "Next"}

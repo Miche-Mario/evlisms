@@ -16,10 +16,12 @@ const named = () => {
   return (
     <div className='container mt[2rem] mb-5 m-3  flex justify-between'>
         <button 
-          onClick={(e)=> {handleClick(); }}
+          onClick={(e)=> {handleClick(); clickk(e)}}
           className={`ml-32 btn btn-outline-secondary border border-black w-48 bg-gray-100 text-gray-700 
-          ${currentStep ==1 ? "p-2 cursor-not-allowed"
-          : ""} `}
+          ${currentStep == 1 ? "p-2 cursor-not-allowed"
+          : ""} 
+          
+          ${steps.length - 1 && " hidden"}`}
         >
             Back
         </button>
@@ -28,8 +30,8 @@ const named = () => {
           className={`mr-32 bg-green-400 text-white  uppercase py-2 px-4
           rounded-xl font-semibold cursor-pointer  
           hover:bg-green-600 hover:text-white transition duration-200 ease-in-out
-          
-          ${!open && currentStep == steps.length -1 ? " hidden"
+         
+          ${!open && currentStep == steps.length - 1 ? " hidden"
           : "block"}`} 
         >
             {named()}

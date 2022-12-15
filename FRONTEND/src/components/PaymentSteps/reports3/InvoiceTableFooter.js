@@ -58,23 +58,33 @@ const InvoiceTableFooter = ({ items }) => {
                 <Text style={styles.description}>Total</Text>
                 <Text style={styles.total}>{items.invoicedata.currency.lecurrency} {separator((items.invoicedata.total).toFixed(2))}</Text>
             </View>
+      
+
+            {
+                items.timepayment.map((item, index) => (
+                    <View style={styles.row}>
+                        <Text style={styles.description}>Amount Paid {index + 1}:</Text>
+                        <Text style={styles.total}>{items.invoicedata.currency.lecurrency} {separator(parseInt(item.amount).toFixed(2))}</Text>
+                    </View>
+                ))
+            }
+            { items.timepayment  &&
+            
             <View style={styles.row}>
-                <Text style={styles.description}>Amount Paid 1st</Text>
+                <Text style={styles.description}>Amount Paid {items.timepayment.length + 1}</Text>
                 <Text style={styles.total}>{items.invoicedata.currency.lecurrency} {separator(parseInt(items.firstpayed).toFixed(2))}</Text>
             </View>
-            {
+        }
+
+            { items.timepayment  &&
             
-            items.invoicedata.total === parseInt(items.firstpayed) ? 
                 <View style={styles.row}>
                     <Text style={styles.description}>Balance</Text>
-                    <Text style={styles.total}>{items.invoicedata.currency.lecurrency} 0.00</Text>
-                </View>
-                :
-                <View style={styles.row}>
-                    <Text style={styles.description}>Balance</Text>
-                    <Text style={styles.total}>{items.invoicedata.currency.lecurrency} {separator((items.invoicedata.total - parseInt(items.firstpayed)).toFixed(2))}</Text>
+                    <Text style={styles.total}>{items.invoicedata.currency.lecurrency} {separator((items.paymentdata.balance - parseInt(items.firstpayed)).toFixed(2))}</Text>
                 </View>
             }
+
+
             {/* <View style={styles.row}>
                 <Text style={styles.description}>Balance</Text>
                 <Text style={styles.total}>{separator((items.firstpayed).toFixed(2))}</Text>

@@ -71,7 +71,6 @@ const Complete = () => {
         about_aboutid: studentData.aboutidg && studentData.aboutidg,
         startdate: studentData.startdate && studentData.startdate,
         enddate: studentData.finaldate > 0 && studentData.finaldate,
-
       },{   
         headers: { "Content-Type": "multipart/form-data" } 
 });

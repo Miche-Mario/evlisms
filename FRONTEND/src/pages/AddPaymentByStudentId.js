@@ -36,7 +36,7 @@ const AddPaymentByStudentId = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [studentData, setStudentData] = useState('');
   const [finalData, setFinalData] = useState([]);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
 
   const steps = [
     "Courses and Purchases",
@@ -60,6 +60,8 @@ const AddPaymentByStudentId = () => {
     let newStep = currentStep;
   
     direction == "next" ? newStep++ : newStep-- ;
+
+    newStep == steps.length + 1 && navigate('/studentpayment')
   
     //Check if steps are within bounds
     newStep > 0 && newStep <= steps.length && setCurrentStep(newStep);

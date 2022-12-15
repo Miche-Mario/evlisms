@@ -70,10 +70,10 @@ console.log(formattedDate);
 
  ///////////////////////SAVE PAYMENT///////////////////////////////////////////////////////
 
- const savePayment =  (e) => {
-  e.preventDefault();
+ const savePayment = async(e) => {
+
   try {
-     axios.post(`${process.env.REACT_APP_BASE_URL}/createpayment`, {
+     await axios.post(`${process.env.REACT_APP_BASE_URL}/createpayment`, {
       courselist: studentData.courseList.length > 0 ? studentData.courseList : {},
       examlist: studentData.examList.length > 0 ? studentData.examList : {},
       purchaselist:  studentData.purchaseList.length > 0 ? studentData.purchaseList : {},

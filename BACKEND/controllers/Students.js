@@ -14,7 +14,7 @@ import Discount from "../models/DiscountModels.js";
 export const getStudents = async (req,res) => {
     try {
         const response = await Students.findAndCountAll({
-            attributes: ['studentid','startdate','enddate','id','uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
+            attributes: ['studentid','startdate','enddate','id','uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg', 'telghanag'],
             include: [{
                 model: About
             }]

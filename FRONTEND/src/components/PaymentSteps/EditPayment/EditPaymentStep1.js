@@ -49,9 +49,11 @@ const AddPaymentStep1 = ({ click }) => {
       response.data && setFirst(response.data.first)
       response.data && setSecond(response.data.second ? response.data.second : 0)
       response.data && setTimePayment(response.data.timepayment)
-      console.log(response.data)
+      setStudentData({ ...studentData,...response.data.student, invoicedata: response.data.invoice, timepayment: response.data.timepayment, paymentdata: response.data })
+
 }
 
+console.log(studentData)
 
 ////////////////////////////////////////////////UPDATE PAYMENT///////////////////////////////
 var currentDate = new Date();
@@ -70,10 +72,10 @@ const updatePayment = async (e) => {
 
   try {
     await axios.patch(`${process.env.REACT_APP_BASE_URL}/payment/${id}`, {
-      balance: balance - studentData.paying,
+      balance: balance - studentData.firstpayed,
       first: first + second,
-      paying: studentData.paying,
-      timepayment: [...timepayment, {date: formattedDate, amount: studentData.paying}]
+      paying: studentData.firstpayed,
+      timepayment: [...timepayment, {date: formattedDate, amount: studentData.firstpayed}]
     });
   console.log("OKKK")
   } catch (error) {
@@ -273,8 +275,8 @@ const updatePayment = async (e) => {
                       <td className='font-bold flex justify-center items-center'>{invoicedata && invoicedata.currency.lecurrency}
                         <input type="number" className='p-1 border ml-1 border-red text-red w-28 text-center text-bold'
                           onChange={handleChange}
-                          name="paying"
-                          value={studentData["paying"] || ""}
+                          name="firstpayed"
+                          value={studentData["firstpayed"] || ""}
                           required
                         />
 

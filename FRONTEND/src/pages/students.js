@@ -5,6 +5,7 @@ import { TiUserAdd } from 'react-icons/ti'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import axios from 'axios'
+import Moment from 'moment'
 
 const Students = () => {
     const style1 = {
@@ -110,7 +111,7 @@ const Students = () => {
                                             <th className="py-3 px-3 text-center">First name </th>
                                             <th className="py-3 px-3 text-center">Date of Birth</th>
                                             <th className="py-3 px-3 text-center">Gender</th>
-                                            <th className="py-3 px-3 text-center">Country</th>
+                                            <th className="py-3 px-3 text-center">Citizenship</th>
                                             <th className="py-3 px-3 text-center">Email</th>
                                             <th className="py-3 px-3 text-center">Tel</th>
                                             <th className="py-3 px-3 text-center">Pro</th>
@@ -163,7 +164,7 @@ const Students = () => {
                                                     </td>
                                                     <td className=" py-3 px-3 text-center">
                                                         <div className="flex items-center justify-center">
-                                                            <span className="font-medium">{stud.telghana}</span>
+                                                            <span className="font-medium">{stud.telghanag}</span>
                                                         </div>
                                                     </td>
                                                     <td className=" py-3 px-3 text-center">
@@ -173,12 +174,12 @@ const Students = () => {
                                                     </td>
                                                     <td className=" py-3 px-3 text-center">
                                                         <div className="flex items-center justify-center">
-                                                            <span className="font-medium">{stud.startdate}</span>
+                                                            <span className="font-medium">{Moment(stud.startdate).format('YYYY-MM-DD')}</span>
                                                         </div>
                                                     </td>
                                                     <td className=" py-3 px-3 text-center">
                                                         <div className="flex items-center justify-center">
-                                                            <span className="font-medium">{stud.enddate} </span>
+                                                            <span className="font-medium">{Moment(stud.enddate).format('YYYY-MM-DD')} </span>
                                                         </div>
                                                     </td>
                                                     <td className=" py-3 px-3 text-center">

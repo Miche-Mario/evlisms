@@ -42,10 +42,7 @@ export const createPayment = async(req,res) => {
             registration: registration,
             student_studentid: studentid
     });
-    res.status(201).json({msg: "Invoice Well Created"});
-} catch (error) {
-    res.status(400).json({msg: error.message})
-}
+   
 ////////////////////////UPDATE DISCOUNT////////////////////////////////////////////////
 const discountt = await Discount.findOne({
     where: {
@@ -63,7 +60,7 @@ discountt  &&
     });
 ///////////////////////////ADD PAYMENT////////////////////////////////////////////////
     const {total, first, balance, paymentmethod, timepayment} = req.body;
-    try {
+  
         await Payment.create({
             total: total,
             first: first,

@@ -60,29 +60,17 @@ const InvoiceTableFooter = ({ items }) => {
             </View>
             <View style={styles.row}>
                 <Text style={styles.description}>Amount Paid 1st</Text>
-                <Text style={styles.total}>{items.currency.lecurrency} {separator(parseInt(items.firstpayed))}</Text>
+                <Text style={styles.total}>{items.currency.lecurrency} {separator(parseInt(items.firstpayed).toFixed(2))}</Text>
             </View>
 
-            {
-                items.paymendata.map((item, index) => {
-                    <View style={styles.row}>
-                        <Text style={styles.description}>Amount Paid {index + 1}:</Text>
-                        <Text style={styles.total}>{items.currency.lecurrency} {separator(parseInt(items.amount))}</Text>
-                    </View>
-                })
-            }
+           
             
             {
             
-            items.total === parseInt(items.firstpayed) ? 
+            items.total &&
                 <View style={styles.row}>
                     <Text style={styles.description}>Balance</Text>
-                    <Text style={styles.total}>{items.currency.lecurrency} {separator((items.total).toFixed(2))}</Text>
-                </View>
-                :
-                <View style={styles.row}>
-                    <Text style={styles.description}>Balance</Text>
-                    <Text style={styles.total}>{items.currency.lecurrency} {separator((items.total - parseInt(items.firstpayed)).toFixed(2))}</Text>
+                    <Text style={styles.total}>{items.currency.lecurrency} {separator((parseInt(items.total) - parseInt(items.firstpayed)).toFixed(2))}</Text>
                 </View>
             }
             {/* <View style={styles.row}>
