@@ -613,6 +613,10 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
     return accumulator + (object.purchaseprice * object.purchasetimes);
   }, 0);
 
+  const sumOtherFeePrice = otherFeeList.reduce((accumulator, object) => {
+    return accumulator + object.otherfeeprice;
+  }, 0);
+
 
   let total; 
   let subtotal;
@@ -656,7 +660,7 @@ useEffect(() => {
   const fixfee = courseList.length !== 0 ? registrationprice * currencyvalue : 0;
 
  if(NumberOfCourse <= 1 ) {
-  total = (sumCoursePrice + sumExamPrice + sumAccoPrice + sumPurchasePrice + fixfee) * (studentdiscount);
+  total = (sumCoursePrice + sumExamPrice + sumAccoPrice + sumPurchasePrice + fixfee + sumOtherFeePrice) * (studentdiscount);
  }
 else {
   for(let i=1; i<NumberOfCourse; i++) {
@@ -666,10 +670,10 @@ else {
      discount = table.reduce((a, b) => a + b, 0)
   }
 
-  total = studentdiscount === 1 ?  (courseList[0].price + (sumCoursePrice - courseList[0].price) - discount) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee : (sumCoursePrice - (sumCoursePrice * studentdiscount)/100) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee ;
+  total = studentdiscount === 1 ?  (courseList[0].price + (sumCoursePrice - courseList[0].price) - discount) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee : (sumCoursePrice - (sumCoursePrice * studentdiscount)/100) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee + sumOtherFeePrice;
 }
 
-subtotal = sumCoursePrice + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee;
+subtotal = sumCoursePrice + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice  + fixfee + sumOtherFeePrice;
 
 
 useEffect(() => {

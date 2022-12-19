@@ -71,10 +71,8 @@ const Invoice = (props) => {
                 </View>
                 <View style={{ marginTop: 10 }}>
                     <View style={{ backgroundColor: "#2E74B4", padding: 10, color: "white", marginHorizontal: 30, flexDirection: "row", alignItems: 'center' }}>
-                        <View style={{ width: 150 }}>
-                            <Text style={{ fontSize: 9 }}>Salesperson</Text>
-                        </View>
-                        <View style={{ width: 280 }}>
+                      
+                        <View style={{ width: 430 }}>
                             <Text style={{ fontSize: 9 }}>Service</Text>
                         </View>
                         <View style={{ width: 150, }}>
@@ -86,10 +84,8 @@ const Invoice = (props) => {
 
                     </View>
                     <View style={{ backgroundColor: "#E7F0FF", color: "black", marginHorizontal: 30, flexDirection: "row", alignItems: 'center' }}>
-                        <View style={{ width: 150 }}>
-                            <Text style={{ fontSize: 9, paddingLeft: 9 }}>JODAN GBELINGA</Text>
-                        </View>
-                        <View style={{ width: 280 }}>
+                        
+                        <View style={{ width: 430 }}>
                             <Text style={{ fontSize: 10, paddingLeft: 5 }}>
                                 <Text style={{ textTransform: "uppercase", marginLeft: "15%", fontSize: 9 }}>
                                     {courseList.length > 0 && courseList[0].lesubcoursename}
