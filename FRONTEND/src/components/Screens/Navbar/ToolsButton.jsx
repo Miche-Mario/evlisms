@@ -82,6 +82,10 @@ const ToolsButton = () => {
         <li className="rounded-sm px-3 py-1 hover:bg-gray pl-6 cursor-pointer ">Options</li>
         </Link>
         <hr className='ml-2 mr-2 mb-2 mt-2'/>
+        
+        <Link to="/payment">
+        <li className="rounded-sm px-3 py-1 hover:bg-gray pl-6 cursor-pointer "> Add Payment</li>
+        </Link>
         <Link to="/studentpayment">
         <li className="rounded-sm px-3 py-1 hover:bg-gray pl-6 cursor-pointer ">Payment</li>
         </Link>
