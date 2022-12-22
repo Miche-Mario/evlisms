@@ -850,8 +850,7 @@ useEffect(() => {
   getCurrencies()
 })
 
-
-
+console.log(options && options)
   return (
     <div className='flex flex-row w-full'>
       <div>
@@ -879,7 +878,7 @@ useEffect(() => {
             </div>
 
           </div>
-          {options && options.length > 0 &&
+          {options && options.length > 1 &&
             <div className='m-5'>
 
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 
@@ -902,7 +901,7 @@ useEffect(() => {
 
 
           <div>
-            {view && <div className='m-5'>
+            {options && options.length > 1 && <div className='m-5'>
               <p className='text-lg font-medium text-gray-600 '>DURATION</p>
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
         focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 dark:placeholder-gray-400
@@ -916,25 +915,7 @@ useEffect(() => {
                   <option value={option.id}>{option.time}</option>
                 ))}
               </select>
-              <button
-                onClick={addCourse}
-                className='mt-4 border-blue-200 justify-between flex rounded-md p-1 border-2'>
-                <MdOutlineAddToPhotos size={26} color="green" />
-                <span className=' ml-2 text-lg text-green-600 font-medium'> Add a course</span>
-              </button>
-            </div>
-
-            }
-          </div>
-
-
-
-
-        </div>
-
-
-
-      {view && courseList.length !== 0 &&
+              {options &&
         <div className=' ml-6 mt-4 flex flex-row items-center'>
           <div className='text-xl font-bold'>Start Date - End Date</div>
           <div className='ml-3 bg-white border border-green-600 font-bold p-2 rounded-md'>
@@ -957,6 +938,25 @@ useEffect(() => {
           </div>
         </div>
       }
+              <button
+                onClick={addCourse}
+                className='mt-4 border-blue-200 justify-between flex rounded-md p-1 border-2'>
+                <MdOutlineAddToPhotos size={26} color="green" />
+                <span className=' ml-2 text-lg text-green-600 font-medium'> Add a course</span>
+              </button>
+            </div>
+
+            }
+          </div>
+
+
+
+
+        </div>
+
+
+
+
 
 
 
