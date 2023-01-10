@@ -7,29 +7,42 @@ import ModalImage from "react-modal-image";
 import { TiInfoOutline } from 'react-icons/ti'
 import { GiTakeMyMoney } from 'react-icons/gi'
 import { MdOutlinePayments } from "react-icons/md"
+import { useSelector } from 'react-redux'
+
 const StudentProfile = () => {
+    const [msg, setMsg] = useState("");
+
+    const { user } = useSelector(
+        (state) => state.auth
+    );
 
     const { id } = useParams();
     const [student, setStudent] = useState()
+
+
     ////////////////////////// GET STUDENT DATA ////////////////////////////////////////////////////////////////////
     const getStudent = async () => {
         const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/students/${id}`);
         setStudent(response.data)
     }
 
-    ///////////////////////////GET STUDENT PAYMENT INFO /////////////////////////////////////////////////////////////////////   
-    const [paymentdata, setPaymentData] = useState()
-    const [invoicedata, setInvoiceData] = useState()
 
+    const [program, setProgram] = useState()
+    const getProgram = async (e) => {
 
-    const getPayment = async () => {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/paymentbyid/${id}`);
-        setPaymentData(response.data)
-        setInvoiceData(response.data.invoice)
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/getprogram/${id}`);
+            setProgram(response.data)
+        } catch (error) {
+            if (error.response) {
+                setMsg(error.response.data.msg);
+                console.log(msg)
+            }
+        }
     }
 
 
-console.log(paymentdata)
+    console.log(program)
 
 
 
@@ -47,14 +60,14 @@ console.log(paymentdata)
     useEffect(() => {
         getStudent();
         setShowAll(false)
-        getPayment()
+        getProgram()
     }, [])
 
     function separator(numb) {
         var str = numb.toString().split(".");
         str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         return str.join(".");
-      }
+    }
 
     return (
         <Layout>
@@ -350,126 +363,43 @@ console.log(paymentdata)
                                 <div class="bg-white p-3 shadow-sm rounded-sm">
                                     <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
                                         <MdOutlinePayments style={{ fontSize: 35 }} />
-                                        <span class="tracking-wide font-bold text-xl">Student Courses and Payment</span>
+                                        <span class="tracking-wide font-bold text-xl">Programs</span>
                                     </div>
                                     <div class="text-gray-700">
-                                    { invoicedata && <table className="table-bordered">
-                  <thead>
-                    <tr>
-                      <th className="ww-20">Quantity</th>
-                      <th className="ww-32">Description</th>
-                      <th className="ww-20">Unit Price</th>
-                      <th className="ww-20">Line Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      invoicedata && invoicedata.registration.length > 0 && invoicedata.registration.map((regis, index) => (
-                        <tr key={index * (Math.random() * 3)}>
-                          <td>1</td>
-                          <td className="ww-32">{regis.registrationname}</td>
-                          <td>{regis.lecurrency} {separator(regis.regir)}</td>
-                          <td>{regis.lecurrency} {separator(regis.regir)}</td>
-                        </tr>
-                      ))
+                                        <div class="text-gray-700">
 
-                    }
+                                            {
+                                                program && program.map((program, index) => (
+                                                    <>
+                                                    <div class="grid md:grid-cols-2 text-sm">
 
-                    {
-                      invoicedata && invoicedata.courselist.length > 0 && invoicedata.courselist.map((course, index) => (
-                        <tr key={index * (Math.random() * 3)}>
-                          <td>1</td>
-                          <td>{course.coursedescription}</td>
-                          <td>{course.lecurrency} {separator(course.price)}</td>
-                          <td>{course.lecurrency} {separator(course.price)}</td>
-                        </tr>
-                      ))
+                                                    <div class="grid grid-cols-2">
+                                                        <div class="px-4 py-2 font-semibold">Course Description</div>
+                                                        <div class="px-4 py-2">{program.course.description}</div>
+                                                        <div className='flex flew-row justify-between'>
+                                                        <div>
+                                                            <div class="px-4 py-2 font-semibold">Start Date</div>
+                                                            <div class="px-4 py-2 font-semibold">End Date</div>
 
-                    }
+                                                        </div>
+                                                        <div>
+                                                            <div class="px-4 py-2">{program.enddate}</div>
+                                                            <div class="px-4 py-2">{program.startdate}</div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               <div>------------------------------------------------------------------------------</div>
+</>
+                                               
+                                                ))
+                                                
+                                            }
 
-                    {
-                invoicedata && invoicedata.examlist.length > 0 && invoicedata.examlist.map((exam, index) => (
-                        <tr key={index * (Math.random() * 3)}>
-                          <td>1</td>
-                          <td>{exam.examdescription}</td>
-                          <td>{exam.lecurrency} {separator(exam.examprice)}</td>
-                          <td>{exam.lecurrency} {separator(exam.examprice)}</td>
-                        </tr>
-                      ))
 
-                    }
 
-                    {
-                      invoicedata && invoicedata.purchaselist.length > 0 && invoicedata.purchaselist.map((pur, index) => (
-                        <tr key={index * (Math.random() * 3)}>
-                          <td>1</td>
-                          <td>{pur.purchasedescription}</td>
-                          <td>{pur.lecurrency} {separator(pur.purchaseprice)}</td>
-                          <td>{pur.lecurrency} {separator(pur.purchaseprice)}</td>
-                        </tr>
-                      ))
+                                        </div>
 
-                    }
-                    {
-                invoicedata && invoicedata.accolist.length > 0 && invoicedata.accolist.map((acco, index) => (
-                        <tr key={index * (Math.random() * 3)}>
-                          <td>{acco.acotimes}</td>
-                          <td>{acco.accodescription}</td>
-                          <td>{acco.lecurrency} {separator(acco.accoprice)}</td>
-                          <td>{acco.lecurrency} {separator(acco.acotimes * acco.accoprice)}</td>
-                        </tr>
-                      ))
-
-                    }
-
-                    {
-                    invoicedata && invoicedata.otherlist.length > 0 && invoicedata.otherlist.map((other, index) => (
-                        <tr key={index * (Math.random() * 3)}>
-                          <td>1</td>
-                          <td>{other.otherfeedescription}</td>
-                          <td>{other.lecurrency} {separator(other.otherfeeprice)}</td>
-                          <td>{other.lecurrency} {separator(other.otherfeeprice)}</td>
-                        </tr>
-                      ))
-
-                    }
-
-                    <tr>
-                      <td colspan="3" className="text-right">Subtotal:</td>
-                      <td className='font-bold'> {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency} {invoicedata.subtotal && separator(invoicedata.subtotal)}</td>
-                    </tr>
-                    <tr>
-                      <td colspan="3" className="text-right">Discount:</td>
-                      <td className='font-bold'> {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency} {invoicedata.discount && invoicedata.discount}</td>
-                    </tr>
-                    <tr>
-                      <td colspan="3" className="text-right">Total:</td>
-                      <td className='font-bold'> {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency} {invoicedata.total && separator(invoicedata.total)}</td>
-                    </tr>
-                    <tr>
-                      <td colspan="3" className="text-right">Amount Paid 1st:</td>
-                      <td className='font-bold flex justify-center items-center'>
-                        {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency}
-                        {paymentdata && paymentdata.first && paymentdata.first}
-                      </td>
-                    </tr>
-                    { paymentdata && paymentdata.second !== null && <tr>
-                    <td colspan="3" className="text-right">Amount Paid 2nd:</td>
-                     <td className='font-bold flex justify-center items-center'>
-                        {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency}
-                        {paymentdata.second}
-                    </td>
-                  </tr>}
-                  <tr>
-                    <td colspan="3" className="text-right">Balance:</td>
-                    <td className='font-bold flex justify-center items-center'>
-                        {invoicedata && invoicedata.currency.lecurrency && invoicedata.currency.lecurrency}
-                        {paymentdata.balance}
-                    </td>
-                  </tr>
-                  
-                  </tbody>
-                                </table> }
                                     </div>
 
 

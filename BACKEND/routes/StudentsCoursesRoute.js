@@ -1,13 +1,13 @@
 import express from 'express'
 import {
     getStudentsCourses,
-    createStudentsCourses
+    getProgram
 } from "../controllers/StudentsCourses.js"
 
 const router = express.Router();
 
 router.get('/studentscourses', getStudentsCourses);
-router.post('/studentscourses', createStudentsCourses);
+router.get('/getprogram/:id', getProgram);
 
 
 

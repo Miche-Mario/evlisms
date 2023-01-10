@@ -90,7 +90,7 @@ discountt  &&
                 "enddate": course.enddate,
                 "duration": course.duration,
                 "amount": course.amount,
-                "details": {...course, course}
+                "details": [{...course.details}]
             })
         } else {
             await StudentsCourses.update({

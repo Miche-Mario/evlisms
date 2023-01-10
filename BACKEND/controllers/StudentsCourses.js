@@ -3,6 +3,8 @@ import { Model, Sequelize } from "sequelize";
 import {Op} from 'sequelize'
 import multer from "multer";
 import path from "path"
+import Courses from "../models/CoursesModels.js";
+import Students from "../models/StudentsModels.js";
 
 
 export const getStudentsCourses = async (req,res) => {
@@ -16,47 +18,30 @@ export const getStudentsCourses = async (req,res) => {
         res.status(500).json({msg: error.message});
     }
 }
-/* 
-export const getSubCourses =async (req,res) => {
+ 
+export const getProgram =async (req,res) => {
+   
     try {
-        const response = await Course.findOne({  
-            attributes: [],
+        const response = await Students.findOne({  
             where: {
                 uuid: req.params.id
+            }})
+
+            const responsee = await StudentsCourses.findAll({  
+            attributes: ['startdate', 'enddate'],
+            where: {
+                students_studentsid: response.id
             }, 
             include: [
-                {
-                  model: SubCourse,
-                  as: 'Subcourses',
-                  attributes: ["subcoursename"],
-                },],
+                {model: Courses},
+            ],
                 
             
                  
           
         });
-        res.status(200).json(response);
+        res.status(200).json(responsee);
     } catch (error) {
         res.status(500).json({msg: error.message});
     }
-} */
-
-export const createStudentsCourses = async(req,res) => {
-    const { duration, courses_coursesid, students_studentsid  } = req.body;
-    try {
-        await StudentsCourses.create({
-            duration: duration,
-            courses_coursesid: courses_coursesid,
-            students_studentsid: students_studentsid,
-        });
-        res.status(201).json({msg: "StudentsCourses Well Created"});
-    } catch (error) {
-        res.status(400).json({msg: error.message})
-    }
-}
-export const updateStudentsCourses = (req,res) => {
-    
-}
-export const deleteStudentsCourses = (req,res) => {
-    
 }
