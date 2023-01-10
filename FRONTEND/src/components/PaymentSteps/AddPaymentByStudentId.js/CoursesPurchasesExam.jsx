@@ -4,8 +4,13 @@ import { BsFillTrashFill } from "react-icons/bs"
 import { StepperContext } from '../../../contexts/stepperContext'
 import { BiTrash } from 'react-icons/bi'
 import { MdOutlineAddToPhotos } from 'react-icons/md'
+import DatePicker from "react-datepicker";
 import axios from 'axios'
+import { addDays } from 'date-fns';
+import Moment from "moment"
+import "react-datepicker/dist/react-datepicker.css";
 
+import es from 'date-fns/locale/es';
 
 const CoursesPurchasesExam = () => {
 
@@ -209,9 +214,10 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   // GET ALL COURSES
   const [price, setPrice] = useState();
   const [priceid, setPriceId] = useState();
-  const [startdate, enddate] = useState();
-  const [enddtae, setEndDate] = useState()
 
+
+
+  const [coursesid, setCoursesId] = useState()
 
   const getCoursesPrice = async (e) => {
 
@@ -226,6 +232,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       response.data.fullprice &&  setPrice(response.data.fullprice * currencyvalue)
       response.data.fullduration && setLaDuration(response.data.fullduration)
       response.data.description && setCourseDescription(response.data.description)
+      response.data.coursesidd && setCoursesId(response.data.coursesidd)
+
   
     } catch (error) {
       if (error.response) {
@@ -272,7 +280,10 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
     setProgramId(e.target.value)
 
   }
+  const [showOption, setShowOption] = useState(false)
+
   const click = () => {
+    setShowOption(true)
     if (programId == 33) {
       setView(false)
     } else {
@@ -383,7 +394,10 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       regir,
       registrationname,
       uuid,
-      priceid
+      priceid,
+      coursesid,
+      finaldate,
+      startdate
     }
     const uuidd = 22
     let registration = {
@@ -431,6 +445,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
     }
     setAccoList([...accoList, anacco]);
   }
+  const [purchasetimes, setPurchaseTimes] = useState();
+
   const addPurchase = (e) => {
     e.preventDefault(e);
     const uuid = Math.random() + 89
@@ -438,6 +454,7 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       lepurchasename,
       purchaseprice,
       lecurrency,
+      purchasetimes,
       purchasedescription,
       uuid,
       purchasepriceid
@@ -602,7 +619,11 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   }, 0);
 
   const sumPurchasePrice = purchaseList.reduce((accumulator, object) => {
-    return accumulator + object.purchaseprice;
+    return accumulator + (object.purchaseprice * object.purchasetimes);
+  }, 0);
+
+  const sumOtherFeePrice = otherFeeList.reduce((accumulator, object) => {
+    return accumulator + object.otherfeeprice;
   }, 0);
 
 
@@ -610,7 +631,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   let subtotal;
   let discount=0;
   let fee;
-  let table = []
+  let table = [];
+
 
 
   const[groupdiscount, setGroupdiscount] = useState(1)
@@ -647,7 +669,7 @@ useEffect(() => {
   const fixfee = courseList.length !== 0 ? registrationprice * currencyvalue : 0;
 
  if(NumberOfCourse <= 1 ) {
-  total = (sumCoursePrice + sumExamPrice + sumAccoPrice + sumPurchasePrice + fixfee) * (studentdiscount);
+  total = (sumCoursePrice + sumExamPrice + sumAccoPrice + sumPurchasePrice + fixfee + sumOtherFeePrice) * (studentdiscount);
  }
 else {
   for(let i=1; i<NumberOfCourse; i++) {
@@ -657,19 +679,46 @@ else {
      discount = table.reduce((a, b) => a + b, 0)
   }
 
-  total = studentdiscount === 1 ?  (courseList[0].price + (sumCoursePrice - courseList[0].price) - discount) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee : (sumCoursePrice - (sumCoursePrice * studentdiscount)/100) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee ;
+  total = studentdiscount === 1 ?  (courseList[0].price + (sumCoursePrice - courseList[0].price) - discount) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee : (sumCoursePrice - (sumCoursePrice * studentdiscount)/100) + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee + sumOtherFeePrice;
 }
-console.log(groupdiscount)
-subtotal = sumCoursePrice + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice + fixfee;
+
+subtotal = sumCoursePrice + sumExamPrice + sumAccoPrice + sumAccoPrice + sumPurchasePrice  + fixfee + sumOtherFeePrice;
 
 
 useEffect(() => {
   localStorage.setItem('total', JSON.stringify(total));
   localStorage.setItem('subtotal', JSON.stringify(subtotal));
   localStorage.setItem('discount', JSON.stringify(discount));
-
 }, [total, subtotal, discount])
 
+
+
+///////////////////////////////////////////DATE RANGE//////////////////////////
+
+const [startDate, setStartDate] = useState(new Date());
+const [endDate, setEndDate] = useState(null);
+const onChange = (dates) => {
+  const [start, end] = dates;
+  setStartDate(start);
+  setEndDate(end);
+  finaldate = startDate && addDays(startDate, (endd * 7) - 1)
+};
+const position = courseList.length -1
+const endd = parseInt( laduration ? laduration : 1)
+
+ let finaldate = startDate && addDays(startDate, (endd * 7) - 1)
+ let startdate = startDate;
+
+
+
+useEffect(() => {
+  localStorage.setItem('finaldate', JSON.stringify(finaldate));
+}, [finaldate])
+
+useEffect(() => {
+  localStorage.setItem('finaldate', JSON.stringify(startdate));
+}, [startdate])
+/////////////////////////////////////////////////////////////////
 
 
 useEffect(() => {
@@ -732,7 +781,7 @@ useEffect(() => {
  */
 
 useEffect(() => {
-  setStudentData({...studentData,courseList, examList, accoList,purchaseList, otherFeeList, total, subtotal, discount, registrationList, currency, studdiscount})
+  setStudentData({...studentData,courseList, examList, accoList,purchaseList, otherFeeList, total, subtotal, discount, registrationList, currency, studdiscount, finaldate, startdate})
 }, [])
 useEffect(() => {
   setStudentData({...studentData,examList, courseList})
@@ -780,15 +829,15 @@ useEffect(() => {
 }, [studdiscount])
 
 
-/*
 useEffect(() => {
-  setStudentData({...studentData,purchaseList})
-}, [purchaseList])
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal, registrationList, currency,studdiscount, finaldate })
+}, [finaldate])
 
 useEffect(() => {
-  setStudentData({...studentData,accoList})
-}, [accoList])
- */
+  setStudentData({...studentData,examList, courseList, accoList, purchaseList, otherFeeList, total, subtotal, registrationList, currency,studdiscount, finaldate, startdate })
+}, [startdate])
+
+
 
 
 function separator(numb) {
@@ -809,6 +858,11 @@ const getCurrencies = async () => {
 useEffect(() => {
   getCurrencies()
 })
+
+
+
+console.log(coursesid)
+
   return (
     <div className='flex flex-row w-full'>
       <div>
@@ -824,13 +878,13 @@ useEffect(() => {
                                 focus:ring-blue-500focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 
                                 dark:placeholder-gray-400dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 onChange={(e) => { changeOption(e); handleChangee(e); handleChangeCourse();  }}
-                onClick={() => { getCourseSubcourse(); click() }}
+                onClick={() => { getCourseSubcourse(); click()}}
                 name="coursee"
                 id='lecourse'
               >
                 <option value="33" className='text-md' >Our programme</option>
                 {course.map((course) => (
-                  <option className='text-xl' value={course.id}>{course.coursename}</option>
+                  <option className='text-xl' value={course.course_courseid}>{course.course.coursename}</option>
                 ))}
               </select>
             </div>
@@ -859,7 +913,7 @@ useEffect(() => {
 
 
           <div>
-            {view && <div className='m-5'>
+            {showOption && <div className='m-5'>
               <p className='text-lg font-medium text-gray-600 '>DURATION</p>
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
         focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 dark:placeholder-gray-400
@@ -873,6 +927,29 @@ useEffect(() => {
                   <option value={option.id}>{option.time}</option>
                 ))}
               </select>
+              
+        <div className=' ml-6 mt-4 flex flex-row items-center'>
+          <div className='text-xl font-bold'>Start Date - End Date</div>
+          <div className='ml-3 bg-white border border-green-600 font-bold p-2 rounded-md'>
+            <DatePicker
+            withPortal
+
+            selectsRange={true}
+      
+            onChange={onChange}
+            startDate={startDate}
+            endDate={addDays(startDate, (endd * 7) - 1)}
+            monthsShown={3}
+            showMonthDropdown
+            showYearDropdown
+            
+            locale="en-GB"
+            showWeekNumbers
+            
+          />
+          </div>
+        </div>
+      
               <button
                 onClick={addCourse}
                 className='mt-4 border-blue-200 justify-between flex rounded-md p-1 border-2'>
@@ -891,26 +968,7 @@ useEffect(() => {
 
 
 
-      {view && courseList.length !== 0 &&
-        <div className=' ml-6 mt-4 flex flex-row items-center'>
-          <div className='flex items-center'>
-              <p className='font-medium text-lg'>Start date</p>
-              <input type="date" className=" border-gray-700 border ml-2 w-40 p-2 border-none" 
-                onChange={handleChangee}
-                name="startdate"
-                value={studentData["startdate"] || ""}
-              />
-          </div>
-          <div className='flex ml-3 items-center'>
-              <p className='font-medium text-lg'>Start date</p>
-              <input type="date" className="ml-2 w-40 p-2 border-none"
-                onChange={handleChangee}
-                name="enddate"
-                value={studentData["enddate"] || ""}
-              />
-          </div>
-        </div>
-      }
+
 
 
 
@@ -964,6 +1022,30 @@ useEffect(() => {
             </div>
 
           </div>
+          <select class="bg-blue-100 border border-gray-300 text-gray-900 mt-3 text-xl p-2 
+        focus:ring-blue-500 
+        focus:border-blue-500 block  dark:bg-gray-700 w-[22rem] dark:border-gray-600 
+        dark:placeholder-gray-400
+         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+               
+                onChange={(e) => setPurchaseTimes(e.target.value)}
+              >
+
+                <option value="1" className='text-md'>1</option>
+                <option value="2" className='text-md'>2</option>
+                <option value="3" className='text-md'>3</option>
+                <option value="4" className='text-md'>4</option>
+                <option value="5" className='text-md'>5</option>
+                <option value="6" className='text-md'>6</option>
+                <option value="7" className='text-md'>7</option>
+                <option value="8" className='text-md'>8</option>
+                <option value="9" className='text-md'>9</option>
+                <option value="10" className='text-md'>10</option>
+                <option value="11" className='text-md'>11</option>
+                <option value="12" className='text-md'>12</option>
+
+               
+              </select>
         </div>}
 
         {view && <div className='m-5'>
@@ -1177,6 +1259,7 @@ useEffect(() => {
                 <tr class="border border-gray-500 md:border-none block md:table-row absolute -top-full md:top-auto -left-full md:left-auto  md:relative ">
                   <th class=" bg-dark-purple p-2 w-10 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">N</th>
                   <th class="bg-dark-purple p-2 w-48 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Purchase </th>
+                  <th class="bg-dark-purple p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Quantity</th>
                   <th class="bg-dark-purple p-2 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Price</th>
                   <th class="bg-dark-purple p-2 w-32 text-white font-bold md:border md:border-grey-500 text-center block md:table-cell">Actions</th>
                 </tr>
@@ -1186,6 +1269,7 @@ useEffect(() => {
                   <tr class="bg-gray-300 border-b-2 block md:table-row">
                     <td class="p-3 w-10  text-center font-medium block md:table-cell">{index + 1}</td>
                     <td class="p-3 w-48 text-center font-medium block md:table-cell">{purchase.lepurchasename}</td>
+                    <td class="p-3 w-48 text-center font-medium block md:table-cell">{purchase.purchasetimes}</td>
                     <td class="p-3 text-center font-medium block md:table-cell"> {purchase.lecurrency} {separator(purchase.purchaseprice)}</td>
                     <td class="p-3 w-32 text-center font-medium block md:table-cell">
                       <div onClick={() => deletePurchaseFromList(purchase.uuid)} className=' cursor-pointer flex items-center p-2 shadow-md bg-white rounded-md'>

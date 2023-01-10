@@ -30,3 +30,5 @@ BEGIN
   SET NEW.studentid = CONCAT('EVLI-', LPAD(LAST_INSERT_ID(), 5, '0'));
 END$$
 DELIMITER ;
+
+

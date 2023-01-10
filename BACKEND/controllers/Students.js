@@ -9,6 +9,7 @@ import Prospect from "../models/ProspectModels.js";
 import Payment from "../models/PaymentModels.js";
 import Invoice from "../models/InvoiceModels.js";
 import Discount from "../models/DiscountModels.js";
+import StudentsCourses from "../models/StudentsCoursesModels.js";
 
 
 export const getStudents = async (req,res) => {
@@ -179,6 +180,24 @@ export const createStudent = async(req,res) => {
             paymth_paymtid: paymentmethod,
             timepayment: timepayment
         });
+        
+        ///////////////////////////////SAVE STUDENT COURSES DATA////////////////////////////
+        const {courselist} = req.body;
+        const courseData = await courselist.map((course, index) => {
+        
+            let dataa = {
+                "courses_coursesid": course.coursesid,
+                "students_studentsid": student.id,
+                "startdate": course.startdate,
+                "enddate": course.finaldate,
+                "duration": course.laduration,
+                "amount": course.price,
+                "details": [{...course}]
+            }
+            return dataa
+        })
+
+        StudentsCourses.bulkCreate(courseData, { validate: true })
         /////////////////////////////////UPDATE INVOICE /////////////
         const invoice = await Invoice.findOne({
             where: {

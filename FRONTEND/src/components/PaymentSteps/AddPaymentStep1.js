@@ -123,7 +123,8 @@ const saveStudent =  (e) => {
       invoiceid: invoicedata && invoicedata[0].id,
       code: invoicedata &&  invoicedata[0].studdiscount.lecode !== "" && invoicedata[0].studdiscount.lecode,
       paymentmethod: paymentmethodd,
-      timepayment: [{date : formattedDate, amount:  studentData.firstpayed !== 0 && studentData.firstpayed}]
+      timepayment: [{date : formattedDate, amount:  studentData.firstpayed !== 0 && studentData.firstpayed}],
+      courselist: invoicedata && invoicedata[0].courselist
     });
     console.log("ok")
 

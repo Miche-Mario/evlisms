@@ -35,7 +35,8 @@ export const getCourseWithSubcourse = async (req,res) => {
 
     export const getCoursesPrice = async (req,res) => {
         const {  courseid, subcourseid, duration} = req.body;
-        let courses
+        let courses;
+        let coursesidd;
         if(courseid !== null && subcourseid !== null) {
             courses = await Courses.findOne({
                
@@ -60,6 +61,7 @@ export const getCourseWithSubcourse = async (req,res) => {
 
 
             if (courses.fullprice > 0)  {
+                coursesidd = courses.id
                 try {
                     const response = await Courses.findOne({
                         attributes: ['id','fullduration', 'fullprice', 'description'],
@@ -69,12 +71,13 @@ export const getCourseWithSubcourse = async (req,res) => {
                        }
                     }); 
                     
-                    res.status(200).json(response);
+                    res.status(200).json({response, coursesidd});
                 } catch (error) {
                     res.status(500).json({msg: error.message});
                 }
             } if(courses.fullprice == 0 ) {
                 const description = courses.description
+                coursesidd = courses.id
                 try {
 
                     const response = await Prices.findOne({
@@ -85,7 +88,7 @@ export const getCourseWithSubcourse = async (req,res) => {
                        }
                     }); 
                     
-                    res.status(200).json({response, description});
+                    res.status(200).json({response, description, coursesidd});
                 } catch (error) {
                     res.status(500).json({msg: error.message});
                 }
@@ -294,7 +297,7 @@ export const getCoursesById =async (req,res) => {
                     description: description,
                     classtype_classtypeid: classtype_classtypeid,
                     fullduration: fullduration,
-                    fullprice: fullprice,
+                    fullprice: fullprice != 0 ? fullprice : 0,
                     language_languageid: language_languageid
                 });
         

@@ -11,7 +11,14 @@ Content-Type:  application/json
 
 ###
 // get All Users
-GET http://localhost:5000/registration
+POST http://localhost:5000/getcoursesprice
+Content-Type:  application/json
+
+{
+    "courseid": 2,
+    "subcourseid": null,
+    "duration": null
+}
 
 ###
 // get Single user
@@ -271,7 +278,7 @@ DELETE  http://localhost:5000/courses/ff8da0f8-a9f9-43ea-90d7-dd5e97fbf01a
 ###
 //Get All Times
 
-GET http://localhost:5000/times
+GET http://localhost:5000/course
 
 
 ###

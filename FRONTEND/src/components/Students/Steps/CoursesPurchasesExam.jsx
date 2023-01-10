@@ -217,6 +217,7 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
 
 
 
+  const [coursesid, setCoursesId] = useState()
 
   const getCoursesPrice = async (e) => {
 
@@ -231,6 +232,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       response.data.fullprice &&  setPrice(response.data.fullprice * currencyvalue)
       response.data.fullduration && setLaDuration(response.data.fullduration)
       response.data.description && setCourseDescription(response.data.description)
+      response.data.coursesidd && setCoursesId(response.data.coursesidd)
+
   
     } catch (error) {
       if (error.response) {
@@ -277,7 +280,10 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
     setProgramId(e.target.value)
 
   }
+  const [showOption, setShowOption] = useState(false)
+
   const click = () => {
+    setShowOption(true)
     if (programId == 33) {
       setView(false)
     } else {
@@ -388,7 +394,10 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       regir,
       registrationname,
       uuid,
-      priceid
+      priceid,
+      coursesid,
+      finaldate,
+      startdate
     }
     const uuidd = 22
     let registration = {
@@ -694,8 +703,8 @@ const onChange = (dates) => {
   setEndDate(end);
   finaldate = startDate && addDays(startDate, (endd * 7) - 1)
 };
-
-const endd = courseList.length !== 0 &&  parseInt(courseList[0].laduration)
+const position = courseList.length -1
+const endd = parseInt( laduration ? laduration : 1)
 
  let finaldate = startDate && addDays(startDate, (endd * 7) - 1)
  let startdate = startDate;
@@ -850,7 +859,10 @@ useEffect(() => {
   getCurrencies()
 })
 
-console.log(options && options)
+
+
+console.log(coursesid)
+
   return (
     <div className='flex flex-row w-full'>
       <div>
@@ -866,7 +878,7 @@ console.log(options && options)
                                 focus:ring-blue-500focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 
                                 dark:placeholder-gray-400dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 onChange={(e) => { changeOption(e); handleChangee(e); handleChangeCourse();  }}
-                onClick={() => { getCourseSubcourse(); click() }}
+                onClick={() => { getCourseSubcourse(); click()}}
                 name="coursee"
                 id='lecourse'
               >
@@ -901,7 +913,7 @@ console.log(options && options)
 
 
           <div>
-            {options && options.length > 1 && <div className='m-5'>
+            {showOption && <div className='m-5'>
               <p className='text-lg font-medium text-gray-600 '>DURATION</p>
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
         focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 dark:placeholder-gray-400
@@ -915,7 +927,7 @@ console.log(options && options)
                   <option value={option.id}>{option.time}</option>
                 ))}
               </select>
-              {options &&
+              
         <div className=' ml-6 mt-4 flex flex-row items-center'>
           <div className='text-xl font-bold'>Start Date - End Date</div>
           <div className='ml-3 bg-white border border-green-600 font-bold p-2 rounded-md'>
@@ -937,7 +949,7 @@ console.log(options && options)
           />
           </div>
         </div>
-      }
+      
               <button
                 onClick={addCourse}
                 className='mt-4 border-blue-200 justify-between flex rounded-md p-1 border-2'>

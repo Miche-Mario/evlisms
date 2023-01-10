@@ -7,6 +7,7 @@ import Students from "../models/StudentsModels.js";
 import Invoice from "../models/InvoiceModels.js";
 import PaymentMethods from "../models/PaymentMethodModels.js";
 import Discount from "../models/DiscountModels.js";
+import StudentsCourses from "../models/StudentsCoursesModels.js";
 
 export const getPayment = async (req,res) => {
     try {
@@ -42,6 +43,8 @@ export const createPayment = async(req,res) => {
             registration: registration,
             student_studentid: studentid
     });
+
+
    
 ////////////////////////UPDATE DISCOUNT////////////////////////////////////////////////
 const discountt = await Discount.findOne({
@@ -58,6 +61,55 @@ discountt  &&
             id: discountt.id
         }
     });
+    ///////////////////////////////SAVE STUDENT COURSES DATA////////////////////////////
+    const courseData = await courselist.map((course, index) => {
+    
+        let dataa = {
+            "courses_coursesid": course.coursesid,
+            "students_studentsid": studentid,
+            "startdate": course.startdate,
+            "enddate": course.finaldate,
+            "duration": course.laduration,
+            "amount": course.price,
+            "details": course
+        }
+        return dataa
+    })
+    courseData.forEach( async course => {
+        const response = await StudentsCourses.findOne({
+            where : {
+                courses_coursesid: course.courses_coursesid,
+                students_studentsid: course.students_studentsid
+            }
+        })
+        if (!response) {
+            await StudentsCourses.create({
+                "courses_coursesid": course.courses_coursesid,
+                "students_studentsid": course.students_studentsid,
+                "startdate": course.startdate,
+                "enddate": course.enddate,
+                "duration": course.duration,
+                "amount": course.amount,
+                "details": {...course, course}
+            })
+        } else {
+            await StudentsCourses.update({
+                enddate: course.enddate,
+                amount: parseInt(response.amount) + parseInt(course.amount),
+                duration: parseInt(response.duration) + parseInt(course.duration),
+                details: [...response.details, course.details]
+            }, {
+                where : {
+                    courses_coursesid: course.courses_coursesid,
+                    students_studentsid: course.students_studentsid
+                }
+            }
+               
+            );
+        }
+      })
+
+
 ///////////////////////////ADD PAYMENT////////////////////////////////////////////////
     const {total, first, balance, paymentmethod, timepayment} = req.body;
   
