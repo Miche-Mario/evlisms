@@ -164,6 +164,7 @@ const AddCourse = ({ props }) => {
               <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[35rem] p-2.5"
                 value={courseidd}
                 onChange={(e) => setCourseidd(e.target.value)} 
+                onClick={(e) => {setCourse(null); setSubCourse(null)}}
                 required
                 onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                 >

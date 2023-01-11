@@ -179,9 +179,6 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   const getCourse = async () => {
     const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/course`);
     setCourse(response.data)
-    const surnameg = surnameg;
-
-
   }
   const surnameg = studentData.surnameg;
   const forenamesg = studentData.forenamesg
@@ -191,6 +188,7 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
   
   const [options, setOptions] = useState(null);
   const [optionid, setOptionId] = useState(null);
+  const [isoption, setIsOption] = useState()
   const getCourseSubcourse = async (e) => {
 
     try {
@@ -198,6 +196,8 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
         courseid: programId,
       });
       setOptions(response.data)
+      setIsOption(response.data[0].subcourse)
+     
     } catch (error) {
       if (error.response) {
         setMsg(error.response.data.msg);
@@ -860,8 +860,7 @@ useEffect(() => {
 })
 
 
-
-console.log(coursesid)
+console.log(optionid)
 
   return (
     <div className='flex flex-row w-full'>
@@ -890,7 +889,7 @@ console.log(coursesid)
             </div>
 
           </div>
-          {options && options.length > 1 &&
+          {options  && isoption != null &&
             <div className='m-5'>
 
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 

@@ -28,7 +28,7 @@ export const getProgram =async (req,res) => {
             }})
 
             const responsee = await StudentsCourses.findAll({  
-            attributes: ['startdate', 'enddate'],
+            attributes: ['startdate', 'enddate', 'details'],
             where: {
                 students_studentsid: response.id
             }, 

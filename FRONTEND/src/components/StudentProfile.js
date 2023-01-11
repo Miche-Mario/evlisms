@@ -8,6 +8,25 @@ import { TiInfoOutline } from 'react-icons/ti'
 import { GiTakeMyMoney } from 'react-icons/gi'
 import { MdOutlinePayments } from "react-icons/md"
 import { useSelector } from 'react-redux'
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Moment from "moment"
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    width: 700,
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'background.paper',
+    border: '2px solid darkblue',
+    boxShadow: 24,
+    p: 0,
+    m: 0,
+    height: 'auto'
+  };
+
+
 
 const StudentProfile = () => {
     const [msg, setMsg] = useState("");
@@ -42,7 +61,7 @@ const StudentProfile = () => {
     }
 
 
-    console.log(program)
+
 
 
 
@@ -69,8 +88,57 @@ const StudentProfile = () => {
         return str.join(".");
     }
 
+
+    const [open1, setOpen1] = useState(false);
+    const [va, setVa] = useState("");
+
+    const [modalprogram, setProgramModal] = useState("");
+
+    const handleOpen1 = (data) => {
+      setOpen1(true);
+      setProgramModal(data)    
+    };
+    const handleClose1 = () => {
+      setOpen1(false);
+    };
+
     return (
         <Layout>
+
+<Modal
+        open={open1}
+        onClose={handleClose1}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style} >
+          <p class="text-white text-xl p-3  bg-dark-purple w-full">PROGRAM DETAILS</p>
+          {
+            modalprogram && modalprogram.map((program, index) => (
+                <>
+                <div className='flex flex-row m-3 justify-center items-center'>
+                <div className=''>
+                  <p  class="  text-2xl font-bold text-gray-900 p-1">Course Description:</p>
+                  <p  class="mt-2 text-2xl font-bold text-gray-900 p-1">Start Date:</p> 
+                  <p  class="mt-2 text-2xl font-bold text-gray-900 p-1">End Date:</p>                      
+                </div>
+                <div >
+                 
+                  <p className='mb-2 ml-4 mt-2 bg-dark-purple text-xl text-white text-center rounded-lg block  w-[20rem] p-2'>{program.coursedescription}</p>
+                  <p className='mb-2 ml-4 mt-2 bg-dark-purple text-xl text-white text-center rounded-lg block w-[20rem] p-2'>{Moment(program.startdate).format('YYYY-MM-DD')}</p>
+                  <p className='mb-2 ml-4 mt-2 bg-dark-purple text-xl text-white text-center rounded-lg block w-[20rem] p-2'>{Moment(program.finaldate).format('YYYY-MM-DD')}</p>  
+  
+                </div>
+             
+            </div>
+            <div className=' text-center'>-------------------------------------------------------------------------</div>
+            </>
+            ))
+           }
+        </Box>
+
+
+      </Modal>
             <div>
                 <div class="bg-gray-100">
                     <div class="container mx-auto my-5 p-5">
@@ -81,8 +149,8 @@ const StudentProfile = () => {
                                 <div class="bg-white p-3 border-t-4 border-green-400">
                                     <div class="image overflow-hidden">
                                         <ModalImage
-                                            small={student && student.idscang}
-                                            large={student && student.idscang}
+                                            small={student && student.passportphotographg}
+                                            large={student && student.passportphotographg}
                                             alt="passportphotographg"
                                             hideDownload={true}
                                             hideZoom={true}
@@ -101,11 +169,11 @@ const StudentProfile = () => {
                                         </li>
                                         <li class="flex items-center py-3">
                                             <span>Start Date</span>
-                                            <span class="ml-auto">{student && student.startdate}</span>
+                                            <span class="ml-auto">{student && Moment(student.startdate).format('YYYY-MM-DD')}</span>
                                         </li>
                                         <li class="flex items-center py-3">
                                             <span>End Date</span>
-                                            <span class="ml-auto">{student && student.enddate}</span>
+                                            <span class="ml-auto">{student && Moment(student.enddate).format('YYYY-MM-DD')}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -122,8 +190,8 @@ const StudentProfile = () => {
                                     <div>
                                         <div className='w-full h-auto'>
                                             <ModalImage
-                                                small={student && student.passportphotographg}
-                                                large={student && student.passportphotographg}
+                                                small={student && student.idscang}
+                                                large={student && student.idscang}
                                                 alt="passportphotographg"
                                                 hideDownload={true}
                                                 hideZoom={true}
@@ -374,8 +442,20 @@ const StudentProfile = () => {
                                                     <div class="grid md:grid-cols-2 text-sm">
 
                                                     <div class="grid grid-cols-2">
+
                                                         <div class="px-4 py-2 font-semibold">Course Description</div>
+
+                                                    <div className='flex flew-row justify-between'>
+
                                                         <div class="px-4 py-2">{program.course.description}</div>
+                                                        <div  class=" bg-green-500 cursor-pointer hover:shadow-lg rounded-lg p-2 text-white"
+                                                              onClick={() => {handleOpen1(program.details);  console.log(program.details)}}
+                                                        >
+                                                            Details
+                                                        </div>
+
+                                                        </div>
+   
                                                         <div className='flex flew-row justify-between'>
                                                         <div>
                                                             <div class="px-4 py-2 font-semibold">Start Date</div>
@@ -383,8 +463,8 @@ const StudentProfile = () => {
 
                                                         </div>
                                                         <div>
-                                                            <div class="px-4 py-2">{program.enddate}</div>
                                                             <div class="px-4 py-2">{program.startdate}</div>
+                                                            <div class="px-4 py-2">{program.enddate}</div>
                                                         </div>
                                                         </div>
                                                     </div>

@@ -75,6 +75,27 @@ discountt  &&
         }
         return dataa
     })
+
+ 
+        const stud = await Students.findOne({
+            where: {
+                id: studentid
+            }
+        });
+        if(!stud) return res.status(404).json({msg: "Student doesn't not exist" });
+    
+        
+      
+            await Students.update({
+                enddate: courseData[0].enddate
+    
+            }, {
+                where: {
+                    id: stud.id
+                }
+            });
+           
+
     courseData.forEach( async course => {
         const response = await StudentsCourses.findOne({
             where : {

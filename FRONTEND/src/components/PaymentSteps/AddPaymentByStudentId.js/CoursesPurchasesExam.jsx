@@ -242,6 +242,9 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       }
     }
   }
+
+  console.log(price)
+
   const [programId, setProgramId] = useState(null)
 
 
