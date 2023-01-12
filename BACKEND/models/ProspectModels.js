@@ -373,6 +373,20 @@ const Prospect = db.define('prospect', {
             notEmpty: false,
         }
     },
+    enquerydate:{
+        type: DataTypes.DATE,
+        allowNull: true,
+        validate:{
+            notEmpty: false,
+        }
+    },
+    coursewish:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate:{
+            notEmpty: false,
+        }
+    },
     
 },{
     freezeTableName: true
