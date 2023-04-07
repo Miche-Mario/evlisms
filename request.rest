@@ -1,11 +1,11 @@
 // Create a user
-POST http://localhost:5000/users
+POST https://evlisms.onrender.com/users
 Content-Type:  application/json
 
 {
-    "name": "GANHOU Miche",
-    "username": "miche",
-    "password": "123",
+    "name": "EVLI SMS",
+    "username": "ADMIN",
+    "password": "elisms2023",
     "role": "admin"
 }
 
