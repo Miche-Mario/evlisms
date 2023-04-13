@@ -5,6 +5,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import '../paymentstyle.css'
 import axios from 'axios'
 const PaymentByStudentId = ({ click }) => {
+    const [loading, setLoading] = useState(false);
+
   const [msg, setMsg] = useState("");
 
 
@@ -73,6 +75,8 @@ console.log(formattedDate);
  const savePayment = async(e) => {
 
   try {
+          setLoading(true);
+
      await axios.post(`${process.env.REACT_APP_BASE_URL}/createpayment`, {
       courselist: studentData.courseList.length > 0 ? studentData.courseList : {},
       examlist: studentData.examList.length > 0 ? studentData.examList : {},
@@ -94,7 +98,12 @@ console.log(formattedDate);
       timepayment: [{date : formattedDate, amount:  studentData.firstpayed !== 0 && studentData.firstpayed}]
     });
     toast.success("Payment Well Saved")
+          setLoading(false);
+
   } catch (error) {
+          toast.error("Something Wrong happen")
+          setLoading(false);
+
     if (error.response) {
       setMsg(error.response.data.msg);
       toast.error("Something Wrong happen")
@@ -283,13 +292,13 @@ console.log(formattedDate);
                 </div>
                 <div className='flex justify-end'>
                   <button
-
+                    disabled={loading}
                     onClick={(e) => savePayment(e)}
                     className=' w-48 bg-blue-400 text-white  uppercase py-2 px-4
                                 rounded-xl font-semibold cursor-pointer  
                               hover:bg-blue-600 hover:text-white transition duration-200 ease-in-out '
                   >
-                    Save
+                    {loading ?"Loading..." : "Save"}
                   </button>
                 </div>
 

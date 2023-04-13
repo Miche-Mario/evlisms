@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { StepperContext } from '../../contexts/stepperContext'
-
+import { ToastContainer, toast } from 'react-toastify';
 import './paymentstyle.css'
 import axios from 'axios'
 const AddPaymentStep1 = ({ click }) => {
   const [msg, setMsg] = useState("");
 
+  const [loading, setLoading] = useState(false);
 
 
   /////////////////////////////////////////////////////////////GET INVOICE/////////////////////////////////////
@@ -68,6 +69,8 @@ console.log(formattedDate);
 const saveStudent =  (e) => {
 
   try {
+    setLoading(true);
+
      axios.post(`${process.env.REACT_APP_BASE_URL}/students`, {
       surnameg: studentData.prospectdata.surnameg && studentData.prospectdata.surnameg,
       forenamesg: studentData.prospectdata.forenamesg && studentData.prospectdata.forenamesg,
@@ -127,8 +130,13 @@ const saveStudent =  (e) => {
       courselist: invoicedata && invoicedata[0].courselist
     });
     console.log("ok")
+    toast.success("Payment Well Saved")
+    setLoading(false);
+
 
   } catch (error) {
+    setLoading(false);
+    toast.error("Something Wrong happen")
     if (error.response) {
       setMsg(error.response.data.msg);
     }
@@ -173,6 +181,8 @@ console.log(studentData.firstpayed)
     <>
 
       <div className='mt-3 h-full'>
+      <ToastContainer style={{fontSize: 20}} position="top-right"/>
+
         <div className=' ml-32 '>
           <div className='flex items-center ml-4 ' >
             <p className={`text-xl font-medium ${invoicedatatrue == true && "text-green-500"}`}>INVOICE ID</p>
@@ -348,13 +358,13 @@ console.log(studentData.firstpayed)
                 </div>
                 <div className='flex justify-end'>
                   <button
-
+                    disabled={loading}
                      onClick={(e) => saveStudent(e)}
                     className=' w-48 bg-blue-400 text-white  uppercase py-2 px-4
                                 rounded-xl font-semibold cursor-pointer  
                               hover:bg-blue-600 hover:text-white transition duration-200 ease-in-out '
                   >
-                    Save
+                    {loading ?"Loading..." : "Save"}
                   </button>
                 </div>
 

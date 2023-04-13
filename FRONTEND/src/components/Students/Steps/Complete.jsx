@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Complete = () => {
   const { studentData, setStudentData } = useContext(StepperContext)
+  const [loading, setLoading] = useState(false);
 
 
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ const Complete = () => {
   const saveProspect =  (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
+
        axios.post(`${process.env.REACT_APP_BASE_URL}/prospects`, {
         prospectid: studentData.passportidg &&  studentData.passportidg,
         surnameg: studentData.surnameg && studentData.surnameg,
@@ -75,8 +78,12 @@ const Complete = () => {
         headers: { "Content-Type": "multipart/form-data" } 
 });
       console.log("ok")
+      setLoading(false);
+
 
     } catch (error) {
+      setLoading(false);
+
       if (error.response) {
         setMsg(error.response.data.msg);
       }
@@ -86,6 +93,7 @@ const Complete = () => {
   const saveInvoice =  (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
        axios.post(`${process.env.REACT_APP_BASE_URL}/invoice`, {
         courselist: studentData.courseList.length > 0 ? studentData.courseList : {},
         examlist: studentData.examList.length > 0 ? studentData.examList : {},
@@ -101,7 +109,9 @@ const Complete = () => {
         invoicecode: studentData.passportidg &&  studentData.passportidg,
       });
       toast.success("Invoice Well Saved")
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       if (error.response) {
         setMsg(error.response.data.msg);
         toast.error("Something Wrong happen")
@@ -121,11 +131,11 @@ const Complete = () => {
     <div className='flex flex-row item-center justify-end mr-10 mb-2'>
     <ToastContainer style={{fontSize: 20}} position="top-right"/>
 
-      <div className='flex bg-primary items-center shadow-2xl w-auto justify-center rounded-lg p-2'>
+      <div className='flex cursor-pointer bg-primary items-center shadow-2xl w-auto justify-center rounded-lg p-2'>
       <BsPrinter style={{color: "white", fontSize: 20, marginRight: 5}} />
-       <button className=' text-white'
+       <button className=' text-white' disabled={loading}
         onClick={(e) => {saveProspect(e); saveInvoice(e)}}
-       >Save</button>
+       >{loading ?"Loading..." : "Save"}</button>
       </div>
      
       <div className='flex ml-4 w-32 items-center bg-primary shadow-2xl rounded-lg p-2'>

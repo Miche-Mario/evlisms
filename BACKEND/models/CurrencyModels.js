@@ -28,7 +28,7 @@ const Currency = db.define('currency', {
         }
     },
     value:{
-        type: DataTypes.DECIMAL(10, 2),
+        type: DataTypes.DECIMAL(10, 8),
         allowNull: true,
         validate:{
             notEmpty: false,

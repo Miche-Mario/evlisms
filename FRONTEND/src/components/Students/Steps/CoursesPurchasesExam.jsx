@@ -230,6 +230,10 @@ const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/registration
       response.data.response ?  setPriceId(response.data.response.id) : setPriceId(response.data.id)
       response.data.response ?  setPrice(response.data.response.price * currencyvalue) : setPrice(response.data.fullprice * currencyvalue)
       response.data.fullprice &&  setPrice(response.data.fullprice * currencyvalue)
+      
+      response.data.fullprice &&  setCourseDescription(response.data.response.description)
+
+
       response.data.fullduration && setLaDuration(response.data.fullduration)
       response.data.description && setCourseDescription(response.data.description)
       response.data.coursesidd && setCoursesId(response.data.coursesidd)
@@ -874,8 +878,7 @@ console.log(optionid)
               <p className='text-lg font-bold text-gray-600 '>CHOOSE A COURSE</p>
 
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 
-                                focus:ring-blue-500focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 
-                                dark:placeholder-gray-400dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                focus:ring-blue-500focus:border-blue-500 block w-[32rem]"
                 onChange={(e) => { changeOption(e); handleChangee(e); handleChangeCourse();  }}
                 onClick={() => { getCourseSubcourse(); click()}}
                 name="coursee"
@@ -894,9 +897,7 @@ console.log(optionid)
 
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 
                                 focus:ring-blue-500 
-                                focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 
-                                dark:placeholder-gray-400
-                                dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                focus:border-blue-500 block w-[32rem] "
                 onChange={(e) => { setOptionId(e.target.value); handleChangeSubCourse() }}
                 id='lesubcourse'
               >
@@ -915,8 +916,7 @@ console.log(optionid)
             {showOption && <div className='m-5'>
               <p className='text-lg font-medium text-gray-600 '>DURATION</p>
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
-        focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 dark:placeholder-gray-400
-         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        focus:border-blue-500 block w-[20rem]"
                 onChange={(e) => setLaDuration(e.target.value)}
                 onClick={getCoursesPrice}
                 name="durationn"
@@ -980,8 +980,7 @@ console.log(optionid)
           <div className='flex flex-row items-center'>
             <div>
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
-        focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 dark:placeholder-gray-400
-         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        focus:border-blue-500 block w-[32rem]"
                 id="lexam"
                 onChange={(e) => { handleChangeExam(); setExamId(e.target.value) }}
                 onClick={getExamPrice}
@@ -1004,8 +1003,7 @@ console.log(optionid)
           <div className='flex flex-row items-center'>
             <div>
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
-        focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 dark:placeholder-gray-400
-         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        focus:border-blue-500 block w-[32rem]"
               id="lepurchase"
               onChange={(e) => { handleChangePurchase(); setPurchaseId(e.target.value) }}
               onClick={getPurchasePrice}
@@ -1023,9 +1021,7 @@ console.log(optionid)
           </div>
           <select class="bg-blue-100 border border-gray-300 text-gray-900 mt-3 text-xl p-2 
         focus:ring-blue-500 
-        focus:border-blue-500 block  dark:bg-gray-700 w-[22rem] dark:border-gray-600 
-        dark:placeholder-gray-400
-         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        focus:border-blue-500 block w-[20rem]"
                
                 onChange={(e) => setPurchaseTimes(e.target.value)}
               >
@@ -1053,9 +1049,7 @@ console.log(optionid)
             <div>
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 
         focus:ring-blue-500 
-        focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 
-        dark:placeholder-gray-400
-         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        focus:border-blue-500 block w-[32rem]"
                 id="lacco"
                 onChange={(e) => { handleChangeAcco(); setAccoId(e.target.value) }}
                 onClick={getAccoPrice}
@@ -1074,9 +1068,7 @@ console.log(optionid)
           </div>
           <select class="bg-blue-100 border border-gray-300 text-gray-900 mt-3 text-xl p-2 
         focus:ring-blue-500 
-        focus:border-blue-500 block  dark:bg-gray-700 w-[22rem] dark:border-gray-600 
-        dark:placeholder-gray-400
-         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        focus:border-blue-500 block w-[20rem]"
                
                 onChange={(e) => setAcoTimes(e.target.value)}
               >
@@ -1104,9 +1096,7 @@ console.log(optionid)
             <div>
               <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 
         focus:ring-blue-500 
-        focus:border-blue-500 block  dark:bg-gray-700 w-[42rem] dark:border-gray-600 
-        dark:placeholder-gray-400
-         dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        focus:border-blue-500 block w-[32rem]"
                 id="lotherfee"
                 onChange={(e) => { handleChangeOtherFee(); setOtherFeeId(e.target.value) }}
                 onClick={getOtherFeePrice}
@@ -1136,9 +1126,7 @@ console.log(optionid)
           <div>
             <p className='text-lg font-medium text-gray-600 mb-1 '>Choose Currency</p>
             <select class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
-            focus:border-blue-500 block  dark:bg-gray-700 w-[22rem] dark:border-gray-600 
-            dark:placeholder-gray-400
-            dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-3"
+            focus:border-blue-500 block w-[20rem]"
                 onChange={(e) => {setCurrencyValue( e.target.value); handleChangeCurency(); getRegistration();}}
                 id='lecurrency'
                 onClick={addCurency}
@@ -1157,16 +1145,15 @@ console.log(optionid)
           <div className="ml-2">
             <p className='text-lg font-medium text-gray-600 mb-1 '>Discount Code</p>
             <input type="text" class="bg-blue-100 border border-gray-300 text-gray-900 text-xl p-2 focus:ring-blue-500 
-            focus:border-blue-500 block  dark:bg-gray-700 w-[22rem] dark:border-gray-600 
-            dark:placeholder-gray-400
-            dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-3"
+            focus:border-blue-500 block w-[20rem]"
          
                 onKeyUpCapture={(e) => {getStudentDiscount(e);setLecode(e.target.value); addStudDiscount()}}
         
               />
           </div>
         </div>
-        <div className=' bg-dark-purple w-full p-1'>
+       <div className='w-[43rem]'>
+       <div className=' bg-dark-purple w-full p-1'>
             <div className='flex justify-end items-center'>
                 <span className='text-white text-xl'>Total:</span>
                 <span className='text-white ml-6 bg-red font-bold min-w-1 6 p-2 rounded-xl text-xl'>{separator(total)}</span>
@@ -1356,6 +1343,7 @@ console.log(optionid)
             </>
           }
         </div>
+       </div>
       </div>
 
 

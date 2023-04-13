@@ -234,7 +234,7 @@ console.log(courses)
                 <select id="countries" class="bg-gray-50 mb-4  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
                 <option></option>
                   {
-                    abouts.map((ab, index) => (
+                    abouts.length > 0 && abouts.map((ab, index) => (
                       <option value={ab.id}>{ab.aboutname}</option>
                     ))
                   }
@@ -342,7 +342,6 @@ console.log(courses)
                     </td>
                     <td className=" py-3 px-3 text-center">
                       <div className="flex items-center justify-center">
-                        <span className="font-medium">{prospect.about.aboutname}</span>
                       </div>
                     </td>
 
