@@ -12,7 +12,10 @@ export const getProspects = async (req,res) => {
             attributes: ['prospectid','startdate','enddate','id','uuid', 'about_aboutid','passportphotographg','idscang', 'surnameg', 'forenamesg', 'dateofbirthg', 'genderg', 'citizenshipg', 'emailg', 'telhomeg'],
             include: [{
                 model: About
-            }]
+            }],
+            where: {
+                isstudent: false
+            }
         });
         res.status(200).json(response);
     } catch (error) {
@@ -88,8 +91,8 @@ export const createProspect = async(req,res) => {
             academiclevelg: academiclevelg,
             noteg: noteg,
             aboutidg: aboutidg,
-            passportphotographg: req.files.passportphotographg &&  url + '/Images/' + req.files.passportphotographg[0].filename,
-            idscang: req.files.idscang && url + '/Images/' + req.files.idscang[0].filename,
+            passportphotographg: req.files.passportphotographg ?  url + '/Images/' + req.files.passportphotographg[0].filename : " ",
+            idscang: req.files.idscang ? url + '/Images/' + req.files.idscang[0].filename : " ",
             surnamee: surnamee,
             forenamese: forenamese,
             gendere: gendere,

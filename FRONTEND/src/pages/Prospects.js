@@ -140,13 +140,15 @@ const getAbouts = async () => {
         citizenshipg: citizenshipg && citizenshipg,
         emailg: emailg && emailg,
         telhomeg: telhomeg && telhomeg,
-        isstudent: false,
         about_aboutid: aboutidg && aboutidg,
         startdate: startdate && startdate,
+    
       });
       console.log("ok")
 
     } catch (error) {
+      console.log("no")
+
       if (error.response) {
         setMsg(error.response.data.msg);
       }
@@ -189,7 +191,6 @@ console.log(courses)
                 <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="surname" />
                 <input type="text" id="first_name" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="forenames" />
                 <select type="text" id="marital" class="bg-gray-50 border mb-4 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 p-1.5 " placeholder="" required
-                  // onChange={handleChange}
                   name="maritalg"
                 // value={studentData["maritalg"] || ""}
                 >
@@ -242,7 +243,7 @@ console.log(courses)
               </div>
             </div>
             <div className='flex flex-row justify-around  mt-3 mb-3'>
-              <button className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
+              <button onClick={saveProspect} className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
                 Ok
               </button>
               <button onClick={handleClose} className='bg-blue-600 rounded text-gray-100 font-medium w-20 h-10 flex items-center justify-center' type="submit" name='Add'>
@@ -280,7 +281,6 @@ console.log(courses)
 
           </div>
 
-          <fieldset className='m-3 mb-0 h-52 border border-dark-purple'>
             <table className="w-full   ">
               <thead>
                 <tr className="bg-gray-200  text-gray-600 uppercase text-sm leading-normal">
@@ -376,7 +376,6 @@ console.log(courses)
 
               </tbody>
             </table>
-          </fieldset>
           <span className='text-sm ml-3 '>0 student in selected group</span>
         </fieldset>
       </div>

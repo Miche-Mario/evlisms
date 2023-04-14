@@ -11,8 +11,8 @@ const initialState = {
 
 export const LoginUser = createAsyncThunk("user/LoginUser", async(user, thunkAPI) => {
     try {
-        //const response = await axios.post('http://192.168.11.254:5000/login', {
-            const response = await axios.post('http://localhost:5000/login', {
+        const response = await axios.post('http://192.168.11.254:5000/login', {
+            //const response = await axios.post('http://localhost:5000/login', {
 
             username: user.username,
             password: user.password
@@ -30,8 +30,8 @@ export const LoginUser = createAsyncThunk("user/LoginUser", async(user, thunkAPI
 
 export const getMe = createAsyncThunk("user/getMe", async(_, thunkAPI) => {
     try {
-        //const response = await axios.get('http://192.168.11.254:5000/me');
-        const response = await axios.get('http://localhost:5000/me');
+        const response = await axios.get('http://192.168.11.254:5000/me');
+        //const response = await axios.get('http://localhost:5000/me');
 
         return response.data;
     } catch (error) {
@@ -44,8 +44,8 @@ export const getMe = createAsyncThunk("user/getMe", async(_, thunkAPI) => {
 
 export const LogOut = createAsyncThunk("user/logout", async() => {
     
-    //await axios.delete('http://192.168.11.254:5000/logout');
-    await axios.delete('http://localhost:5000/logout');
+    await axios.delete('http://192.168.11.254:5000/logout');
+   // await axios.delete('http://localhost:5000/logout');
 
    
 
